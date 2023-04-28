@@ -30,8 +30,13 @@ namespace OkGroomer.Controllers
             return Ok(_GroomerRepo.GetAll());
         }
 
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserProfile(string firebaseUserId)
+        {
+            return Ok(_GroomerRepo.GetByFirebaseId(firebaseUserId));
+        }
         // GET api/<GroomerController>/5
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public IActionResult Get(int id)
         {
             return Ok(_GroomerRepo.GetGroomerById(id));

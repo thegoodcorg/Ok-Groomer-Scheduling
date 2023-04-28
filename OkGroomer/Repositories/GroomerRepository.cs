@@ -19,7 +19,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email FROM Groomer";
+                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email, FirebaseId FROM Groomer";
 
                     var Groomers = new List<Groomer>();
                     var reader = cmd.ExecuteReader();
@@ -31,6 +31,7 @@ namespace OkGroomer.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Email = DbUtils.GetString(reader, "Email"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
                         };
                         Groomers.Add(owner);
                     }
@@ -53,7 +54,8 @@ namespace OkGroomer.Repositories
                                         Id, 
                                         FirstName,
                                         LastName,
-                                        Email
+                                        Email,
+                                        FirebaseId
                                     From Groomer
                                     WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -67,7 +69,8 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            Email = DbUtils.GetString(reader, "Email")
+                            Email = DbUtils.GetString(reader, "Email"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
                         };
                     }
                     reader.Close();
@@ -75,26 +78,62 @@ namespace OkGroomer.Repositories
                 }
             }
         }
-
-        public void Add(Groomer owner)
+        public Groomer GetByFirebaseId(string firebaseId)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Groomer (FirstName, LastName, Email)
-                                        OUTPUT INSERTED.ID
-                                        VALUES (@FirstName, @LastName, @Email)";
-                    DbUtils.AddParameter(cmd, "@FirstName", owner.FirstName);
-                    DbUtils.AddParameter(cmd, "@LastName", owner.LastName);
-                    DbUtils.AddParameter(cmd, "@Email", owner.Email);
+                    cmd.CommandText = @"SELECT
+                                        Id, 
+                                        FirstName,
+                                        LastName,
+                                        Email
+                                    From Groomer
+                                    WHERE FirebaseId = @Firebaseid";
 
-                    owner.Id = (int)cmd.ExecuteScalar();
+                    DbUtils.AddParameter(cmd, "@FirebaseId", firebaseId);
+
+                    Groomer groomer = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        groomer = new Groomer()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
+                        };
+                    }
+                    reader.Close();
+                    return groomer;
                 }
             }
         }
-        public void Edit(int id, Groomer owner)
+
+        public void Add(Groomer groomer)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Groomer (FirstName, LastName, Email, FirebaseId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@FirstName, @LastName, @Email, @FirebaseId)";
+                    DbUtils.AddParameter(cmd, "@FirstName", groomer.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", groomer.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", groomer.Email);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", groomer.FirebaseId);
+
+                    groomer.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public void Edit(int id, Groomer groomer)
         {
             using (var conn = Connection)
             {
@@ -105,12 +144,15 @@ namespace OkGroomer.Repositories
                                         SET 
                                             FirstName = @FirstName,
                                             LastName = @LastName,
-                                            Email = @Email
+                                            Email = @Email,
+                                            FirebaseId = @FirebaseId
                                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
-                    DbUtils.AddParameter(cmd, "@FirstName", owner.FirstName);
-                    DbUtils.AddParameter(cmd, "@LastName", owner.LastName);
-                    DbUtils.AddParameter(cmd, "@Email", owner.Email);
+                    DbUtils.AddParameter(cmd, "@FirstName", groomer.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", groomer.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", groomer.Email);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", groomer.FirebaseId);
+
 
                     cmd.ExecuteNonQuery();
                 }
