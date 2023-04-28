@@ -32,6 +32,7 @@ namespace OkGroomer
             services.AddTransient<IGroomerRepository, GroomerRepository>();
             services.AddTransient<IBookingRepository, BookingRepository>();
             services.AddTransient<IGroomerBookingRateRepository, GroomerBookingRateRepository>();
+            services.AddTransient<INoteRepository, NoteRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
