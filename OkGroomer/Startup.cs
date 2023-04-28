@@ -28,6 +28,7 @@ namespace OkGroomer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IOwnerRepository, OwnerRepository>();
+            services.AddTransient<IDogRepository, DogRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
