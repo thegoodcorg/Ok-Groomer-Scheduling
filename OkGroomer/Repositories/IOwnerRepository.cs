@@ -11,5 +11,6 @@ namespace OkGroomer.Repositories
         public void Add(Owner owner);
         public void Edit(int id, Owner owner);
         public void Delete(int id);
+        public Owner GetByFirebaseId(string firebaseId);
     }
 }

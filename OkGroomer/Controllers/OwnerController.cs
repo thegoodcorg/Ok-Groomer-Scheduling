@@ -36,6 +36,11 @@ namespace OkGroomer.Controllers
         {
             return Ok(_ownerRepo.GetOwnerById(id));
         }
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserProfile(string firebaseUserId)
+        {
+            return Ok(_ownerRepo.GetByFirebaseId(firebaseUserId));
+        }
 
         // POST api/<OwnerController>
         [HttpPost]
