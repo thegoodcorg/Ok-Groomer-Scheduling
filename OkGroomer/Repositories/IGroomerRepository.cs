@@ -10,5 +10,7 @@ namespace OkGroomer.Repositories
         void Edit(int id, Groomer owner);
         List<Groomer> GetAll();
         Groomer GetGroomerById(int id);
+        Groomer GetByFirebaseId(string firebaseId);
+
     }
 }

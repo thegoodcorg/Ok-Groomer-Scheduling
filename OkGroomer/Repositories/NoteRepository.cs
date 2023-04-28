@@ -85,7 +85,7 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO Note (DogId, GroomerId, Content)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@DogId, @GroomerId, @Content, )";
+                                        VALUES (@DogId, @GroomerId, @Content)";
                     DbUtils.AddParameter(cmd, "@DogId", note.DogId);
                     DbUtils.AddParameter(cmd, "@GroomerId", note.GroomerId);
                     DbUtils.AddParameter(cmd, "@Content", note.Content);
