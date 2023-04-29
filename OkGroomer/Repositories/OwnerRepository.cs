@@ -19,7 +19,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email FROM Owner";
+                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email, FirebaseId FROM Owner";
 
                     var Owners = new List<Owner>();
                     var reader = cmd.ExecuteReader();
@@ -31,6 +31,7 @@ namespace OkGroomer.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Email = DbUtils.GetString(reader, "Email"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
                         };
                         Owners.Add(owner);
                     }
@@ -53,7 +54,8 @@ namespace OkGroomer.Repositories
                                         Id, 
                                         FirstName,
                                         LastName,
-                                        Email
+                                        Email,
+                                        FirebaseId
                                     From Owner
                                     WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -67,7 +69,44 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            Email = DbUtils.GetString(reader, "Email")
+                            Email = DbUtils.GetString(reader, "Email"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")   
+                        };
+                    }
+                    reader.Close();
+                    return owner;
+                }
+            }
+        }
+
+        public Owner GetByFirebaseId(string firebaseId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT
+                                        Id, 
+                                        FirstName,
+                                        LastName,
+                                        Email
+                                    From Owner
+                                    WHERE FirebaseId = @Firebaseid";
+
+                    DbUtils.AddParameter(cmd, "@FirebaseId", firebaseId);
+
+                    Owner owner = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        owner = new Owner()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
                         };
                     }
                     reader.Close();
