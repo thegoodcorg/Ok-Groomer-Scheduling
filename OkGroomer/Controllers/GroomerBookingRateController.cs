@@ -37,6 +37,13 @@ namespace OkGroomer.Controllers
             return Ok(_ratesRepo.GetGroomerBookingRateById(id));
         }
 
+        //GET api/GroomerBookingRates/GetByGroomerId
+        [HttpGet("myrate")]
+        public IActionResult GetByGroomerId(int serviceId, int groomerId)
+        {
+            return Ok(_ratesRepo.GetDistinctRate(serviceId, groomerId));
+        }
+
         // POST api/<GroomerBookingRates>
         [HttpPost]
         public IActionResult Post(GroomerBookingRates groomerRate)

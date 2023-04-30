@@ -110,6 +110,57 @@ namespace OkGroomer.Repositories
             }
         }
 
+        public GroomerBookingRates GetDistinctRate(int serviceId, int groomerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT 
+                                        gbr.Id, 
+                                        gbr.GroomerId, 
+                                        gbr.SmallDogPrice, 
+                                        gbr.MediumDogPrice, 
+                                        gbr.LargeDogPrice, 
+                                        gbr.TimeToComplete,
+                                        gbr.ServiceId,
+                                        srv.id AS ServiceId, 
+                                        srv.Name                                        
+                                    FROM GroomerBookingRates gbr
+                                    LEFT JOIN Service srv on srv.id = gbr.ServiceId
+                                    WHERE gbr.ServiceId = @ServiceId AND gbr.GroomerId = @GroomerId";
+                    DbUtils.AddParameter(cmd, "@ServiceId", serviceId);
+                    DbUtils.AddParameter(cmd, "@GroomerId", groomerId);
+
+
+                    var reader = cmd.ExecuteReader();
+                    GroomerBookingRates bookingRate = null;
+                    if (reader.Read())
+                    {
+                        bookingRate = new GroomerBookingRates()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            GroomerId = DbUtils.GetInt(reader, "Groomerid"),
+                            SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
+                            MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
+                            LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
+                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
+                            ServiceId = DbUtils.GetInt(reader, "ServiceId"),
+                            Service = new Service()
+                            {
+                                Id = DbUtils.GetInt(reader, "ServiceId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return bookingRate;
+                }
+            }
+        }
+
         public void Add(GroomerBookingRates bookingRate)
         {
             using (var conn = Connection)

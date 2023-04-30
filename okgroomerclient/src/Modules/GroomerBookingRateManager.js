@@ -21,20 +21,45 @@ export const getAllBookingRates = () => {
     });
 };
 
-export const getServiceBookingRate = (bookingRateId) => {
+export const getServiceBookingRate = (serviceId, groomerId) => {
     return getToken().then((token) => {
-        return fetch(`${apiUrl}/${bookingRateId}`, {
+        return fetch(`${apiUrl}/myrate?serviceId=${serviceId}&groomerId=${groomerId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         }).then((res) => {
-            if (res.ok) {
-                return res.json();
+            if (res.statusText == "No Content") {
+                console.log("this groomer has not setup any rates for this job")
+                return true
             } else {
-                throw new Error(
-                    "An unknown error occured while trying to get this booking rate."
-                );
+                return res.json()
+                // throw new Error(
+                //     "this rate does not exist"
+                // );
+            }
+        });
+    });
+};
+
+
+
+export const setOrUpdateRate = (serviceId, groomerId, bookingRate) => {
+    return getToken().then((token) => {
+        return fetch(`${apiUrl}/myrate?serviceId=${serviceId}&groomerId=${groomerId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.statusText == "No Content") {
+                addServiceRate(bookingRate)
+                return true
+            } else {
+                editBookingRate(bookingRate)
+                // throw new Error(
+                //     "this rate does not exist"
+                // );
             }
         });
     });
@@ -58,7 +83,7 @@ export const GetCommentById = (id) => {
     });
 }
 
-export const addComment = (comment) => {
+export const addServiceRate = (bookingRate) => {
     return getToken().then((token) => {
         return fetch(apiUrl, {
             method: "POST",
@@ -66,7 +91,7 @@ export const addComment = (comment) => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(comment),
+            body: JSON.stringify(bookingRate),
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();
@@ -74,12 +99,13 @@ export const addComment = (comment) => {
                 throw new Error("Unauthorized");
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to save a new comment.",
+                    "An unknown error occurred while trying to save a booking rate.",
                 );
             }
         });
     });
-} 
+}
+
 
 export const editBookingRate = (bookingRate) => {
     return getToken().then((token) => {
@@ -106,8 +132,8 @@ export const deleteComment = (id) => {
     return fetch(`${apiUrl}/${id}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(id),
-      });
-    };
+    });
+};
