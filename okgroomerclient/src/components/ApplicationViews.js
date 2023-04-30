@@ -4,7 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import { GroomerHomepage } from "./GroomerHomepage";
 import { RateSettings } from "./RateSettings";
-import { EditService } from "./EditService";
+import { EditBookingService } from "./EditBookingService";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -18,7 +18,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="settings" element={<RateSettings />} />
-          <Route path="/service/:id" element={<EditService />} />
+          <Route path="/service/:id" element={<EditBookingService />} />
         </Route>
       </Routes>
     </main>

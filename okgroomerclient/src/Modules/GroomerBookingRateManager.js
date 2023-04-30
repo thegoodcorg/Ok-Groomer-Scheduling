@@ -81,21 +81,21 @@ export const addComment = (comment) => {
     });
 } 
 
-export const editComment = (comment) => {
+export const editBookingRate = (bookingRate) => {
     return getToken().then((token) => {
-        return fetch(`${apiUrl}/${comment.id}`, {
+        return fetch(`${apiUrl}/${bookingRate.id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(comment),
+            body: JSON.stringify(bookingRate),
         }).then((resp) => {
             if (resp.ok) {
                 return resp;
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to update a comment.",
+                    "An unknown error occurred while trying to update your rate.",
                 );
             }
         });
