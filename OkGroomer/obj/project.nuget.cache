@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "2AqmMaISU59dw17HDhHMc7tEsDjr6+1QkfHiJ0TH7bYFo1Q3oLKf8Or4Zubiwl9POl8njp5X/8ZrX8jowXVNXw==",
+  "dgSpecHash": "0UYqnT3V9e1glGcl+AgwGAI+H5t6flYfnEmdKwsQLO5MtH46C/NzaGw0Gm+HtI80EuE58RvT139JnVoIm6i9yw==",
   "success": true,
   "projectFilePath": "C:\\Users\\16159\\workspace\\OkGroomer\\OkGroomer\\OkGroomer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\16159\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\16159\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
-    "C:\\Users\\16159\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.5\\microsoft.aspnetcore.authentication.jwtbearer.5.0.5.nupkg.sha512",
+    "C:\\Users\\16159\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.17\\microsoft.aspnetcore.authentication.jwtbearer.5.0.17.nupkg.sha512",
     "C:\\Users\\16159\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\16159\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\16159\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.1\\microsoft.data.sqlclient.5.1.1.nupkg.sha512",

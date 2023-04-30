@@ -22,12 +22,12 @@ namespace OkGroomer.Repositories
                     cmd.CommandText = @"
                                     SELECT 
                                         Id, 
-                                        Name, 
                                         GroomerId, 
                                         SmallDogPrice, 
                                         MediumDogPrice, 
                                         LargeDogPrice, 
-                                        TimeToComplete 
+                                        TimeToComplete,
+                                        ServiceId
                                     FROM GroomerBookingRates";
 
                     var GroomerBookingRatess = new List<GroomerBookingRates>();
@@ -37,12 +37,12 @@ namespace OkGroomer.Repositories
                         var bookingRate = new GroomerBookingRates()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "name"),
                             GroomerId = DbUtils.GetInt(reader, "id"),
                             SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
                             MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
-                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
+                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
+                            ServiceId = DbUtils.GetInt(reader,"ServiceId")
                         };
                         GroomerBookingRatess.Add(bookingRate);
                     }
@@ -63,12 +63,12 @@ namespace OkGroomer.Repositories
                     cmd.CommandText = @"
                                     SELECT 
                                         Id, 
-                                        Name, 
                                         GroomerId, 
                                         SmallDogPrice, 
                                         MediumDogPrice, 
                                         LargeDogPrice, 
-                                        TimeToComplete 
+                                        TimeToComplete,
+                                        ServiceId
                                     FROM GroomerBookingRates
                                     WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -80,12 +80,12 @@ namespace OkGroomer.Repositories
                         bookingRate = new GroomerBookingRates()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "name"),
                             GroomerId = DbUtils.GetInt(reader, "id"),
                             SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
                             MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
-                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
+                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
+                            ServiceId = DbUtils.GetInt(reader, "ServiceId"),
                         };
                     }
                     reader.Close();
@@ -102,25 +102,25 @@ namespace OkGroomer.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO GroomerBookingRates 
-                                            (Name, 
-                                            GroomerId,
+                                            (GroomerId,
                                             SmallDogPrice, 
                                             MediumDogPrice,
                                             LargeDogPrice, 
-                                            TimeToComplete)
+                                            TimeToComplete,
+                                            ServiceId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@Name, 
-                                            @GroomerId, 
+                                        VALUES (@GroomerId, 
                                             @SmallDogPrice, 
                                             @MediumDogPrice, 
                                             @LargeDogPrice, 
-                                            @TimeToComplete)";
+                                            @TimeToComplete,
+                                            @ServiceId)";
                     DbUtils.AddParameter(cmd, "@GroomerId", bookingRate.GroomerId);
-                    DbUtils.AddParameter(cmd, "@Name", bookingRate.Name);
                     DbUtils.AddParameter(cmd, "@SmallDogPrice", bookingRate.SmallDogPrice);
                     DbUtils.AddParameter(cmd, "@MediumDogPrice", bookingRate.MediumDogPrice);
                     DbUtils.AddParameter(cmd, "@LargeDogPrice", bookingRate.LargeDogPrice);
                     DbUtils.AddParameter(cmd, "@TimeToComplete", bookingRate.TimeToComplete);
+                    DbUtils.AddParameter(cmd, "@SerivceId", bookingRate.ServiceId);
 
 
                     bookingRate.Id = (int)cmd.ExecuteScalar();
@@ -136,19 +136,19 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"UPDATE GroomerBookingRates
                                         SET 
-                                            Name = @Name, 
                                             GroomerId = @GroomerId, 
                                             SmallDogPrice = @SmallDogPrice, 
                                             MediumDogPrice = @MediumDogPrice, 
                                             LargeDogPrice = @LargeDogPrice, 
-                                            TimeToComplete = @TimeToComplete
+                                            TimeToComplete = @TimeToComplete,
+                                            ServiceId = @ServiceId
                                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@GroomerId", bookingRate.GroomerId);
-                    DbUtils.AddParameter(cmd, "@Name", bookingRate.Name);
                     DbUtils.AddParameter(cmd, "@SmallDogPrice", bookingRate.SmallDogPrice);
                     DbUtils.AddParameter(cmd, "@MediumDogPrice", bookingRate.MediumDogPrice);
                     DbUtils.AddParameter(cmd, "@LargeDogPrice", bookingRate.LargeDogPrice);
                     DbUtils.AddParameter(cmd, "@TimeToComplete", bookingRate.TimeToComplete);
+                    DbUtils.AddParameter(cmd, "@ServiceId", bookingRate.ServiceId);
 
                     cmd.ExecuteNonQuery();
                 }
