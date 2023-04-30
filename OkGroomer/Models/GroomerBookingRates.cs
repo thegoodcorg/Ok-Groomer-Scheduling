@@ -8,7 +8,9 @@
         public decimal MediumDogPrice { get; set; }
         public decimal LargeDogPrice { get; set; }
         public decimal TimeToComplete { get; set; }
+        public bool DoesGroomerOffer { get; set; }
         public int ServiceId { get; set; }
+        public Service Service { get; set; }
 
     }
 }

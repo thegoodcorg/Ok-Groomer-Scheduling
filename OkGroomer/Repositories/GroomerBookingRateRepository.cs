@@ -21,14 +21,17 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"
                                     SELECT 
-                                        Id, 
-                                        GroomerId, 
-                                        SmallDogPrice, 
-                                        MediumDogPrice, 
-                                        LargeDogPrice, 
-                                        TimeToComplete,
-                                        ServiceId
-                                    FROM GroomerBookingRates";
+                                        gbr.Id, 
+                                        gbr.GroomerId, 
+                                        gbr.SmallDogPrice, 
+                                        gbr.MediumDogPrice, 
+                                        gbr.LargeDogPrice, 
+                                        gbr.TimeToComplete,
+                                        gbr.serviceId,
+                                        srv.Id as ServiceId,
+                                        srv.Name
+                                    FROM GroomerBookingRates gbr
+                                    LEFT JOIN Service srv on gbr.serviceId = srv.Id ";
 
                     var GroomerBookingRatess = new List<GroomerBookingRates>();
                     var reader = cmd.ExecuteReader();
@@ -42,7 +45,12 @@ namespace OkGroomer.Repositories
                             MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
                             TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
-                            ServiceId = DbUtils.GetInt(reader,"ServiceId")
+                            ServiceId = DbUtils.GetInt(reader,"serviceId"),
+                            Service = new Service()
+                            {
+                                Id = DbUtils.GetInt(reader, "ServiceId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
                         };
                         GroomerBookingRatess.Add(bookingRate);
                     }
@@ -62,16 +70,19 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"
                                     SELECT 
-                                        Id, 
-                                        GroomerId, 
-                                        SmallDogPrice, 
-                                        MediumDogPrice, 
-                                        LargeDogPrice, 
-                                        TimeToComplete,
-                                        ServiceId
-                                    FROM GroomerBookingRates
-                                    WHERE Id = @id";
-                    DbUtils.AddParameter(cmd, "@id", id);
+                                        gbr.Id, 
+                                        gbr.GroomerId, 
+                                        gbr.SmallDogPrice, 
+                                        gbr.MediumDogPrice, 
+                                        gbr.LargeDogPrice, 
+                                        gbr.TimeToComplete,
+                                        gbr.ServiceId,
+                                        srv.id AS ServiceId, 
+                                        srv.Name                                        
+                                    FROM GroomerBookingRates gbr
+                                    LEFT JOIN Service srv on srv.id = gbr.ServiceId
+                                    WHERE gbr.Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
                     GroomerBookingRates bookingRate = null;
@@ -80,12 +91,17 @@ namespace OkGroomer.Repositories
                         bookingRate = new GroomerBookingRates()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            GroomerId = DbUtils.GetInt(reader, "id"),
+                            GroomerId = DbUtils.GetInt(reader, "Groomerid"),
                             SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
                             MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
                             TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
-                            ServiceId = DbUtils.GetInt(reader, "ServiceId"),
+                            ServiceId = DbUtils.GetInt(reader,"ServiceId"),
+                            Service = new Service()
+                            {
+                                Id = DbUtils.GetInt(reader, "ServiceId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
                         };
                     }
                     reader.Close();
@@ -120,7 +136,7 @@ namespace OkGroomer.Repositories
                     DbUtils.AddParameter(cmd, "@MediumDogPrice", bookingRate.MediumDogPrice);
                     DbUtils.AddParameter(cmd, "@LargeDogPrice", bookingRate.LargeDogPrice);
                     DbUtils.AddParameter(cmd, "@TimeToComplete", bookingRate.TimeToComplete);
-                    DbUtils.AddParameter(cmd, "@SerivceId", bookingRate.ServiceId);
+                    DbUtils.AddParameter(cmd, "@ServiceId", bookingRate.ServiceId);
 
 
                     bookingRate.Id = (int)cmd.ExecuteScalar();
@@ -143,6 +159,7 @@ namespace OkGroomer.Repositories
                                             TimeToComplete = @TimeToComplete,
                                             ServiceId = @ServiceId
                                         WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
                     DbUtils.AddParameter(cmd, "@GroomerId", bookingRate.GroomerId);
                     DbUtils.AddParameter(cmd, "@SmallDogPrice", bookingRate.SmallDogPrice);
                     DbUtils.AddParameter(cmd, "@MediumDogPrice", bookingRate.MediumDogPrice);
