@@ -35,6 +35,7 @@ namespace OkGroomer
             services.AddTransient<IBookingRepository, BookingRepository>();
             services.AddTransient<IGroomerBookingRateRepository, GroomerBookingRateRepository>();
             services.AddTransient<INoteRepository, NoteRepository>();
+            services.AddTransient<IServiceRepository, ServiceRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

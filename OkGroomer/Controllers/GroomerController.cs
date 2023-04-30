@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using OkGroomer.Models;
 using OkGroomer.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OkGroomer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GroomerController : ControllerBase
@@ -35,6 +38,7 @@ namespace OkGroomer.Controllers
         {
             return Ok(_GroomerRepo.GetByFirebaseId(firebaseUserId));
         }
+
         // GET api/<GroomerController>/5
         [HttpGet("id/{id}")]
         public IActionResult Get(int id)
@@ -42,6 +46,16 @@ namespace OkGroomer.Controllers
             return Ok(_GroomerRepo.GetGroomerById(id));
         }
 
+        [HttpGet("DoesUserExist/{firebaseUserId}")]
+        public IActionResult DoesUserExist(string firebaseUserId)
+        {
+            var userProfile = _GroomerRepo.GetByFirebaseId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
 
         // POST api/<GroomerController>
         [HttpPost]
@@ -72,6 +86,25 @@ namespace OkGroomer.Controllers
         {
             _GroomerRepo.Delete(id);
             return Ok();
+        }
+
+        [HttpGet("Me")]
+        public IActionResult Me()
+        {
+            var userProfile = GetCurrentUserProfile();
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userProfile);
+        }
+
+
+        private Groomer GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _GroomerRepo.GetByFirebaseId(firebaseUserId);
         }
     }
 }

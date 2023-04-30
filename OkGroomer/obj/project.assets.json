@@ -46,7 +46,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.5": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.17": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.7.1"
@@ -956,10 +956,10 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.5": {
-      "sha512": "wivdSSc+S+bNIWj/nUlpfNnpTnj5O+33NqXKiDlHFYaO2J6whRqNsGXlJ+UViKUzKMIDvj4K67W+dmVywUyXiw==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/5.0.17": {
+      "sha512": "jXMB2+jOG9JvGVCjsKvc5Bo1iSgzdbQw+Iq3BM+eIZ1inDg8rnEVUcWKpRevi9Z6F1/UnSJZ0+rhElT2/aVhhQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/5.0.5",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/5.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -967,7 +967,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.5.0.5.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.5.0.17.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
@@ -2687,7 +2687,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.5",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.17",
       "Microsoft.Data.SqlClient >= 5.1.1",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
@@ -2733,7 +2733,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
-            "version": "[5.0.5, )"
+            "version": "[5.0.17, )"
           },
           "Microsoft.Data.SqlClient": {
             "target": "Package",

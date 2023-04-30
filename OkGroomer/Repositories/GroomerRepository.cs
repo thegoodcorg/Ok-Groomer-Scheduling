@@ -89,9 +89,10 @@ namespace OkGroomer.Repositories
                                         Id, 
                                         FirstName,
                                         LastName,
-                                        Email
+                                        Email,
+                                        FirebaseId
                                     From Groomer
-                                    WHERE FirebaseId = @Firebaseid";
+                                    WHERE FirebaseId = @FirebaseId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseId", firebaseId);
 
@@ -105,6 +106,7 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
+                            Email= DbUtils.GetString(reader,"Email"),
                             FirebaseId = DbUtils.GetString(reader, "FirebaseId")
                         };
                     }
