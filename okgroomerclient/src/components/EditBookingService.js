@@ -51,37 +51,37 @@ export const EditBookingService = () => {
         <h1><u>{groomerBookingRate?.service?.name}</u></h1>
         <FormGroup>
             <strong>Small Dog Price</strong>
-            <Input type="number" name="smallDogRate" id="smallDogRate" placeholder={groomerBookingRate.smallDogPrice}
+            <Input type="number" name="smallDogRate" id="smallDogRate" placeholder={parseFloat(groomerBookingRate.smallDogPrice).toFixed(2)}
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };
-                    copy.smallDogPrice = parseInt(evt.target.value);
+                    copy.smallDogPrice = parseFloat(evt.target.value).toFixed(2);
                     setGroomerBookingRate(copy);
                 }} /><br />
 
             <strong>Medium Dog Price</strong>
-            <Input type="number" name="mediumDogRate" id="mediumDogRate" placeholder={groomerBookingRate.mediumDogPrice}
+            <Input type="number" name="mediumDogRate" id="mediumDogRate" placeholder={groomerBookingRate.mediumDogPrice?.toFixed(2)}
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };
-                    copy.mediumDogPrice = parseInt(evt.target.value);
+                    copy.mediumDogPrice = parseFloat(evt.target.value);
                     setGroomerBookingRate(copy);
                 }} /><br />
 
             <strong>Large Dog Price</strong>
-            <Input type="number" name="largeDogRate" id="largeDogRate" placeholder={groomerBookingRate.largeDogPrice}
+            <Input type="number" name="largeDogRate" id="largeDogRate" placeholder={groomerBookingRate.largeDogPrice?.toFixed(2)}
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };
-                    copy.largeDogPrice = parseInt(evt.target.value);
+                    copy.largeDogPrice = parseFloat(evt.target.value);
                     setGroomerBookingRate(copy);
                 }} /><br />
             <strong>Estimated Time(in 1/10 of an hour)</strong>
-            <Input type="number" name="timeToComplete" id="timeToComplete" placeholder={groomerBookingRate.timeToComplete}
+            <Input type="number" name="timeToComplete" id="timeToComplete" placeholder={groomerBookingRate.timeToComplete?.toFixed(1)}
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };
-                    copy.timeToComplete = parseInt(evt.target.value);
+                    copy.timeToComplete = parseFloat(evt.target.value);
                     setGroomerBookingRate(copy);
                 }} />
             <input type="checkbox" name="doesGroomerOffer" checked={groomerBookingRate.doesGroomerOffer} onChange={(e) => { handleCheckbox(e) }}/><span>Do you offer this service?</span>
