@@ -36,10 +36,14 @@ export const EditBookingService = () => {
     const handleSaveClick = () => {
         groomerBookingRate.serviceId = parseInt(id);
         groomerBookingRate.groomerId = currentUser.id;
-        groomerBookingRate.doesGroomerOffer = true;
         setOrUpdateRate(id, currentUser.id, groomerBookingRate)
             .then(navigate(`/settings`))
 
+    }
+    const handleCheckbox = (e) => {
+        const copy = {...groomerBookingRate}
+        copy.doesGroomerOffer = e.target.checked
+        setGroomerBookingRate(copy)
     }
 
     return <Form>
@@ -80,6 +84,7 @@ export const EditBookingService = () => {
                     copy.timeToComplete = parseInt(evt.target.value);
                     setGroomerBookingRate(copy);
                 }} />
+            <input type="checkbox" name="doesGroomerOffer" checked={groomerBookingRate.doesGroomerOffer} onChange={(e) => { handleCheckbox(e) }}/><span>Do you offer this service?</span>
         </FormGroup><Button className="btn btn-primary" onClick={() => {
             navigate(`/settings`);
         }}>Cancel</Button>
