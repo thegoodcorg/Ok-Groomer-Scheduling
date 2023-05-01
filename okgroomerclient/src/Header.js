@@ -60,8 +60,8 @@ export default function Header({ isLoggedIn, userProfile }) {
               </>
 
             )}
-            <NavLink tag={RRNavLink} to="/tag">
-              Tag Management
+            <NavLink tag={RRNavLink} to="/services">
+              Services
             </NavLink>
           </Nav>
           <Nav navbar>

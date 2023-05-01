@@ -90,7 +90,8 @@ namespace OkGroomer.Repositories
                                         Id, 
                                         FirstName,
                                         LastName,
-                                        Email
+                                        Email,
+                                        FirebaseId
                                     From Owner
                                     WHERE FirebaseId = @Firebaseid";
 
@@ -122,12 +123,13 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using(var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Owner (FirstName, LastName, Email)
+                    cmd.CommandText = @"INSERT INTO Owner (FirstName, LastName, Email, FirebaseId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirstName, @LastName, @Email)";
+                                        VALUES (@FirstName, @LastName, @Email, @FirebaseId)";
                     DbUtils.AddParameter(cmd, "@FirstName", owner.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", owner.LastName);
                     DbUtils.AddParameter(cmd, "@Email", owner.Email);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", owner.FirebaseId);
 
                     owner.Id = (int)cmd.ExecuteScalar();
                 }

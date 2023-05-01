@@ -5,6 +5,7 @@ import Register from "./Register";
 import { GroomerHomepage } from "./GroomerHomepage";
 import { RateSettings } from "./RateSettings";
 import { EditBookingService } from "./EditBookingService";
+import { ServiceForm } from "./ServiceForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -19,6 +20,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="register" element={<Register />} />
           <Route path="settings" element={<RateSettings />} />
           <Route path="/service/:id" element={<EditBookingService />} />
+          <Route path="services" element={<ServiceForm />} />
         </Route>
       </Routes>
     </main>

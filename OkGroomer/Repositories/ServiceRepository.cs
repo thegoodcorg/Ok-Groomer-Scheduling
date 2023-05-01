@@ -19,7 +19,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Name FROM Service";
+                    cmd.CommandText = @"SELECT Id, GroomerId, Name, Description FROM Service";
 
                     var services = new List<Service>();
                     var reader = cmd.ExecuteReader();
@@ -27,8 +27,10 @@ namespace OkGroomer.Repositories
                     {
                         var service = new Service()
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "Name")
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            GroomerId = DbUtils.GetInt(reader,"GroomerId"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Description = DbUtils.GetString(reader, "Description")
                         };
                         services.Add(service);
                     }
@@ -48,11 +50,14 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"
                                     Select
-                                        Id, 
-                                        Name
+                                        Id,
+                                        GroomerId,
+                                        Name,
+                                        Description
                                     From Service
                                     WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
+
 
                     var reader = cmd.ExecuteReader();
                     Service service = null;
@@ -61,7 +66,9 @@ namespace OkGroomer.Repositories
                         service = new Service()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "Name")
+                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Description = DbUtils.GetString(reader, "Description")
                         };
                     }
                     reader.Close();
@@ -77,10 +84,12 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Service (Name)
+                    cmd.CommandText = @"INSERT INTO Service (Name, Description, GroomerId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@Name)";
+                                        VALUES (@Name, @Description, @GroomerId)";
                     DbUtils.AddParameter(cmd, "@Name", service.Name);
+                    DbUtils.AddParameter(cmd, "@Description", service.Description);
+                    DbUtils.AddParameter(cmd, "@GroomerId", service.GroomerId);
 
                     service.Id = (int)cmd.ExecuteScalar();
                 }
@@ -96,9 +105,11 @@ namespace OkGroomer.Repositories
                     cmd.CommandText = @"UPDATE Service
                                         SET 
                                             Name = @Name,
+                                            Description = @Description
                                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     DbUtils.AddParameter(cmd, "@Name", service.Name);
+                    DbUtils.AddParameter(cmd, "@Description", service.Description);
 
                     cmd.ExecuteNonQuery();
                 }

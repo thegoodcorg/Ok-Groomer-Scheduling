@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getServiceBookingRate, setOrUpdateRate } from "../Modules/GroomerBookingRateManager";
 import { me } from "../Modules/authManager";
+import { getService } from "../Modules/servicesManager";
 
 
 
@@ -14,6 +15,7 @@ export const EditBookingService = () => {
     const [groomerBookingRate, setGroomerBookingRate] = useState({});
     const { id } = useParams()
     const [currentUser, setCurrentUser] = useState({})
+    const [currentService, setCurrentService] = useState({})
 
     const navigate = useNavigate();
 
@@ -33,6 +35,13 @@ export const EditBookingService = () => {
         }
     }, [currentUser])
 
+    useEffect(() => {
+        getService(id)
+        .then((res) => {
+            setCurrentService(res)
+        })
+    },[])
+
     const handleSaveClick = () => {
         groomerBookingRate.serviceId = parseInt(id);
         groomerBookingRate.groomerId = currentUser.id;
@@ -48,10 +57,11 @@ export const EditBookingService = () => {
 
     return <Form>
         <h3>Edit Rates</h3>
-        <h1><u>{groomerBookingRate?.service?.name}</u></h1>
+        <h1><u>{currentService.name}</u></h1>
+        <h2>{currentService.description}</h2>
         <FormGroup>
             <strong>Small Dog Price</strong>
-            <Input type="number" name="smallDogRate" id="smallDogRate" placeholder={parseFloat(groomerBookingRate.smallDogPrice).toFixed(2)}
+            <Input type="number" name="smallDogRate" id="smallDogRate" placeholder={groomerBookingRate.smallDogPrice?.toFixed(2)}
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };

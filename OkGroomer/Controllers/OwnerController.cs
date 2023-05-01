@@ -31,7 +31,7 @@ namespace OkGroomer.Controllers
         }
 
         // GET api/<OwnerController>/5
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public IActionResult Get(int id)
         {
             return Ok(_ownerRepo.GetOwnerById(id));
@@ -40,6 +40,17 @@ namespace OkGroomer.Controllers
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             return Ok(_ownerRepo.GetByFirebaseId(firebaseUserId));
+        }
+
+        [HttpGet("DoesUserExist/{firebaseUserId}")]
+        public IActionResult DoesUserExist(string firebaseUserId)
+        {
+            var userProfile = _ownerRepo.GetByFirebaseId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         // POST api/<OwnerController>
