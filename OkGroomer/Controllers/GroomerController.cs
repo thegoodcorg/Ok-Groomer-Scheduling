@@ -62,7 +62,9 @@ namespace OkGroomer.Controllers
         public IActionResult Post(Groomer groomer)
         {
             _GroomerRepo.Add(groomer);
-            return CreatedAtAction("Get", new { id = groomer.Id }, groomer);
+            return CreatedAtAction(nameof(GetUserProfile),
+                new { firebaseUserId = groomer.FirebaseId },
+                groomer);
         }
 
         // PUT api/<GroomerController>/5
@@ -91,17 +93,16 @@ namespace OkGroomer.Controllers
         [HttpGet("Me")]
         public IActionResult Me()
         {
-            var userProfile = GetCurrentUserProfile();
-            if (userProfile == null)
+            var groomer = GetCurrentGroomer();
+            if (groomer == null)
             {
                 return NotFound();
             }
 
-            return Ok(userProfile);
+            return Ok(groomer);
         }
 
-
-        private Groomer GetCurrentUserProfile()
+        private Groomer GetCurrentGroomer()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _GroomerRepo.GetByFirebaseId(firebaseUserId);

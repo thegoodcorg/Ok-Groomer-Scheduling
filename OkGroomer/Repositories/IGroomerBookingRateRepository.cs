@@ -10,5 +10,6 @@ namespace OkGroomer.Repositories
         void Edit(int id, GroomerBookingRates bookingRate);
         List<GroomerBookingRates> GetAll();
         GroomerBookingRates GetGroomerBookingRateById(int id);
+        GroomerBookingRates GetDistinctRate(int serviceId, int groomerId);
     }
 }
