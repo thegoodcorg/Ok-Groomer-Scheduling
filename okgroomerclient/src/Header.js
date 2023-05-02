@@ -13,12 +13,8 @@ import { logout } from "./Modules/authManager";
 
 export default function Header({ isLoggedIn, userProfile }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  useEffect(() => {
-    setIsAdmin(userProfile?.userTypeId === 1);
-  }, [userProfile]);
 
   return (
     <div>
@@ -28,8 +24,24 @@ export default function Header({ isLoggedIn, userProfile }) {
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
+        <Nav className="mr-auto" navbar>
+            {isLoggedIn && !userProfile?.groomer ? (
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/">
+                    Add Dog
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/settings">
+                    My Appointments
+                  </NavLink>
+                </NavItem>
+              </>
+            ) : ""}
+          </Nav>
           <Nav className="mr-auto" navbar>
-            {isLoggedIn && (
+            {isLoggedIn && userProfile?.groomer ? (
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">
@@ -42,24 +54,9 @@ export default function Header({ isLoggedIn, userProfile }) {
                   </NavLink>
                 </NavItem>
               </>
-            )}
+            ) : ""}
           </Nav>
           <Nav className="mr-auto" navbar>
-            {isLoggedIn && isAdmin && (
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/userprofiles">
-                    User Profiles
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/approvepost">
-                    Post Manager
-                  </NavLink>
-                </NavItem>
-              </>
-
-            )}
             <NavLink tag={RRNavLink} to="/services">
               Services
             </NavLink>

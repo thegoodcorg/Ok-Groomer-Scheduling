@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
 import { register } from "../Modules/authManager";
-import { registerAsUser } from "../Modules/OwnerManager";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -22,22 +21,13 @@ export default function Register() {
     e.preventDefault();
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
-    }
-    if (registerAsGroomer == true) {
+    } else {
       const userProfile = {
         firstName,
         lastName,
-        email,
+        email
       };
       register(userProfile, password).then(() => navigate("/"));
-    }
-    if (registerAsGroomer == false) {
-      const userProfile = {
-        firstName,
-        lastName,
-        email,
-      };
-      registerAsUser(userProfile, password).then(() => navigate("/"))
     }
   };
 

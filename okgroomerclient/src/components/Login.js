@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../Modules/authManager";
-import { loginAsUser } from "../Modules/OwnerManager";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,16 +13,10 @@ export default function Login() {
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    if (loginAsGroomer == false) {
-      loginAsUser(email, password)
-        .then(() => navigate("/"))
-        .catch(() => alert("Invalid email or password"));
-    } if(loginAsGroomer == true){
-      login(email, password)
+    login(email, password)
       .then(() => navigate("/"))
       .catch(() => alert("Invalid email or password"));
-    }
-  } 
+  };
 
   const handleCheckbox = (e) => {
     setLoginAsGroomer(e.target.checked)

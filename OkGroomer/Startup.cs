@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OkGroomer.Repositories;
+using OkUser.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,8 @@ namespace OkGroomer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IOwnerRepository, OwnerRepository>();
             services.AddTransient<IDogRepository, DogRepository>();
-            services.AddTransient<IGroomerRepository, GroomerRepository>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IBookingRepository, BookingRepository>();
             services.AddTransient<IGroomerBookingRateRepository, GroomerBookingRateRepository>();
             services.AddTransient<INoteRepository, NoteRepository>();

@@ -12,16 +12,16 @@ using System.Security.Claims;
 
 namespace OkGroomer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class GroomerController : ControllerBase
+    public class UserProfileController : ControllerBase
     {
-        private readonly IGroomerRepository _GroomerRepo;
+        private readonly IUserProfileRepository _UserRepo;
 
-        public GroomerController(IGroomerRepository groomerRepo)
+        public UserProfileController(IUserProfileRepository userRepo)
         {
-            _GroomerRepo = groomerRepo;
+            _UserRepo = userRepo;
         }
 
 
@@ -30,26 +30,26 @@ namespace OkGroomer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_GroomerRepo.GetAll());
+            return Ok(_UserRepo.GetAll());
         }
 
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUserProfile(string firebaseUserId)
         {
-            return Ok(_GroomerRepo.GetByFirebaseId(firebaseUserId));
+            return Ok(_UserRepo.GetByFirebaseId(firebaseUserId));
         }
 
         // GET api/<GroomerController>/5
         [HttpGet("id/{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_GroomerRepo.GetGroomerById(id));
+            return Ok(_UserRepo.GetUserById(id));
         }
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]
         public IActionResult DoesUserExist(string firebaseUserId)
         {
-            var userProfile = _GroomerRepo.GetByFirebaseId(firebaseUserId);
+            var userProfile = _UserRepo.GetByFirebaseId(firebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
@@ -59,9 +59,9 @@ namespace OkGroomer.Controllers
 
         // POST api/<GroomerController>
         [HttpPost]
-        public IActionResult Post(Groomer groomer)
+        public IActionResult Post(UserProfile groomer)
         {
-            _GroomerRepo.Add(groomer);
+            _UserRepo.Add(groomer);
             return CreatedAtAction(nameof(GetUserProfile),
                 new { firebaseUserId = groomer.FirebaseId },
                 groomer);
@@ -69,7 +69,7 @@ namespace OkGroomer.Controllers
 
         // PUT api/<GroomerController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Groomer groomer)
+        public IActionResult Put(int id, UserProfile groomer)
         {
 
             if (id != groomer.Id)
@@ -78,7 +78,7 @@ namespace OkGroomer.Controllers
                 return BadRequest();
             }
 
-            _GroomerRepo.Edit(id, groomer);
+            _UserRepo.Edit(id, groomer);
             return Ok(groomer);
         }
 
@@ -86,7 +86,7 @@ namespace OkGroomer.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _GroomerRepo.Delete(id);
+            _UserRepo.Delete(id);
             return Ok();
         }
 
@@ -102,10 +102,10 @@ namespace OkGroomer.Controllers
             return Ok(groomer);
         }
 
-        private Groomer GetCurrentGroomer()
+        private UserProfile GetCurrentGroomer()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _GroomerRepo.GetByFirebaseId(firebaseUserId);
+            return _UserRepo.GetByFirebaseId(firebaseUserId);
         }
     }
 }
