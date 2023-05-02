@@ -11,6 +11,11 @@ export default function Register() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [registerAsGroomer, setRegisterAsGroomer] = useState(false)
+
+  const handleCheckbox = (e) => {
+    setRegisterAsGroomer(e.target.checked)
+  }
 
   const registerClick = (e) => {
     e.preventDefault();
@@ -20,7 +25,7 @@ export default function Register() {
       const userProfile = {
         firstName,
         lastName,
-        email,
+        email
       };
       register(userProfile, password).then(() => navigate("/"));
     }
@@ -68,6 +73,7 @@ export default function Register() {
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <Input type="checkbox" onChange={(e) => { handleCheckbox(e) }}></Input><span>are you registering as a groomer?</span>
         </FormGroup>
         <FormGroup>
           <Button>Register</Button>

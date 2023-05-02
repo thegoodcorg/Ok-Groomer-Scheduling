@@ -1,2 +1,2 @@
-﻿ALTER TABLE groomerBookingRates
-DROP COLUMN name;
+﻿ALTER TABLE [User]
+ADD Groomer BIT DEFAULT 0;

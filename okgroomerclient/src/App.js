@@ -16,6 +16,8 @@ function App() {
     onLoginStatusChange(setIsLoggedIn);
   }, []);
 
+
+
   useEffect(() => {
     if (isLoggedIn) {
       me().then((userPro) => {

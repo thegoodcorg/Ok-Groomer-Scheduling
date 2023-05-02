@@ -1,48 +1,50 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OkGroomer.Models;
+using OkGroomer.Repositories;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Linq;
 using Tabloid.Repositories;
 using Tabloid.Utils;
 
-namespace OkGroomer.Repositories
+namespace OkUser.Repositories
 {
-    public class OwnerRepository : BaseRepository, IOwnerRepository
+    public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
-        public OwnerRepository(IConfiguration configuration) : base(configuration) { }
+        public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Owner> GetAll()
+        public List<UserProfile> GetAll()
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email, FirebaseId FROM Owner";
+                    cmd.CommandText = @"SELECT Id, FirstName, LastName, Email, FirebaseId, Groomer FROM UserProfile";
 
-                    var Owners = new List<Owner>();
+                    var Users = new List<UserProfile>();
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var owner = new Owner()
+                        var user = new UserProfile()
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
+                            Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
+                            Groomer = reader.GetBoolean(reader.GetOrdinal("Groomer"))
                         };
-                        Owners.Add(owner);
+                        Users.Add(user);
                     }
                     reader.Close();
 
-                    return Owners;
+                    return Users;
                 }
             }
         }
 
-        public Owner GetOwnerById(int id)
+        public UserProfile GetUserById(int id)
         {
             using (var conn = Connection)
             {
@@ -55,31 +57,32 @@ namespace OkGroomer.Repositories
                                         FirstName,
                                         LastName,
                                         Email,
-                                        FirebaseId
-                                    From Owner
+                                        FirebaseId,
+                                        Groomer
+                                    From UserProfile
                                     WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
 
                     var reader = cmd.ExecuteReader();
-                    Owner owner = null;
+                    UserProfile user = null;
                     if (reader.Read())
                     {
-                         owner = new Owner()
+                        user = new UserProfile()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")   
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
+                            Groomer = reader.GetBoolean(reader.GetOrdinal("Groomer"))
                         };
                     }
                     reader.Close();
-                    return owner;
+                    return user;
                 }
             }
         }
-
-        public Owner GetByFirebaseId(string firebaseId)
+        public UserProfile GetByFirebaseId(string firebaseId)
         {
             using (var conn = Connection)
             {
@@ -90,79 +93,88 @@ namespace OkGroomer.Repositories
                                         Id, 
                                         FirstName,
                                         LastName,
-                                        Email
-                                    From Owner
-                                    WHERE FirebaseId = @Firebaseid";
+                                        Email,
+                                        FirebaseId,
+                                        Groomer
+                                    From UserProfile
+                                    WHERE FirebaseId = @FirebaseId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseId", firebaseId);
 
-                    Owner owner = null;
+                    UserProfile user = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        owner = new Owner()
+                        user = new UserProfile()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            FirebaseId = DbUtils.GetString(reader, "FirebaseId")
+                            Email= DbUtils.GetString(reader,"Email"),
+                            FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
+                            Groomer = reader.GetBoolean(reader.GetOrdinal("Groomer"))
                         };
                     }
                     reader.Close();
-                    return owner;
+                    return user;
                 }
             }
         }
 
-        public void Add(Owner owner)
+        public void Add(UserProfile user)
         {
-            using(var conn = Connection)
-            {
-                conn.Open();
-                using(var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"INSERT INTO Owner (FirstName, LastName, Email)
-                                        OUTPUT INSERTED.ID
-                                        VALUES (@FirstName, @LastName, @Email)";
-                    DbUtils.AddParameter(cmd, "@FirstName", owner.FirstName);
-                    DbUtils.AddParameter(cmd, "@LastName", owner.LastName);
-                    DbUtils.AddParameter(cmd, "@Email", owner.Email);
-
-                    owner.Id = (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-        public void Edit(int id, Owner owner)
-        {
-            using(var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE Owner
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirstName, LastName, Email, FirebaseId, Groomer)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@FirstName, @LastName, @Email, @FirebaseId, @Groomer)";
+                    DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", user.FirebaseId);
+                    DbUtils.AddParameter(cmd, "@Groomer", user.Groomer);
+
+                    user.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public void Edit(int id, UserProfile user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
                                         SET 
                                             FirstName = @FirstName,
                                             LastName = @LastName,
-                                            Email = @Email
+                                            Email = @Email,
+                                            FirebaseId = @FirebaseId
                                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
-                    DbUtils.AddParameter(cmd, "@FirstName", owner.FirstName);
-                    DbUtils.AddParameter(cmd, "@LastName", owner.LastName);
-                    DbUtils.AddParameter(cmd, "@Email", owner.Email);
+                    DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", user.FirebaseId);
+
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public void Delete (int id)
+        public void Delete(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
-                using(var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM Owner WHERE Id = @id";
+                    cmd.CommandText = @"DELETE FROM UserProfile WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }

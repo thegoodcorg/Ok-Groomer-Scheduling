@@ -21,9 +21,9 @@ export const getAllServices = () => {
     });
 };
 
-export const getPostComments = (postId) => {
+export const getService = (serviceId) => {
     return getToken().then((token) => {
-        return fetch(`${apiUrl}/postComments?postId=${postId}`, {
+        return fetch(`${apiUrl}/${serviceId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ export const GetCommentById = (id) => {
     });
 }
 
-export const addComment = (comment) => {
+export const addService = (service) => {
     return getToken().then((token) => {
         return fetch(apiUrl, {
             method: "POST",
@@ -66,7 +66,7 @@ export const addComment = (comment) => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(comment),
+            body: JSON.stringify(service),
         }).then((resp) => {
             if (resp.ok) {
                 return resp.json();

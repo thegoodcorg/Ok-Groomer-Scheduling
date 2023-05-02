@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "/api/Groomer";
+const _apiUrl = "/api/UserProfile";
 
 
 const _doesUserExist = (firebaseUserId) => {

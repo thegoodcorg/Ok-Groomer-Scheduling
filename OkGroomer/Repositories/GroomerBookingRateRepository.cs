@@ -30,7 +30,8 @@ namespace OkGroomer.Repositories
                                         gbr.serviceId,
                                         gbr.DoesGroomerOffer,
                                         srv.Id as ServiceId,
-                                        srv.Name
+                                        srv.Name,
+                                        srv.Description
                                     FROM GroomerBookingRates gbr
                                     LEFT JOIN Service srv on gbr.serviceId = srv.Id ";
 
@@ -51,7 +52,8 @@ namespace OkGroomer.Repositories
                             Service = new Service()
                             {
                                 Id = DbUtils.GetInt(reader, "ServiceId"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Description = DbUtils.GetString(reader, "Description")
                             }
                         };
                         GroomerBookingRatess.Add(bookingRate);
@@ -80,7 +82,8 @@ namespace OkGroomer.Repositories
                                         gbr.TimeToComplete,
                                         gbr.ServiceId,
                                         srv.id AS ServiceId, 
-                                        srv.Name                                        
+                                        srv.Name,
+                                        srv.Description
                                     FROM GroomerBookingRates gbr
                                     LEFT JOIN Service srv on srv.id = gbr.ServiceId
                                     WHERE gbr.Id = @Id";
@@ -102,7 +105,8 @@ namespace OkGroomer.Repositories
                             Service = new Service()
                             {
                                 Id = DbUtils.GetInt(reader, "ServiceId"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Description = DbUtils.GetString(reader, "Description")
                             }
                         };
                     }
@@ -130,7 +134,8 @@ namespace OkGroomer.Repositories
                                         gbr.ServiceId,
                                         gbr.DoesGroomerOffer,
                                         srv.id AS ServiceId, 
-                                        srv.Name                                        
+                                        srv.Name,
+                                        srv.Description
                                     FROM GroomerBookingRates gbr
                                     LEFT JOIN Service srv on srv.id = gbr.ServiceId
                                     WHERE gbr.ServiceId = @ServiceId AND gbr.GroomerId = @GroomerId";
@@ -155,7 +160,8 @@ namespace OkGroomer.Repositories
                             Service = new Service()
                             {
                                 Id = DbUtils.GetInt(reader, "ServiceId"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Description = DbUtils.GetString(reader, "Description")
                             }
                         };
                     }
