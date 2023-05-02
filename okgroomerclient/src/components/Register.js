@@ -12,21 +12,22 @@ export default function Register() {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [registerAsGroomer, setRegisterAsGroomer] = useState(false)
+  const [userProfile, setUserProfile] = useState({ firstName: "", lastName: "", email: "", groomer: false })
 
-  const handleCheckbox = (e) => {
-    setRegisterAsGroomer(e.target.checked)
-  }
+  // const handleCheckbox = (e) => {
+  //   setUserProfile({ groomer: e.target.checked })
+  // }
 
   const registerClick = (e) => {
     e.preventDefault();
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
     } else {
-      const userProfile = {
-        firstName,
-        lastName,
-        email
-      };
+      // const userProfile = {
+      //   firstName,
+      //   lastName,
+      //   email
+      // };
       register(userProfile, password).then(() => navigate("/"));
     }
   };
@@ -39,7 +40,11 @@ export default function Register() {
           <Input
             id="firstName"
             type="text"
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => {
+              const copy = { ...userProfile }
+              copy.firstName = e.target.value
+              setUserProfile(copy)
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -47,7 +52,11 @@ export default function Register() {
           <Input
             id="lastName"
             type="text"
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => {
+              const copy = { ...userProfile }
+              copy.lastName = e.target.value
+              setUserProfile(copy)
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -55,7 +64,11 @@ export default function Register() {
           <Input
             id="email"
             type="text"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              const copy = { ...userProfile }
+              copy.email = e.target.value
+              setUserProfile(copy)
+            }}
           />
         </FormGroup>
         <FormGroup>
@@ -73,7 +86,11 @@ export default function Register() {
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Input type="checkbox" onChange={(e) => { handleCheckbox(e) }}></Input><span>are you registering as a groomer?</span>
+          <Input type="checkbox" onChange={(e) => {
+            const copy = { ...userProfile }
+            copy.groomer = e.target.checked
+            setUserProfile(copy)
+          }}></Input><span>are you registering as a groomer?</span>
         </FormGroup>
         <FormGroup>
           <Button>Register</Button>

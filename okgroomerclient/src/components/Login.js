@@ -42,12 +42,6 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <FormGroup>
-          <Input type="checkbox" onChange={(e) => { handleCheckbox(e) }}></Input>
-          <span>are you logging in as a groomer?</span>
-          <br />
-          <Button>Login</Button>
-        </FormGroup>
         <em>
           Not registered? <Link to="/register">Register</Link>
         </em>
