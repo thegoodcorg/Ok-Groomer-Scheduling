@@ -6,6 +6,7 @@ import { GroomerHomepage } from "./GroomerHomepage";
 import { RateSettings } from "./RateSettings";
 import { EditBookingService } from "./EditBookingService";
 import { ServiceForm } from "./ServiceForm";
+import { DogCreateForm } from "./DogCreateForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -21,6 +22,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <Route path="settings" element={<RateSettings />} />
           <Route path="/service/:id" element={<EditBookingService />} />
           <Route path="services" element={<ServiceForm />} />
+          <Route path="dogcreateform" element={<DogCreateForm />} />
         </Route>
       </Routes>
     </main>

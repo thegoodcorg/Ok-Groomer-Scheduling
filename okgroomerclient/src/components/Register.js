@@ -6,12 +6,9 @@ import { register } from "../Modules/authManager";
 export default function Register() {
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
+
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
-  const [registerAsGroomer, setRegisterAsGroomer] = useState(false)
   const [userProfile, setUserProfile] = useState({ firstName: "", lastName: "", email: "", groomer: false })
 
   // const handleCheckbox = (e) => {

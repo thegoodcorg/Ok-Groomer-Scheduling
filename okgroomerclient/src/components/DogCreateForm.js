@@ -1,71 +1,51 @@
-import React from "react"
-import { useState } from "react"
+import React, { useState } from "react";
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { useNavigate } from "react-router-dom";
+import { register } from "../Modules/authManager";
 
-const [dogObj, setDogObj] = useState({})
+
 
 export const DogCreateForm = () => {
+
+  const [dogObj, setDogObj] = useState({})
+
+  const navigate = useNavigate();
+
+
+  const registerClick = (e) => {
+    e.preventDefault();
+      register(dogObj).then(() => navigate("/"));
+  };
+
     return <><div>This is where you will create a new dog</div>
         <Form onSubmit={registerClick}>
           <fieldset>
             <FormGroup>
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="firstName">Name</Label>
               <Input
                 id="firstName"
                 type="text"
                 onChange={(e) => {
-                  const copy = { ...userProfile }
-                  copy.firstName = e.target.value
-                  setUserProfile(copy)
+                  const copy = { ...dogObj }
+                  copy.Name = e.target.value
+                  setDogObj(copy)
                 }}
               />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="lastName">Weight</Label>
               <Input
                 id="lastName"
-                type="text"
+                type="number"
                 onChange={(e) => {
-                  const copy = { ...userProfile }
-                  copy.lastName = e.target.value
-                  setUserProfile(copy)
+                  const copy = { ...dogObj }
+                  copy.lastName = parseInt(e.target.value)
+                  setDogObj(copy)
                 }}
               />
             </FormGroup>
             <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                id="email"
-                type="text"
-                onChange={(e) => {
-                  const copy = { ...userProfile }
-                  copy.email = e.target.value
-                  setUserProfile(copy)
-                }}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <Input type="checkbox" onChange={(e) => {
-                const copy = { ...userProfile }
-                copy.groomer = e.target.checked
-                setUserProfile(copy)
-              }}></Input><span>are you registering as a groomer?</span>
-            </FormGroup>
-            <FormGroup>
-              <Button>Register</Button>
+              <Button>Save</Button>
             </FormGroup>
           </fieldset>
         </Form>

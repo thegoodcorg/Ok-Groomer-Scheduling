@@ -42,6 +42,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
+        <Button>Login</Button><br/>
         <em>
           Not registered? <Link to="/register">Register</Link>
         </em>

@@ -28,7 +28,7 @@ export default function Header({ isLoggedIn, userProfile }) {
             {isLoggedIn && !userProfile?.groomer ? (
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/">
+                  <NavLink tag={RRNavLink} to="dogcreateform">
                     Add Dog
                   </NavLink>
                 </NavItem>
