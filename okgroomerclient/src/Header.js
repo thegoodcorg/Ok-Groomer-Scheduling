@@ -19,7 +19,7 @@ export default function Header({ isLoggedIn, userProfile }) {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">
+        <NavbarBrand tag={RRNavLink} to="/home">
           Ok, Groomer!
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -28,7 +28,7 @@ export default function Header({ isLoggedIn, userProfile }) {
             {isLoggedIn && !userProfile?.groomer ? (
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/">
+                  <NavLink tag={RRNavLink} to="dogcreateform">
                     Add Dog
                   </NavLink>
                 </NavItem>

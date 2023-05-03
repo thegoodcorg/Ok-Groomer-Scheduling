@@ -14,7 +14,7 @@ export default function Login() {
   const loginSubmit = (e) => {
     e.preventDefault();
     login(email, password)
-      .then(() => navigate("/"))
+      .then(() => navigate(`/home`))
       .catch(() => alert("Invalid email or password"));
   };
 
@@ -42,12 +42,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <FormGroup>
-          <Input type="checkbox" onChange={(e) => { handleCheckbox(e) }}></Input>
-          <span>are you logging in as a groomer?</span>
-          <br />
-          <Button>Login</Button>
-        </FormGroup>
+        <Button>Login</Button><br/>
         <em>
           Not registered? <Link to="/register">Register</Link>
         </em>

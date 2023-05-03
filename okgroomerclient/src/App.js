@@ -11,6 +11,7 @@ import { Spinner } from "reactstrap";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [isGroomer, setIsGroomer] = useState(false)
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
@@ -23,6 +24,8 @@ function App() {
       me().then((userPro) => {
         if (userPro.activeStatus === "Disabled") {
           logout();
+        } if(userPro.groomer == true){
+          setIsGroomer(true)
         } else {
           setUserProfile(userPro);
         }
@@ -46,7 +49,7 @@ function App() {
   return (
     <Router>
       <Header isLoggedIn={isLoggedIn} userProfile={userProfile} />
-      <ApplicationViews isLoggedIn={isLoggedIn} />
+      <ApplicationViews isLoggedIn={isLoggedIn} isGroomer={isGroomer} />
     </Router>
   );
 }
