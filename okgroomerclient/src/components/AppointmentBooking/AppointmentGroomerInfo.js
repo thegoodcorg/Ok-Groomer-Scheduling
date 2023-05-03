@@ -5,7 +5,7 @@ export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x,
     return (
       <motion.div                            //updated the div tag
       initial={{ x: x }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
       <input
@@ -38,7 +38,7 @@ export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x,
       <button
         onClick={() => {
           setPage(page - 1);
-          setX(1000);
+          setX(-1000);
         }}>
         Previous
       </button>

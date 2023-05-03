@@ -33,7 +33,7 @@ export default function Header({ isLoggedIn, userProfile }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/settings">
+                  <NavLink tag={RRNavLink} to="/appointments">
                     My Appointments
                   </NavLink>
                 </NavItem>
