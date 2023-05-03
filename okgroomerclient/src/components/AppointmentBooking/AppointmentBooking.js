@@ -1,44 +1,38 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export const AppointmentBooking = ({page, setPage, formData, setFormData, x, setX}) => {
-    return ( <motion.div                            //updated the div tag
+export const AppointmentBooking = ({ page, setPage, formData, setFormData, x, setX, myDogs }) => {
+
+
+
+  return (<motion.div
     initial={{ x: x }}
-    transition={{ duration: 1 }}
+    transition={{ duration: 0.5 }}
     animate={{ x: 0 }}
-  >
-      <input
-      type="text"
+  ><h3>Who are we working with?</h3>
+    <select
       placeholder="Full Name"
-      value={formData.fullName} //setting the value of the form to the props value
-      onChange={(e) =>
-        setFormData({ ...formData, fullName: e.target.value })  //setting the formData to the value input of the textfield 
-      }
-    />
-    <input
-      type="text"
-      placeholder="Username"
-      value={formData.username}
-      onChange={(e) =>
-        setFormData({ ...formData, username: e.target.value }) 
-      }
-    />
-    <input
-      type="text"
-      placeholder="Password"
-      value={formData.password}
-      onChange={(e) =>
-        setFormData({ ...formData, password: e.target.value })
-      }
-    />
-      <button
-          onClick={() => {
-            setPage(page + 1);
-            setX(1000);
-          }}>
-          Next
-        </button>
-      </motion.div>
-    );
-  };
-  
+      value={formData.dogId}
+      onChange={(e) => {
+        const selectedDog = myDogs.find((dog) => dog.id == e.target.value);
+        console.log(selectedDog)
+    setFormData({
+      ...formData,
+      dogId: parseInt(e.target.value),
+      dogName: selectedDog?.name,
+      dogWeight: parseInt(selectedDog?.weight)})}}>
+      <option value={0} >Select your pet</option>
+      {myDogs.map(dog => <option value={dog.id} key={dog.id}>{dog.name}</option>)}
+
+    </select>
+    <br />
+    <button
+      onClick={() => {
+        setPage(page + 1);
+        setX(1000);
+      }}>
+      Next
+    </button>
+  </motion.div>
+  );
+};

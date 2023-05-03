@@ -1,34 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { getAllBookingRates } from "../../Modules/GroomerBookingRateManager";
+import { getAllGroomers } from "../../Modules/authManager";
 
-export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x, setX}) => {
-    return (
-      <motion.div                            //updated the div tag
+export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x, setX, selectedServices }) => {
+
+  const [groomerBookingRates, setGroomerBookingRates] = useState([])
+  const [groomers, setGroomers] = useState([])
+
+  useEffect(() => {
+    getAllBookingRates()
+      .then((res) => {
+        setGroomerBookingRates(res)
+      })
+  }, [])
+
+  useEffect(() => {
+    getAllGroomers()
+      .then((res) => {
+        const usersThatAreGroomers = res.filter(user => user.groomer)
+        setGroomers(usersThatAreGroomers)
+      })
+  }, [])
+
+  useEffect(() => {
+    jobPricing()
+  },[groomerBookingRates])
+
+  const jobPricing = () => {
+    const intersection = formData.selectedServices.filter(id => groomerBookingRates.includes(id));
+    console.log(intersection)
+  }
+
+  const getSpecificPricing = () => {
+    return groomers.map(groomer => {
+      return <div>{groomer.firstName} can complete this job</div>
+    })
+  }
+
+
+  return (
+    <motion.div
       initial={{ x: x }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      <input
-        type="text"
-        placeholder="Address"
-        value={formData.address}
-        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Nationality"
-        value={formData.nationality}
-        onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Zipcode"
-        value={formData.zipcode}
-        onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
-      />
+      {getSpecificPricing()}, {jobPricing()}
 
-  
-  <button
+
+      <button
         onClick={() => {
           alert("You've successfully submitted this form");
         }}>
@@ -38,11 +58,11 @@ export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x,
       <button
         onClick={() => {
           setPage(page - 1);
-          setX(1000);
+          setX(-1000);
         }}>
         Previous
       </button>
-      </motion.div>
-    );
-  };
-    
+    </motion.div>
+  );
+};
+
