@@ -7,8 +7,9 @@ import { RateSettings } from "./RateSettings";
 import { EditBookingService } from "./EditBookingService";
 import { ServiceForm } from "./ServiceForm";
 import { DogCreateForm } from "./DogCreateForm";
-
-export default function ApplicationViews({ isLoggedIn }) {
+import { OwnerHomePage }from "./OwnerHomepage"
+import { AppointmentBookingForm } from "./AppointmentBookingForm";
+export default function ApplicationViews({ isLoggedIn, isGroomer }) {
   return (
     <main>
       <Routes>
@@ -17,12 +18,14 @@ export default function ApplicationViews({ isLoggedIn }) {
             index
             element={isLoggedIn ? <GroomerHomepage /> : <Navigate to="/login" />}
           />
+          <Route path="home" element={isGroomer ? <GroomerHomepage/> : <OwnerHomePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="settings" element={<RateSettings />} />
           <Route path="/service/:id" element={<EditBookingService />} />
           <Route path="services" element={<ServiceForm />} />
           <Route path="dogcreateform" element={<DogCreateForm />} />
+          <Route path="appointments" element={<AppointmentBookingForm />} />
         </Route>
       </Routes>
     </main>
