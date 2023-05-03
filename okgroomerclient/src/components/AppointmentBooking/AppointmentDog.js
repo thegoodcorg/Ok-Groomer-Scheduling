@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Input } from "reactstrap";
 
-export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, setX, services}) => {
+export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, setX, services, selectedServices, setSelectedServices}) => {
 
-  const [selectedServices, setSelectedServices] = useState()
 
-  useEffect(() => {
-    setSelectedServices(services)
-  },[services])
+  // useEffect(() => {
+  //   setSelectedServices()
+  // },[services])
   return (
     <motion.div
       initial={{ x: x }}
@@ -17,10 +16,10 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
     >
       <h3>What are we doing to {formData.dogName}?</h3>
       <span>
-      {services.map((service) => <><Input type="checkbox" value={service.id} onChange={(e) => {
-            const copy = { ...formData }
-            copy.selectedServices = e.target.checked
-            setFormData(copy)}}></Input><h5>{service.name}</h5></>)}
+      {services.map((service, i) => <><Input key={service.id} type="checkbox" value={service.id} onChange={(e) => {
+            const copy = { ...selectedServices }
+            copy[i] = e.target.checked
+            setSelectedServices(copy)}}></Input><h5>{service.name}</h5></>)}
       </span>
       <button
         onClick={() => {

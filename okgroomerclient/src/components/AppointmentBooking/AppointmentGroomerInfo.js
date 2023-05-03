@@ -1,31 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { getAllBookingRates } from "../../Modules/GroomerBookingRateManager";
 
-export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x, setX}) => {
+export const AppointmentGroomerInfo = ({page, setPage, formData, setFormData, x, setX, selectedServices}) => {
+
+  const [groomerBookingRates, setGroomerBookingRates] = useState([])
+
+  useEffect(() => {
+    getAllBookingRates()
+    .then((res) => {
+      setGroomerBookingRates(res)
+    })
+  },[])
+
+  const calculateGroomerPricing = (groomerId) => {
+   return groomerBookingRates.map(singleRate => {
+      if(singleRate.doesGroomerOffer && groomerId == singleRate.groomerId) {
+        if(formData.dogWeight < 29){
+          return singleRate.smallDogPrice
+        }
+        if(formData.dogWeight > 60){
+          return singleRate.largeDogPrice
+        }
+        else{return singleRate.mediumDogPrice}
+      }
+    })
+  }
+
+
+
     return (
-      <motion.div                            //updated the div tag
+      <motion.div
       initial={{ x: x }}
       transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      <input
-        type="text"
-        placeholder="Address"
-        value={formData.address}
-        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Nationality"
-        value={formData.nationality}
-        onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Zipcode"
-        value={formData.zipcode}
-        onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
-      />
+      
 
   
   <button

@@ -19,7 +19,8 @@ export const AppointmentBooking = ({ page, setPage, formData, setFormData, x, se
     setFormData({
       ...formData,
       dogId: parseInt(e.target.value),
-      dogName: selectedDog?.name })}}>
+      dogName: selectedDog?.name,
+      dogWeight: parseInt(selectedDog?.weight)})}}>
       <option value={0} >Select your pet</option>
       {myDogs.map(dog => <option value={dog.id} key={dog.id}>{dog.name}</option>)}
 

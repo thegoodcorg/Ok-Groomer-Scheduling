@@ -15,6 +15,7 @@ export const AppointmentBookingForm = () => {
   const [formData, setFormData] = useState({
     dogId: null,
     dogName: "",
+    dogWeight: null,
     username: "",
     password: "",
     nickname: "",
@@ -29,6 +30,12 @@ export const AppointmentBookingForm = () => {
   const [myDogs, setMyDogs] = useState([])
   const [user, setUser] = useState({})
   const [services, setServices] = useState()
+
+  const [selectedServices, setSelectedServices] = useState([])
+
+  useEffect(() => {
+    setSelectedServices(new Array(services?.length).fill(false))
+  },[services])
 
   useEffect(() => {
     me()
@@ -69,13 +76,18 @@ export const AppointmentBookingForm = () => {
     x={x}
     setX={setX}
     services={services}
+    selectedServices={selectedServices}
+    setSelectedServices={setSelectedServices}
     />,
     <AppointmentGroomerInfo formData={formData}
     setFormData={setFormData}
     page={page}
     setPage={setPage}
     x={x}
-    setX={setX}/>,
+    setX={setX}
+    selectedServices={selectedServices}
+    setSelectedServices={setSelectedServices}
+    />,
   ];
 
   return (
