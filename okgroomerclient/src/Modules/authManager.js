@@ -14,6 +14,16 @@ const _doesUserExist = (firebaseUserId) => {
     }).then(resp => resp.ok));
 };
 
+export const getAllGroomers = () => {
+  return getToken().then((token) =>
+  fetch(_apiUrl, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(resp => resp.json()));
+}
+
 const _saveUser = (userProfile) => {
   return getToken().then((token) =>
     fetch(_apiUrl, {

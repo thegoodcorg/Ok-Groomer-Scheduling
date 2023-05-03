@@ -26,6 +26,7 @@ export const AppointmentBookingForm = () => {
     highestQualification: "", 
     occupation: "",
     about: "",
+    selectedServices: []
   });
   const [myDogs, setMyDogs] = useState([])
   const [user, setUser] = useState({})
@@ -51,7 +52,7 @@ export const AppointmentBookingForm = () => {
         setMyDogs(res)
       })
     }
-  })
+  },[user])
 
   useEffect(() => {
     getAllServices()
