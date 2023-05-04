@@ -13,30 +13,19 @@ export const AppointmentBookingForm = () => {
   const [page, setPage] = useState(0);
   const [x, setX] = useState(0);
   const [formData, setFormData] = useState({
-    dogId: null,
+    dogId: 0,
     dogName: "",
     dogWeight: null,
-    username: "",
-    password: "",
-    nickname: "",
-    email: "",
-    address: "",
-    nationality: "",
-    zipcode: "",
-    highestQualification: "", 
-    occupation: "",
-    about: "",
     selectedServices: []
   });
+
   const [myDogs, setMyDogs] = useState([])
   const [user, setUser] = useState({})
-  const [services, setServices] = useState()
+  const [services, setServices] = useState([])
 
-  const [selectedServices, setSelectedServices] = useState([])
 
-  useEffect(() => {
-    setSelectedServices(new Array(services?.length).fill(false))
-  },[services])
+
+
 
   useEffect(() => {
     me()
@@ -77,8 +66,6 @@ export const AppointmentBookingForm = () => {
     x={x}
     setX={setX}
     services={services}
-    selectedServices={selectedServices}
-    setSelectedServices={setSelectedServices}
     />,
     <AppointmentGroomerInfo formData={formData}
     setFormData={setFormData}
@@ -86,8 +73,6 @@ export const AppointmentBookingForm = () => {
     setPage={setPage}
     x={x}
     setX={setX}
-    selectedServices={selectedServices}
-    setSelectedServices={setSelectedServices}
     />,
   ];
 

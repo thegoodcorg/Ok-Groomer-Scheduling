@@ -65,7 +65,7 @@ export const EditBookingService = () => {
 
                 onChange={(evt) => {
                     let copy = { ...groomerBookingRate };
-                    copy.smallDogPrice = parseFloat(evt.target.value).toFixed(2);
+                    copy.smallDogPrice = parseFloat(evt.target.value);
                     setGroomerBookingRate(copy);
                 }} /><br />
 

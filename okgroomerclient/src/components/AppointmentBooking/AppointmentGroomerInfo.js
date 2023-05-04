@@ -23,18 +23,36 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
       })
   }, [])
 
-  useEffect(() => {
-    jobPricing()
-  },[groomerBookingRates])
 
-  const jobPricing = () => {
-    const intersection = formData.selectedServices.filter(id => groomerBookingRates.includes(id));
-    console.log(intersection)
+  const jobPricing = (groomerId) => {
+    let totalPrice = null
+    for (const id of formData.selectedServices) {
+      for (const singleBooking of groomerBookingRates) {
+        if(id == singleBooking.serviceId  && singleBooking.groomerId == groomerId){
+        return totalPrice += priceByWeight(singleBooking)
+        }
+        
+        
+      }
+    }
+  }
+
+  const priceByWeight = (singleBooking) => {
+    let jobPrice = 0
+    if(formData.dogWeight < 30){
+      jobPrice += singleBooking.smallDogPrice
+    }
+    if(formData.dogWeight > 60){
+      jobPrice += singleBooking.largeDogPrice
+    }
+    else {jobPrice += singleBooking.mediumDogPrice}
+      console.log(jobPrice)
+      return jobPrice
   }
 
   const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <div>{groomer.firstName} can complete this job</div>
+      return <div key={groomer.id}>{groomer.firstName} can complete this job for ${jobPricing(groomer.id)}</div>
     })
   }
 
@@ -45,7 +63,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
       transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      {getSpecificPricing()}, {jobPricing()}
+      {getSpecificPricing()}
 
 
       <button

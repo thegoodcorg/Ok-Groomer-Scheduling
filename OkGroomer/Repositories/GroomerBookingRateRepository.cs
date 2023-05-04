@@ -42,7 +42,7 @@ namespace OkGroomer.Repositories
                         var bookingRate = new GroomerBookingRates()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            GroomerId = DbUtils.GetInt(reader, "id"),
+                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
                             SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
                             MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
@@ -192,7 +192,7 @@ namespace OkGroomer.Repositories
                                             @MediumDogPrice, 
                                             @LargeDogPrice, 
                                             @TimeToComplete,
-                                            @DoesGroomerOffer
+                                            @DoesGroomerOffer,
                                             @ServiceId)";
                     DbUtils.AddParameter(cmd, "@GroomerId", bookingRate.GroomerId);
                     DbUtils.AddParameter(cmd, "@SmallDogPrice", bookingRate.SmallDogPrice);
