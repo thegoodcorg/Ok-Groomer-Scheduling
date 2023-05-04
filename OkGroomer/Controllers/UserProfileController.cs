@@ -57,6 +57,13 @@ namespace OkGroomer.Controllers
             return Ok();
         }
 
+        [HttpGet("GetGroomerBySelectedServices/{serviceIds}")]
+        public IActionResult GetGroomerBySelectedServices([FromRoute] string serviceIds)
+        {
+            return Ok(_UserRepo.GetGroomersByServices(serviceIds));
+            //return Ok();
+        }
+
         // POST api/<GroomerController>
         [HttpPost]
         public IActionResult Post(UserProfile groomer)

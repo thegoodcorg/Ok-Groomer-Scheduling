@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { logout } from "./Modules/authManager";
 
-export default function Header({ isLoggedIn, userProfile }) {
+export default function Header({ isLoggedIn, userProfile, isGroomer }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -25,7 +25,7 @@ export default function Header({ isLoggedIn, userProfile }) {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto" navbar>
-            {isLoggedIn && !userProfile?.groomer ? (
+            {isLoggedIn && !isGroomer ? (
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="dogcreateform">
@@ -41,7 +41,7 @@ export default function Header({ isLoggedIn, userProfile }) {
             ) : ""}
           </Nav>
           <Nav className="mr-auto" navbar>
-            {isLoggedIn && userProfile?.groomer ? (
+            {isLoggedIn && isGroomer ? (
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">

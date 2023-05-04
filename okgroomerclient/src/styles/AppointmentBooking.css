@@ -7,11 +7,11 @@
     position: relative;
     height: 100vh;
     background: rgba(194, 233, 251, 1);
-    background: radial-gradient(
+    /* background: radial-gradient(
       circle,
       rgba(161, 196, 253, 1) 10%,
       rgba(194, 233, 251, 1) 100%
-    );
+    ); */
   }
   .progress-bar {
     width: 400px;
@@ -85,3 +85,13 @@
   textarea {
     height: 5rem;
   }
+
+  .bookingSelections {
+    background-color: rgb(207, 205, 205);
+    position: absolute;
+    top: 10%;
+    right: 0;
+    bottom: 10%;
+    width: 18%;
+  }
+  

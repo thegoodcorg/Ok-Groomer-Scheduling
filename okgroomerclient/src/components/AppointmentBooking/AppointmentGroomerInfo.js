@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getAllBookingRates } from "../../Modules/GroomerBookingRateManager";
-import { getAllGroomers } from "../../Modules/authManager";
+import { GetGroomersBySelectedServices, getAllGroomers } from "../../Modules/authManager";
 
 export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x, setX, selectedServices }) => {
 
@@ -16,25 +16,46 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
   }, [])
 
   useEffect(() => {
-    getAllGroomers()
+    let servicesToSend = formData.selectedServices
+    GetGroomersBySelectedServices(servicesToSend)
       .then((res) => {
         const usersThatAreGroomers = res.filter(user => user.groomer)
         setGroomers(usersThatAreGroomers)
       })
   }, [])
 
-  useEffect(() => {
-    jobPricing()
-  },[groomerBookingRates])
 
-  const jobPricing = () => {
-    const intersection = formData.selectedServices.filter(id => groomerBookingRates.includes(id));
-    console.log(intersection)
+  const jobPricing = (groomerId) => {
+    let htmlString = ""
+    let totalPrice = 0
+    for (const id of formData.selectedServices) {
+      for (const singleBooking of groomerBookingRates) {
+        if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
+          htmlString += `${singleBooking.service.name}: $${priceByWeight(singleBooking)}`
+          totalPrice += priceByWeight(singleBooking)
+        }
+      }
+    }
+    htmlString += `, for a total of ${totalPrice}`
+    return htmlString
+  }
+
+  const priceByWeight = (singleBooking) => {
+    let jobPrice = 0
+    if (formData.dogWeight < 30) {
+      jobPrice += singleBooking.smallDogPrice
+    }
+    if (formData.dogWeight > 60) {
+      jobPrice += singleBooking.largeDogPrice
+    }
+    else { jobPrice += singleBooking.mediumDogPrice }
+    console.log(jobPrice)
+    return jobPrice
   }
 
   const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <div>{groomer.firstName} can complete this job</div>
+      return <div key={groomer.id}>{groomer.firstName}<br/> {jobPricing(groomer.id)}</div>
     })
   }
 
@@ -45,7 +66,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
       transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      {getSpecificPricing()}, {jobPricing()}
+      {getSpecificPricing()}
 
 
       <button

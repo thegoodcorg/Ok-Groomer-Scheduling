@@ -39,24 +39,7 @@ export const getService = (serviceId) => {
         });
     });
 };
-export const GetCommentById = (id) => {
-    return getToken().then((token) => {
-        return fetch(`${apiUrl}/${id}`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }).then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error(
-                    "An unknown error occured while trying to get this posts comments."
-                );
-            }
-        });
-    });
-}
+
 
 export const addService = (service) => {
     return getToken().then((token) => {

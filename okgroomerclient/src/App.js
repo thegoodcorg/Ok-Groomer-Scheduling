@@ -24,7 +24,7 @@ function App() {
       me().then((userPro) => {
         if (userPro.activeStatus === "Disabled") {
           logout();
-        } if(userPro.groomer == true){
+        } if(userPro.groomer){
           setIsGroomer(true)
         } else {
           setUserProfile(userPro);
@@ -48,7 +48,7 @@ function App() {
   }
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} userProfile={userProfile} />
+      <Header isLoggedIn={isLoggedIn} userProfile={userProfile} isGroomer={isGroomer} />
       <ApplicationViews isLoggedIn={isLoggedIn} isGroomer={isGroomer} />
     </Router>
   );

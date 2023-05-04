@@ -30,9 +30,9 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
       transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      <h3>What are we doing to {formData.dogName}?</h3>
+      <h3>What are we doing for {formData.dogName}?</h3>
       <span>
-      {services.map((service, i) => <><Input key={service.id} type="checkbox" value={service.id} onChange={(e) => {handleCheckboxChange(e)}}></Input><h5>{service.name}</h5></>)}
+      {services.map((service, i) => <><Input key={service.id} checked={formData.selectedServices.includes(service.id)} type="checkbox" value={service.id} onChange={(e) => {handleCheckboxChange(e)}}></Input><h5>{service.name}</h5></>)}
       </span>
       <button
         onClick={() => {
