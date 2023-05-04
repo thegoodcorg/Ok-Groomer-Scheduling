@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getAllBookingRates } from "../../Modules/GroomerBookingRateManager";
-import { getAllGroomers } from "../../Modules/authManager";
+import { GetGroomersBySelectedServices, getAllGroomers } from "../../Modules/authManager";
 
 export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x, setX, selectedServices }) => {
 
@@ -16,7 +16,8 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
   }, [])
 
   useEffect(() => {
-    getAllGroomers()
+    let servicesToSend = formData.selectedServices
+    GetGroomersBySelectedServices(servicesToSend)
       .then((res) => {
         const usersThatAreGroomers = res.filter(user => user.groomer)
         setGroomers(usersThatAreGroomers)
@@ -25,34 +26,36 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
 
   const jobPricing = (groomerId) => {
-    let totalPrice = null
+    let htmlString = ""
+    let totalPrice = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
-        if(id == singleBooking.serviceId  && singleBooking.groomerId == groomerId){
-        return totalPrice += priceByWeight(singleBooking)
+        if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
+          htmlString += `${singleBooking.service.name}: $${priceByWeight(singleBooking)}`
+          totalPrice += priceByWeight(singleBooking)
         }
-        
-        
       }
     }
+    htmlString += `, for a total of ${totalPrice}`
+    return htmlString
   }
 
   const priceByWeight = (singleBooking) => {
     let jobPrice = 0
-    if(formData.dogWeight < 30){
+    if (formData.dogWeight < 30) {
       jobPrice += singleBooking.smallDogPrice
     }
-    if(formData.dogWeight > 60){
+    if (formData.dogWeight > 60) {
       jobPrice += singleBooking.largeDogPrice
     }
-    else {jobPrice += singleBooking.mediumDogPrice}
-      console.log(jobPrice)
-      return jobPrice
+    else { jobPrice += singleBooking.mediumDogPrice }
+    console.log(jobPrice)
+    return jobPrice
   }
 
   const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <div key={groomer.id}>{groomer.firstName} can complete this job for ${jobPricing(groomer.id)}</div>
+      return <div key={groomer.id}>{groomer.firstName}<br/> {jobPricing(groomer.id)}</div>
     })
   }
 

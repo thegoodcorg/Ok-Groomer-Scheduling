@@ -36,6 +36,25 @@ const _saveUser = (userProfile) => {
     }).then(resp => resp.json()));
 };
 
+export const GetGroomersBySelectedServices = (serviceIds) => {
+  return getToken().then((token) => {
+      return fetch(`${_apiUrl}/GetGroomerBySelectedServices/${serviceIds}`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      }).then((res) => {
+          if (res.ok) {
+              return res.json();
+          } else {
+              throw new Error(
+                  "An unknown error occured while trying to get the groomers"
+              );
+          }
+      });
+  });
+}
+
 
 export const getToken = () => {
   const currentUser = firebase.auth().currentUser;
