@@ -7,7 +7,6 @@ import { onLoginStatusChange,me,logout } from './Modules/authManager';
 import { Spinner } from "reactstrap";
 
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userProfile, setUserProfile] = useState(null);

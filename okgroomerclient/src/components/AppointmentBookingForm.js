@@ -7,30 +7,36 @@ import { me } from '../Modules/authManager';
 import "../styles/AppointmentBooking.css"
 import { getMyDogs } from '../Modules/DogManager';
 import { getAllServices } from '../Modules/servicesManager';
-import { Divider } from '@mantine/core';
+import { AppointmentScheduler } from './AppointmentBooking/AppointmentScheduler';
 
 export const AppointmentBookingForm = () => {
 
   const [page, setPage] = useState(0);
   const [x, setX] = useState(0);
+
+  const [myDogs, setMyDogs] = useState([])
+  const [user, setUser] = useState([])
+  const [services, setServices] = useState([])
+
   const [formData, setFormData] = useState({
+    ownerId: user.id,
     dogId: 0,
     dogName: "",
     dogWeight: null,
-    selectedServices: []
+    selectedServices: [],
+    serviceDetails: []
   });
-
-  const [myDogs, setMyDogs] = useState([])
-  const [user, setUser] = useState({})
-  const [services, setServices] = useState([])
-
 
   useEffect(() => {
     detailsView(formData)
 
-  }, { formData })
+  }, [ formData ])
 
-
+  useEffect(() => {
+    let copy = {...formData}
+    copy.ownerId = user.id
+    setFormData(copy)
+  },[user])
   useEffect(() => {
     me()
       .then((res) => {
@@ -54,6 +60,25 @@ export const AppointmentBookingForm = () => {
       })
   }, [])
 
+  const detailsBuilder = () => {
+    const listItems = [];
+
+    for (const detail of formData.serviceDetails) {
+      listItems.push(
+        <li>
+          {detail.objName}: ${detail.objPrice}
+        </li>
+      );
+    }
+    if (formData.totalPrice > 0) {
+      listItems.push(
+        <li>Total: ${formData.totalPrice}</li>
+      )
+    }
+    return listItems;
+  }
+
+
   const detailsView = (formData) => {
     return (
       <>
@@ -67,10 +92,16 @@ export const AppointmentBookingForm = () => {
             return <div key={serviceId}>{service.name}</div>;
           })}
         </div>
+        <div><br />
+          <u>Details</u><br />
+          <ul>
+            {detailsBuilder()}
+          </ul>
+        </div>
       </>
     );
   };
-  
+
 
   const componentList = [
     <AppointmentBooking formData={formData}
@@ -95,6 +126,13 @@ export const AppointmentBookingForm = () => {
       x={x}
       setX={setX}
     />,
+    <AppointmentScheduler formData={formData}
+    setFormData={setFormData}
+    page={page}
+    setPage={setPage}
+    x={x}
+    setX={setX}
+    />
   ];
 
   return (

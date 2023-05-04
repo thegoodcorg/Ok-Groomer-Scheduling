@@ -26,18 +26,15 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
 
   const jobPricing = (groomerId) => {
-    let htmlString = ""
     let totalPrice = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
         if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
-          htmlString += `${singleBooking.service.name}: $${priceByWeight(singleBooking)}`
           totalPrice += priceByWeight(singleBooking)
         }
       }
     }
-    htmlString += `, for a total of ${totalPrice}`
-    return htmlString
+    return totalPrice
   }
 
   const priceByWeight = (singleBooking) => {
@@ -53,9 +50,36 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     return jobPrice
   }
 
+  const jobPricingDetails = (groomerId) => {
+    let arrToSend = []
+    let totalPrice = 0
+    for (const id of formData.selectedServices) {
+      for (const singleBooking of groomerBookingRates) {
+        if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
+          let objToArray = {
+            "objName": singleBooking.service.name,
+             "objPrice": priceByWeight(singleBooking)
+          }
+          arrToSend.push(objToArray)
+          totalPrice += priceByWeight(singleBooking)
+        }
+      }
+    }
+
+    // htmlString += `Total: $${totalPrice}`
+    const copy = { ...formData }
+    copy.serviceDetails = arrToSend
+    copy.totalPrice = totalPrice
+    setFormData(copy)
+  }
+
+
+
+
+
   const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <div key={groomer.id}>{groomer.firstName}<br/> {jobPricing(groomer.id)}</div>
+      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => { jobPricingDetails(e.target.value) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
     })
   }
 
@@ -71,9 +95,10 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
       <button
         onClick={() => {
-          alert("You've successfully submitted this form");
+          setPage(page + 1);
+          setX(1000);
         }}>
-        Submit
+        Next
       </button>
       <br />
       <button
