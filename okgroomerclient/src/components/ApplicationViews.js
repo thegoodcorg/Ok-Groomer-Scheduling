@@ -9,6 +9,7 @@ import { ServiceForm } from "./ServiceForm";
 import { DogCreateForm } from "./DogCreateForm";
 import { OwnerHomePage }from "./OwnerHomepage"
 import { AppointmentBookingForm } from "./AppointmentBookingForm";
+import { AppointmentHomePage } from "./AppointmentHomePage";
 export default function ApplicationViews({ isLoggedIn, isGroomer }) {
   return (
     <main>
@@ -25,7 +26,8 @@ export default function ApplicationViews({ isLoggedIn, isGroomer }) {
           <Route path="/service/:id" element={<EditBookingService />} />
           <Route path="services" element={<ServiceForm />} />
           <Route path="dogcreateform" element={<DogCreateForm />} />
-          <Route path="appointments" element={<AppointmentBookingForm />} />
+          <Route path="appointments" element={<AppointmentHomePage />} />
+          <Route path="bookNow" element={<AppointmentBookingForm />} />
         </Route>
       </Routes>
     </main>

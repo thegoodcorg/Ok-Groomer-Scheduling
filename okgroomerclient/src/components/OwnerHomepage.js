@@ -8,7 +8,6 @@ export const OwnerHomePage = () => {
     const [myDogs, setMyDogs] = useState([])
     const [userProfile, setUserProfile] = useState({})
 
-    console.log(userProfile)
     useEffect(() => {
         me().then((res) => {
             setUserProfile(res);

@@ -24,7 +24,9 @@ export const AppointmentBookingForm = () => {
     dogName: "",
     dogWeight: null,
     selectedServices: [],
-    serviceDetails: []
+    serviceDetails: [],
+    groomerId: 0,
+    dateAndTime: null
   });
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export const AppointmentBookingForm = () => {
     copy.ownerId = user.id
     setFormData(copy)
   },[user])
+  
   useEffect(() => {
     me()
       .then((res) => {

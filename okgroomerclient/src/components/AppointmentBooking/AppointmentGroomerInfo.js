@@ -46,17 +46,17 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
       jobPrice += singleBooking.largeDogPrice
     }
     else { jobPrice += singleBooking.mediumDogPrice }
-    console.log(jobPrice)
     return jobPrice
   }
 
-  const jobPricingDetails = (groomerId) => {
+  const jobPricingDetails = (stateObj) => {
     let arrToSend = []
     let totalPrice = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
-        if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
+        if (id == singleBooking.serviceId && singleBooking.groomerId == stateObj.groomerId) {
           let objToArray = {
+            "objId": singleBooking.id,
             "objName": singleBooking.service.name,
              "objPrice": priceByWeight(singleBooking)
           }
@@ -67,19 +67,20 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     }
 
     // htmlString += `Total: $${totalPrice}`
-    const copy = { ...formData }
-    copy.serviceDetails = arrToSend
-    copy.totalPrice = totalPrice
-    setFormData(copy)
+    stateObj.serviceDetails = arrToSend
+    stateObj.totalPrice = totalPrice
+    setFormData(stateObj)
   }
 
+  const handleGroomerSelection = (e) => {
+    const copy = {...formData}
+    copy.groomerId = parseInt(e.target.value)
+    jobPricingDetails(copy)
+  }
 
-
-
-
-  const getSpecificPricing = () => {
+const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => { jobPricingDetails(e.target.value) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
+      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => {handleGroomerSelection(e) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
     })
   }
 
