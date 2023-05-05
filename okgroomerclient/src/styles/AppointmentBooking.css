@@ -47,18 +47,18 @@
     font-size: 2rem;
     text-align: center;
   }
-  input {
+  /* input {
     border: 2px solid rgb(98, 0, 255);
     border-radius: 5px;
     height: 35px;
     display: block;
     margin-bottom: 1rem;
-  }
+  } */
   .button-area {
     display: flex;
     align-content: space-between;
   }
-  button {
+  /* button {
     background-color: #4caf50;
     border: none;
     color: white;
@@ -67,7 +67,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-  }
+  } */
   textarea {
     height: 5rem;
   }
@@ -79,5 +79,11 @@
     right: 0;
     bottom: 10%;
     width: 18%;
+  }
+
+  .calendar {
+    display: flex;
+    justify-content: center;
+    max-width: 60%;
   }
   
