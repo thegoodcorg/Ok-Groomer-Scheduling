@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "api/Booking"
+const _apiUrl = "/api/Booking"
 
 export const getMyBookings = (userId) => {
     return getToken().then((token) => {
