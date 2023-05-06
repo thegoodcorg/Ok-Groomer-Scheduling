@@ -2,6 +2,7 @@
 using OkGroomer.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Linq;
 using Tabloid.Repositories;
 using Tabloid.Utils;
@@ -60,40 +61,80 @@ namespace OkGroomer.Repositories
                                             dog.OwnerId,
                                             up.FirstName,
                                             up.LastName,
-                                            up.Email
-                                        FROM Booking bk
-                                        LEFT JOIN Dog dog on bk.DogId = dog.Id
-                                        LEFT JOIN UserProfile up on up.Id = dog.OwnerId
-                                        WHERE GroomerId = @GroomerId";
+                                            up.Email,
+                                            bsl.GroomerBookingRatesId,
+                                            gbr.ServiceId,
+                                            srv.Name as ServiceName,
+                                            srv.Description
+                                            FROM Booking bk
+                                            LEFT JOIN Dog dog on bk.DogId = dog.Id
+                                            LEFT JOIN UserProfile up on up.Id = dog.OwnerId
+                                            LEFT JOIN BookingSelections bsl on bsl.bookingId = bk.id
+                                            LEFT JOIN GroomerBookingRates gbr on gbr.id = bsl.GroomerBookingRatesId
+                                            LEFT JOIN Service srv on srv.id = gbr.serviceid
+                                            WHERE bk.GroomerId = @GroomerId";
                     DbUtils.AddParameter(cmd, "@GroomerId", groomerId);
 
                     var bookings = new List<Booking>();
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var booking = new Booking()
+                        var bookingId = DbUtils.GetInt(reader, "Id");
+                        var existingBooking = bookings.FirstOrDefault(b => b.Id == bookingId);
+                        if (existingBooking == null)
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
-                            DogId = DbUtils.GetInt(reader, "DogId"),
-                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Date = DbUtils.GetDateTime(reader, "Date"),
-                            Price = DbUtils.GetDecimal(reader, "Price"),
-                            Dog = new Dog()
+                            var booking = new Booking()
                             {
-                                Name = DbUtils.GetString(reader, "Name"),
-                                Weight = DbUtils.GetInt(reader, "Weight"),
-                                OwnerId = DbUtils.GetInt(reader, "OwnerId")
-                            },
-                            Profile = new UserProfile()
+                                Id = bookingId,
+                                DogId = DbUtils.GetInt(reader, "DogId"),
+                                GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                                Date = DbUtils.GetDateTime(reader, "Date"),
+                                Price = DbUtils.GetDecimal(reader, "Price"),
+                                Dog = new Dog()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Weight = DbUtils.GetInt(reader, "Weight"),
+                                    OwnerId = DbUtils.GetInt(reader, "OwnerId")
+                                },
+                                Profile = new UserProfile()
+                                {
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    Email = DbUtils.GetString(reader, "Email")
+                                },
+                                Services = new List<Service>()
+                            };
+
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
                             {
-                                FirstName = DbUtils.GetString(reader,"FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName"),
-                                Email = DbUtils.GetString(reader,"Email")
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader, "Description")
+                                };
+                                booking.Services.Add(service);
                             }
-                            
-                        };
-                        bookings.Add(booking);
+
+                            bookings.Add(booking);
+                        }
+                        else
+                        {
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
+                            {
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader,"Description")
+                                };
+                                existingBooking.Services.Add(service);
+                            }
+                        }
                     }
+
                     reader.Close();
 
                     return bookings;

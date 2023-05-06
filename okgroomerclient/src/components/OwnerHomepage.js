@@ -26,7 +26,4 @@ export const OwnerHomePage = () => {
     },[userProfile])
 
    return <div><Link to={"/Appointments"}>book an appointment!</Link></div>
-   
-    // return <>{myDogs.map(dog => <div key={dog.id}>{dog.name}</div>)}</>
-
 }

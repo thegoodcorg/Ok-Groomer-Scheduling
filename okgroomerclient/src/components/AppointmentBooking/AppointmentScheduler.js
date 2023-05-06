@@ -11,13 +11,15 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null);
 
+
   const availableTimes = [
     '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
     '11:00AM', '11:30AM', '12:00PM', '12:30PM', '01:00PM', '01:30PM',
     '02:00PM', '02:30PM', '03:00PM', '03:30PM', '04:00PM', '04:30PM',
     '05:00PM'
   ];
-
+  const arrofSelectedBookings = [] 
+  
   useEffect(() => {
     if(selectedTime !== null){
       setTimeOnDate()
@@ -33,6 +35,13 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
     setSelectedTime(e.target.value)
   }
 
+  const setBookingChoiceArr = () => {
+    for (const service of formData.serviceDetails) {
+      arrofSelectedBookings.push(service.objId)      
+    }
+  }
+  setBookingChoiceArr()
+
 const handleSubmit = (e) => {
   if(formData.dogId != 0 &&
     formData.groomerId != 0 &&
@@ -40,12 +49,14 @@ const handleSubmit = (e) => {
     formData.totalPrice != null){
      
       const objToSend = {
+        ownerId: formData.ownerId,
         dogId: formData.dogId,
         groomerId: formData.groomerId,
         date: formData.dateAndTime,
         price: formData.totalPrice,
-        groomerBookingRateIds: formData.serviceDetails.map(rate => rate.objId)
+        groomerBookingRatesId: arrofSelectedBookings
       }
+      console.log(objToSend)
       postBooking(objToSend)
     }
 }
