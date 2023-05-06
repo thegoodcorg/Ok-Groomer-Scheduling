@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { me } from "../Modules/authManager";
 import { bookingsByGroomer } from "../Modules/BookingManager";
+import { Link } from "react-router-dom";
 
 export const GroomerHomepage = () => {
     const [appointments, setAppointments] = useState([])
@@ -35,25 +36,18 @@ export const GroomerHomepage = () => {
                 return formattedDate
             }
 
-    const serviceDetails2 = () => {
-       return app.services.map(service => <li>{service.name}</li>)
-    }
-
     const serviceDetails = () => {
-        let htmlString = "In for "
-        for (const service of app.services) {
-            htmlString += `${service.name} `
-        }
-        return htmlString
+        return `${app.services.length} services`
+    //    return app.services.map(service => <li>{service.name}</li>)
     }
 
             return <div key={app.id} className="card">
                 <div className="card-body">
                     <h5 className="card-title">{app.dog.name}</h5>
                     <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(app.date)}</h6>
-                    <p className="card-text"><ul>{serviceDetails2()}</ul></p>
-                    <a href="#" className="card-link">Card link</a>
-                    <a href="#" className="card-link">Another link</a>
+                    <p className="card-text">{serviceDetails()}</p>
+                    <Link to={`appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
+                    <Link className="card-link">Another link</Link>
                 </div>
             </div>
         })

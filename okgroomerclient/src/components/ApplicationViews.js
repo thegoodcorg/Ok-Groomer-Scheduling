@@ -10,6 +10,8 @@ import { DogCreateForm } from "./DogCreateForm";
 import { OwnerHomePage } from "./OwnerHomepage"
 import { AppointmentBookingForm } from "./AppointmentBookingForm";
 import { AppointmentHomePage } from "./AppointmentHomePage";
+import { AppointmentDetails } from "./AppointmentDetails";
+
 export default function ApplicationViews({ isLoggedIn, isGroomer }) {
   return (
     <main>
@@ -38,6 +40,7 @@ export default function ApplicationViews({ isLoggedIn, isGroomer }) {
           <Route path="dogcreateform" element={<DogCreateForm />} />
           <Route path="appointments" element={<AppointmentHomePage />} />
           <Route path="bookNow" element={<AppointmentBookingForm />} />
+          <Route path="/appointmentdetails/:id" element={<AppointmentDetails/>} />
         </Route>
       </Routes>
     </main>
