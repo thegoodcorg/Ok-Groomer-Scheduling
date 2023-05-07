@@ -10,7 +10,7 @@ export const GroomerHomepage = () => {
     useEffect(() => {
         me()
             .then((res) => setUserProfile(res))
-    })
+    }, [])
 
     useEffect(() => {
         if (userProfile.id) {
@@ -19,33 +19,32 @@ export const GroomerHomepage = () => {
                     setAppointments(res)
                 })
         }
-    }, [{ userProfile }])
+    }, [userProfile])
 
-    const appointmentCard = () => {
-        return appointments.map((app) => {
-            const ReturnTime = (datetoBeConverted) => {
-                const date = new Date(datetoBeConverted);
-                const options = {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric'
-                };
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-                return formattedDate
-            }
-
-    const serviceDetails = () => {
-        return `${app.services.length} services`
-    //    return app.services.map(service => <li>{service.name}</li>)
+    const ReturnTime = (datetoBeConverted) => {
+        const date = new Date(datetoBeConverted);
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        };
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+        return formattedDate
     }
 
+    const serviceDetails = (app) => {
+        return `${app.services.length} services`
+    }
+
+    const appointmentCards = () => {
+        return appointments.map((app) => {
             return <div key={app.id} className="card">
                 <div className="card-body">
                     <h5 className="card-title">{app.dog.name}</h5>
                     <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(app.dateStart)}</h6>
-                    <p className="card-text">{serviceDetails()}</p>
+                    <p className="card-text">{serviceDetails(app)}</p>
                     <Link to={`appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
                     <Link className="card-link">Another link</Link>
                 </div>
@@ -54,7 +53,7 @@ export const GroomerHomepage = () => {
     }
 
     return <>
-    <Link to="calendar">Calendar view</Link>
-    <div>{appointmentCard()}</div>
+        <Link to="calendar">Calendar view</Link>
+        <div>{appointmentCards()}</div>
     </>
 }

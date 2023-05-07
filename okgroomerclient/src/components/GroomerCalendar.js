@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Calendar from 'react-awesome-calendar'
-import { me } from "../Modules/authManager";
-import { bookingsByGroomer } from "../Modules/BookingManager";
-import "../styles/AppointmentBooking.css"
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { me } from "../Modules/authManager";
+import { bookingsByGroomer } from "../Modules/BookingManager";
+import "../styles/AppointmentBooking.css";
 
 export const GroomerCalendar = () => {
     const [appointments, setAppointments] = useState([]);
@@ -13,16 +13,14 @@ export const GroomerCalendar = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        me()
-            .then((res) => setUserProfile(res))
+        me().then((res) => setUserProfile(res));
     }, []);
 
     useEffect(() => {
         if (userProfile.id) {
-            bookingsByGroomer(userProfile.id)
-                .then((res) => {
-                    setAppointments(res)
-                });
+            bookingsByGroomer(userProfile.id).then((res) => {
+                setAppointments(res);
+            });
         }
     }, [userProfile]);
 
@@ -36,6 +34,7 @@ export const GroomerCalendar = () => {
         const newEvents = [];
         for (const appointment of appointments) {
             const calendarEvent = {
+                id: appointment.id, // Assign a unique ID to each event
                 start: `${appointment.dateStart}+00:00`,
                 end: `${appointment.dateEnd}+00:00`,
                 title: `${appointment.dog.name} - ${appointment.services.length} services.`,
@@ -45,21 +44,42 @@ export const GroomerCalendar = () => {
         setEvents(newEvents);
     };
 
+    const handleEventDrop = (info) => {
+        const { event } = info;
+
+        // Find the event with the matching ID in the state
+        const updatedEvents = events.map((evt) => {
+            if (evt.id === event.id) {
+                // Update the start and end times of the matched event
+                return {
+                    ...evt,
+                    start: event.start,
+                    end: event.end,
+                };
+            }
+            return evt;
+        });
+
+        setEvents(updatedEvents);
+    };
+
     return (
         <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            editable={true}
             initialView="dayGridMonth"
             nowIndicator={true}
             headerToolbar={{
-                left: 'prev,next',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay' // user can switch between the two
+                left: "prev,next",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            slotMinTime="08:00:00" // Set the minimum time for the daily view to 8 AM
-            slotMaxTime="18:00:00" // Set the maximum time for the daily view to 6 PM
+            slotMinTime="08:00:00"
+            slotMaxTime="18:00:00"
             events={events}
-            navLinks="true"
-            expandRows="true"
+            navLinks={true}
+            expandRows={true}
+            eventDrop={handleEventDrop} // Add the eventDrop callback
         />
     );
 };
