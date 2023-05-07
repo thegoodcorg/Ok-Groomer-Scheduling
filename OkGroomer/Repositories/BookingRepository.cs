@@ -66,6 +66,7 @@ namespace OkGroomer.Repositories
                                             up.Email,
                                             bsl.GroomerBookingRatesId,
                                             gbr.ServiceId,
+                                            gbr.TimeToComplete,
                                             srv.Name as ServiceName,
                                             srv.Description
                                             FROM Booking bk
@@ -115,7 +116,8 @@ namespace OkGroomer.Repositories
                                 {
                                     Id = serviceId,
                                     Name = DbUtils.GetString(reader, "ServiceName"),
-                                    Description = DbUtils.GetString(reader, "Description")
+                                    Description = DbUtils.GetString(reader, "Description"),
+                                    TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
                                 };
                                 booking.Services.Add(service);
                             }
@@ -131,7 +133,8 @@ namespace OkGroomer.Repositories
                                 {
                                     Id = serviceId,
                                     Name = DbUtils.GetString(reader, "ServiceName"),
-                                    Description = DbUtils.GetString(reader,"Description")
+                                    Description = DbUtils.GetString(reader,"Description"),
+                                    TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
                                 };
                                 existingBooking.Services.Add(service);
                             }
@@ -167,6 +170,7 @@ namespace OkGroomer.Repositories
                     up.Email,
                     bsl.GroomerBookingRatesId,
                     gbr.ServiceId,
+                    gbr.TimeToComplete,
                     srv.Name as ServiceName,
                     srv.Description
                 FROM Booking bk
@@ -215,7 +219,8 @@ namespace OkGroomer.Repositories
                             {
                                 Id = serviceId,
                                 Name = DbUtils.GetString(reader, "ServiceName"),
-                                Description = DbUtils.GetString(reader, "Description")
+                                Description = DbUtils.GetString(reader, "Description"),
+                                TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
                             };
                             booking.Services.Add(service);
                         }
@@ -319,14 +324,12 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"UPDATE Booking
                                         SET 
-                                            DogId = @DogId,
-                                            GroomerId = @GroomerId,
-                                            Price = @Price
+                                            DateStart = @DateStart,
+                                            DateEnd = @DateEnd
                                         WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
-                    DbUtils.AddParameter(cmd, "@DogId", booking.DogId);
-                    DbUtils.AddParameter(cmd, "@GroomerId", booking.GroomerId);
-                    DbUtils.AddParameter(cmd, "@Price", booking.Price);
+                    DbUtils.AddParameter(cmd, "@DateStart", booking.DateStart);
+                    DbUtils.AddParameter(cmd, "@DateEnd", booking.DateEnd);
 
 
                     cmd.ExecuteNonQuery();
