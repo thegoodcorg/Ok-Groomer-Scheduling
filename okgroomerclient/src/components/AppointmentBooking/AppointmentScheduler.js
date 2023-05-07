@@ -76,7 +76,6 @@ const handleSubmit = (e) => {
         price: formData.totalPrice,
         groomerBookingRatesId: arrofSelectedBookings
       }
-      console.log(objToSend)
       postBooking(objToSend)
     }
 }
