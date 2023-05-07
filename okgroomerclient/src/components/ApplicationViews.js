@@ -11,6 +11,7 @@ import { OwnerHomePage } from "./OwnerHomepage"
 import { AppointmentBookingForm } from "./AppointmentBookingForm";
 import { AppointmentHomePage } from "./AppointmentHomePage";
 import { AppointmentDetails } from "./AppointmentDetails";
+import { GroomerCalendar } from "./GroomerCalendar";
 
 export default function ApplicationViews({ isLoggedIn, isGroomer }) {
   return (
@@ -41,6 +42,7 @@ export default function ApplicationViews({ isLoggedIn, isGroomer }) {
           <Route path="appointments" element={<AppointmentHomePage />} />
           <Route path="bookNow" element={<AppointmentBookingForm />} />
           <Route path="/appointmentdetails/:id" element={<AppointmentDetails/>} />
+          <Route path="calendar" element={<GroomerCalendar />} />
         </Route>
       </Routes>
     </main>

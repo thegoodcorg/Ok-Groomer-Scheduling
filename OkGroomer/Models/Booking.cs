@@ -11,7 +11,8 @@ namespace OkGroomer.Models
         public int DogId { get; set; }
         public Dog Dog { get; set; }
         public int GroomerId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
         public decimal Price { get; set; }
         public List<int> GroomerBookingRatesId { get; set; }
         public List<Service> Services { get; set; }

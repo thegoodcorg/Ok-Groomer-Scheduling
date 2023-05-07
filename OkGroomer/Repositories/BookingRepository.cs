@@ -20,7 +20,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, Date, Price FROM Booking";
+                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, DateStart, DateEnd, Price FROM Booking";
 
                     var bookings = new List<Booking>();
                     var reader = cmd.ExecuteReader();
@@ -31,7 +31,8 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "id"),
                             DogId = DbUtils.GetInt(reader, "DogId"),
                             GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                            DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
                             Price = DbUtils.GetDecimal(reader, "Price")
                         };
                         bookings.Add(booking);
@@ -54,7 +55,8 @@ namespace OkGroomer.Repositories
                                             bk.Id, 
                                             bk.DogId, 
                                             bk.GroomerId, 
-                                            bk.Date, 
+                                            bk.DateStart,
+                                            bk.DateEnd,
                                             bk.Price,
                                             dog.Name, 
                                             dog.Weight, 
@@ -88,7 +90,8 @@ namespace OkGroomer.Repositories
                                 Id = bookingId,
                                 DogId = DbUtils.GetInt(reader, "DogId"),
                                 GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                                Date = DbUtils.GetDateTime(reader, "Date"),
+                                DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                                DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
                                 Price = DbUtils.GetDecimal(reader, "Price"),
                                 Dog = new Dog()
                                 {
@@ -153,7 +156,8 @@ namespace OkGroomer.Repositories
                     bk.Id, 
                     bk.DogId, 
                     bk.GroomerId, 
-                    bk.Date, 
+                    bk.DateStart,
+                    bk.DateEnd,
                     bk.Price,
                     dog.Name, 
                     dog.Weight, 
@@ -185,7 +189,8 @@ namespace OkGroomer.Repositories
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 DogId = DbUtils.GetInt(reader, "DogId"),
                                 GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                                Date = DbUtils.GetDateTime(reader, "Date"),
+                                DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                                DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
                                 Price = DbUtils.GetDecimal(reader, "Price"),
                                 Dog = new Dog()
                                 {
@@ -235,7 +240,8 @@ namespace OkGroomer.Repositories
                                             Id, 
                                             DogId, 
                                             GroomerId, 
-                                            Date, 
+                                            DateStart,
+                                            DateEnd,
                                             Price 
                                         FROM Booking
                                         WHERE dogId = @dogId";
@@ -250,7 +256,8 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "id"),
                             DogId = DbUtils.GetInt(reader, "DogId"),
                             GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                            DateEnd = DbUtils.GetDateTime( reader,"DateEnd"),
                             Price = DbUtils.GetDecimal(reader, "Price")
                         };
                         bookings.Add(booking);
@@ -268,13 +275,14 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Booking (DogId, GroomerId, Date, Price)
+                    cmd.CommandText = @"INSERT INTO Booking (DogId, GroomerId, DateStart, DateEnd, Price)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@DogId, @GroomerId, @Date, @Price)";
+                                        VALUES (@DogId, @GroomerId, @DateStart, @DateEnd, @Price)";
 
                     DbUtils.AddParameter(cmd, "@DogId", booking.DogId);
                     DbUtils.AddParameter(cmd, "@GroomerId", booking.GroomerId);
-                    DbUtils.AddParameter(cmd, "@Date", booking.Date);
+                    DbUtils.AddParameter(cmd, "@DateStart", booking.DateStart);
+                    DbUtils.AddParameter(cmd, "@DateEnd", booking.DateEnd);
                     DbUtils.AddParameter(cmd, "@Price", booking.Price);
 
                     booking.Id = (int)cmd.ExecuteScalar();

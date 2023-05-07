@@ -49,19 +49,23 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     return jobPrice
   }
 
+  
   const jobPricingDetails = (stateObj) => {
     let arrToSend = []
     let totalPrice = 0
+    let totalTime = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
         if (id == singleBooking.serviceId && singleBooking.groomerId == stateObj.groomerId) {
           let objToArray = {
+            "objTimeToComplete": singleBooking.timeToComplete,
             "objId": singleBooking.id,
             "objName": singleBooking.service.name,
-             "objPrice": priceByWeight(singleBooking)
+            "objPrice": priceByWeight(singleBooking)
           }
           arrToSend.push(objToArray)
           totalPrice += priceByWeight(singleBooking)
+          totalTime += singleBooking.timeToComplete
         }
       }
     }
@@ -69,6 +73,8 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     // htmlString += `Total: $${totalPrice}`
     stateObj.serviceDetails = arrToSend
     stateObj.totalPrice = totalPrice
+    stateObj.totalTime = totalTime
+
     setFormData(stateObj)
   }
 

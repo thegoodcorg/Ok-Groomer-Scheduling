@@ -69,7 +69,8 @@ export const AppointmentBookingForm = () => {
     for (const detail of formData.serviceDetails) {
       listItems.push(
         <li>
-          {detail.objName}: ${detail.objPrice}
+          {detail.objName}: ${detail.objPrice}<br/>
+          {detail.objTimeToComplete == 1 ?  `Time: ${detail.objTimeToComplete} hour` : `Time: ${detail.objTimeToComplete} hours`}
         </li>
       );
     }

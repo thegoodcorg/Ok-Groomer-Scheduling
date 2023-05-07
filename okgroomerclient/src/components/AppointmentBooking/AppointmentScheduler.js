@@ -8,7 +8,7 @@ import { postBooking } from '../../Modules/BookingManager';
 
 export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, setX, services, selectedServices, setSelectedServices }) => {
 
-  const [selectedDate, setSelectedDate] = useState(null)
+ 
   const [selectedTime, setSelectedTime] = useState(null);
 
 
@@ -25,6 +25,7 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
       setTimeOnDate()
     }
   },[selectedTime])
+
   const handleDateChange = (e) => {
     const copy = {...formData}
     copy.dateAndTime = e
@@ -34,6 +35,24 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   const handleTimeChange = (e) => {
     setSelectedTime(e.target.value)
   }
+
+  const convertHoursToTimeFormat = (hours, dateAndTime) => {
+    const decimalHours = hours % 1; // Extract the decimal part of the hours
+    const minutes = Math.round(decimalHours * 60); // Convert decimal part to minutes
+    const formattedHours = Math.floor(hours); // Get the whole number part of the hours
+  
+    const formattedTime = new Date();
+    formattedTime.setHours(formattedHours, minutes, 0); // Set hours and minutes to the Date object
+  
+    const updatedDateAndTime = new Date(dateAndTime);
+    updatedDateAndTime.setHours(
+      updatedDateAndTime.getHours() + formattedTime.getHours(),
+      updatedDateAndTime.getMinutes() + formattedTime.getMinutes(),
+      updatedDateAndTime.getSeconds() + formattedTime.getSeconds()
+    );
+  
+    return updatedDateAndTime
+  };
 
   const setBookingChoiceArr = () => {
     for (const service of formData.serviceDetails) {
@@ -52,7 +71,8 @@ const handleSubmit = (e) => {
         ownerId: formData.ownerId,
         dogId: formData.dogId,
         groomerId: formData.groomerId,
-        date: formData.dateAndTime,
+        dateStart: formData.dateAndTime,
+        dateEnd: formData.endDateAndTime,
         price: formData.totalPrice,
         groomerBookingRatesId: arrofSelectedBookings
       }
@@ -81,6 +101,7 @@ const handleSubmit = (e) => {
     
     const copy = {...formData}
     copy.dateAndTime = newDate
+    copy.endDateAndTime = convertHoursToTimeFormat(copy.totalTime, newDate)
     setFormData(copy)
   }
 
