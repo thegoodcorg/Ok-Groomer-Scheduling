@@ -24,8 +24,6 @@ export const ServiceForm = () => {
         });
     }, []);
     
-
-
     const handleSaveClick = () => {
         service.groomerId = parseInt(currentUser.id)
         addService(service)

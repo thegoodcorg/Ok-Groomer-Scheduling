@@ -2,6 +2,7 @@
 using OkGroomer.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml.Linq;
 using Tabloid.Repositories;
 using Tabloid.Utils;
@@ -19,7 +20,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, Date, Price FROM Booking";
+                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, DateStart, DateEnd, Price FROM Booking";
 
                     var bookings = new List<Booking>();
                     var reader = cmd.ExecuteReader();
@@ -30,7 +31,8 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "id"),
                             DogId = DbUtils.GetInt(reader, "DogId"),
                             GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                            DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
                             Price = DbUtils.GetDecimal(reader, "Price")
                         };
                         bookings.Add(booking);
@@ -41,7 +43,107 @@ namespace OkGroomer.Repositories
                 }
             }
         }
+        public List<Booking> GetBookingByGroomerId(int groomerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT 
+                                            bk.Id, 
+                                            bk.DogId, 
+                                            bk.GroomerId, 
+                                            bk.DateStart,
+                                            bk.DateEnd,
+                                            bk.Price,
+                                            dog.Name, 
+                                            dog.Weight, 
+                                            dog.OwnerId,
+                                            up.FirstName,
+                                            up.LastName,
+                                            up.Email,
+                                            bsl.GroomerBookingRatesId,
+                                            gbr.ServiceId,
+                                            srv.Name as ServiceName,
+                                            srv.Description
+                                            FROM Booking bk
+                                            LEFT JOIN Dog dog on bk.DogId = dog.Id
+                                            LEFT JOIN UserProfile up on up.Id = dog.OwnerId
+                                            LEFT JOIN BookingSelections bsl on bsl.bookingId = bk.id
+                                            LEFT JOIN GroomerBookingRates gbr on gbr.id = bsl.GroomerBookingRatesId
+                                            LEFT JOIN Service srv on srv.id = gbr.serviceid
+                                            WHERE bk.GroomerId = @GroomerId";
+                    DbUtils.AddParameter(cmd, "@GroomerId", groomerId);
 
+                    var bookings = new List<Booking>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var bookingId = DbUtils.GetInt(reader, "Id");
+                        var existingBooking = bookings.FirstOrDefault(b => b.Id == bookingId);
+                        if (existingBooking == null)
+                        {
+                            var booking = new Booking()
+                            {
+                                Id = bookingId,
+                                DogId = DbUtils.GetInt(reader, "DogId"),
+                                GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                                DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                                DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
+                                Price = DbUtils.GetDecimal(reader, "Price"),
+                                Dog = new Dog()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Weight = DbUtils.GetInt(reader, "Weight"),
+                                    OwnerId = DbUtils.GetInt(reader, "OwnerId")
+                                },
+                                Profile = new UserProfile()
+                                {
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    Email = DbUtils.GetString(reader, "Email")
+                                },
+                                Services = new List<Service>()
+                            };
+
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
+                            {
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader, "Description")
+                                };
+                                booking.Services.Add(service);
+                            }
+
+                            bookings.Add(booking);
+                        }
+                        else
+                        {
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
+                            {
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader,"Description")
+                                };
+                                existingBooking.Services.Add(service);
+                            }
+                        }
+                    }
+
+                    reader.Close();
+
+                    return bookings;
+                }
+            }
+        }
         public Booking GetBookingById(int id)
         {
             using (var conn = Connection)
@@ -50,52 +152,164 @@ namespace OkGroomer.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    Select
-                                        Id, 
-                                        DogId,
-                                        GroomerId,
-                                        Date
-                                    From Booking
-                                    WHERE Id = @id";
-                    DbUtils.AddParameter(cmd, "@id", id);
+                SELECT 
+                    bk.Id, 
+                    bk.DogId, 
+                    bk.GroomerId, 
+                    bk.DateStart,
+                    bk.DateEnd,
+                    bk.Price,
+                    dog.Name, 
+                    dog.Weight, 
+                    dog.OwnerId,
+                    up.FirstName,
+                    up.LastName,
+                    up.Email,
+                    bsl.GroomerBookingRatesId,
+                    gbr.ServiceId,
+                    srv.Name as ServiceName,
+                    srv.Description
+                FROM Booking bk
+                LEFT JOIN Dog dog on bk.DogId = dog.Id
+                LEFT JOIN UserProfile up on up.Id = dog.OwnerId
+                LEFT JOIN BookingSelections bsl on bsl.bookingId = bk.id
+                LEFT JOIN GroomerBookingRates gbr on gbr.id = bsl.GroomerBookingRatesId
+                LEFT JOIN Service srv on srv.id = gbr.serviceid
+                WHERE bk.Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
-                    var reader = cmd.ExecuteReader();
                     Booking booking = null;
-                    if (reader.Read())
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        booking = new Booking()
+                        if (booking == null)
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
-                            DogId = DbUtils.GetInt(reader, "DogId"),
-                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
-                        };
+                            booking = new Booking()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                DogId = DbUtils.GetInt(reader, "DogId"),
+                                GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                                DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                                DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
+                                Price = DbUtils.GetDecimal(reader, "Price"),
+                                Dog = new Dog()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Weight = DbUtils.GetInt(reader, "Weight"),
+                                    OwnerId = DbUtils.GetInt(reader, "OwnerId")
+                                },
+                                Profile = new UserProfile()
+                                {
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    Email = DbUtils.GetString(reader, "Email")
+                                },
+                                Services = new List<Service>()
+                            };
+                        }
+
+                        var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                        if (serviceId != 0)
+                        {
+                            var service = new Service()
+                            {
+                                Id = serviceId,
+                                Name = DbUtils.GetString(reader, "ServiceName"),
+                                Description = DbUtils.GetString(reader, "Description")
+                            };
+                            booking.Services.Add(service);
+                        }
                     }
+
                     reader.Close();
+
                     return booking;
                 }
             }
         }
 
-        public void Add(Booking booking)
+        public List<Booking> GetBookingByDogId(int dogId)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Booking (DogId, GroomerId, Date, Price)
+                    cmd.CommandText = @"
+                                        SELECT 
+                                            Id, 
+                                            DogId, 
+                                            GroomerId, 
+                                            DateStart,
+                                            DateEnd,
+                                            Price 
+                                        FROM Booking
+                                        WHERE dogId = @dogId";
+                    DbUtils.AddParameter(cmd, "@dogId", dogId);
+
+                    var bookings = new List<Booking>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var booking = new Booking()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            DogId = DbUtils.GetInt(reader, "DogId"),
+                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                            DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                            DateEnd = DbUtils.GetDateTime( reader,"DateEnd"),
+                            Price = DbUtils.GetDecimal(reader, "Price")
+                        };
+                        bookings.Add(booking);
+                    }
+                    reader.Close();
+
+                    return bookings;
+                }
+            }
+        }
+        public int Add(Booking booking)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Booking (DogId, GroomerId, DateStart, DateEnd, Price)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@DogId, @GroomerId, @Date, @Price)";
+                                        VALUES (@DogId, @GroomerId, @DateStart, @DateEnd, @Price)";
+
                     DbUtils.AddParameter(cmd, "@DogId", booking.DogId);
                     DbUtils.AddParameter(cmd, "@GroomerId", booking.GroomerId);
-                    DbUtils.AddParameter(cmd, "@Date", booking.Date);
+                    DbUtils.AddParameter(cmd, "@DateStart", booking.DateStart);
+                    DbUtils.AddParameter(cmd, "@DateEnd", booking.DateEnd);
                     DbUtils.AddParameter(cmd, "@Price", booking.Price);
 
                     booking.Id = (int)cmd.ExecuteScalar();
                 }
+                return booking.Id;
             }
         }
+
+        public void AddBookingSelections(int bookingId, int groomerBookingRateId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO BookingSelections (BookingId, GroomerBookingRatesId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@BookingId, @GroomerBookingRatesId)";
+
+                    DbUtils.AddParameter(cmd, "@BookingId", bookingId);
+                    DbUtils.AddParameter(cmd, "@GroomerBookingRatesId", groomerBookingRateId);
+
+                   cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Edit(int id, Booking booking)
         {
             using (var conn = Connection)

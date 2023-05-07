@@ -21,9 +21,6 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
     }
 };
 
-  // useEffect(() => {
-  //   setSelectedServices()
-  // },[services])
   return (
     <motion.div
       initial={{ x: x }}
@@ -32,7 +29,7 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
     >
       <h3>What are we doing for {formData.dogName}?</h3>
       <span>
-      {services.map((service, i) => <><Input key={service.id} checked={formData.selectedServices.includes(service.id)} type="checkbox" value={service.id} onChange={(e) => {handleCheckboxChange(e)}}></Input><h5>{service.name}</h5></>)}
+      {services.map((service) => <><Input key={service.id} checked={formData.selectedServices.includes(service.id)} type="checkbox" value={service.id} onChange={(e) => {handleCheckboxChange(e)}}></Input><h5>{service.name}</h5></>)}
       </span>
       <button
         onClick={() => {

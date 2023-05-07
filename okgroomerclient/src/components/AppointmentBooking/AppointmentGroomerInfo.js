@@ -26,18 +26,15 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
 
   const jobPricing = (groomerId) => {
-    let htmlString = ""
     let totalPrice = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
         if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
-          htmlString += `${singleBooking.service.name}: $${priceByWeight(singleBooking)}`
           totalPrice += priceByWeight(singleBooking)
         }
       }
     }
-    htmlString += `, for a total of ${totalPrice}`
-    return htmlString
+    return totalPrice
   }
 
   const priceByWeight = (singleBooking) => {
@@ -49,13 +46,47 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
       jobPrice += singleBooking.largeDogPrice
     }
     else { jobPrice += singleBooking.mediumDogPrice }
-    console.log(jobPrice)
     return jobPrice
   }
 
-  const getSpecificPricing = () => {
+  
+  const jobPricingDetails = (stateObj) => {
+    let arrToSend = []
+    let totalPrice = 0
+    let totalTime = 0
+    for (const id of formData.selectedServices) {
+      for (const singleBooking of groomerBookingRates) {
+        if (id == singleBooking.serviceId && singleBooking.groomerId == stateObj.groomerId) {
+          let objToArray = {
+            "objTimeToComplete": singleBooking.timeToComplete,
+            "objId": singleBooking.id,
+            "objName": singleBooking.service.name,
+            "objPrice": priceByWeight(singleBooking)
+          }
+          arrToSend.push(objToArray)
+          totalPrice += priceByWeight(singleBooking)
+          totalTime += singleBooking.timeToComplete
+        }
+      }
+    }
+
+    // htmlString += `Total: $${totalPrice}`
+    stateObj.serviceDetails = arrToSend
+    stateObj.totalPrice = totalPrice
+    stateObj.totalTime = totalTime
+
+    setFormData(stateObj)
+  }
+
+  const handleGroomerSelection = (e) => {
+    const copy = {...formData}
+    copy.groomerId = parseInt(e.target.value)
+    jobPricingDetails(copy)
+  }
+
+const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <div key={groomer.id}>{groomer.firstName}<br/> {jobPricing(groomer.id)}</div>
+      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => {handleGroomerSelection(e) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
     })
   }
 
@@ -71,9 +102,10 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
       <button
         onClick={() => {
-          alert("You've successfully submitted this form");
+          setPage(page + 1);
+          setX(1000);
         }}>
-        Submit
+        Next
       </button>
       <br />
       <button

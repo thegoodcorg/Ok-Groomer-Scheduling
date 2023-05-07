@@ -8,7 +8,6 @@ export const OwnerHomePage = () => {
     const [myDogs, setMyDogs] = useState([])
     const [userProfile, setUserProfile] = useState({})
 
-    console.log(userProfile)
     useEffect(() => {
         me().then((res) => {
             setUserProfile(res);
@@ -27,7 +26,4 @@ export const OwnerHomePage = () => {
     },[userProfile])
 
    return <div><Link to={"/Appointments"}>book an appointment!</Link></div>
-   
-    // return <>{myDogs.map(dog => <div key={dog.id}>{dog.name}</div>)}</>
-
 }

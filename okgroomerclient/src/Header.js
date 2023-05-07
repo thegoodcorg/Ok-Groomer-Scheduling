@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
+import { NavLink as RRNavLink, useNavigate } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -15,6 +15,7 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -69,7 +70,10 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
                     aria-current="page"
                     className="nav-link"
                     style={{ cursor: "pointer" }}
-                    onClick={logout}
+                    onClick={() => {
+                      logout()
+                      navigate("/login")
+                    }} 
                   >
                     Logout
                   </a>

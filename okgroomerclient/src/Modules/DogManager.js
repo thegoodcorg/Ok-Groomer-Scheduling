@@ -15,7 +15,7 @@ export const getMyDogs = (userId) => {
                 return resp.json();
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to get the booking rates.",
+                    "An unknown error occurred while trying to get the users dogs.",
                 );
             }
         });
