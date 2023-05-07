@@ -176,7 +176,7 @@ export const AppointmentDetails = () => {
       );
 
       return (
-        <OverlayTrigger trigger="click" placement="right" overlay={popover} key={service.id}>
+        <OverlayTrigger trigger="click" placement="bottom" overlay={popover} key={service.id}>
           <Button variant="secondary">{service.name}</Button>
         </OverlayTrigger>
       );

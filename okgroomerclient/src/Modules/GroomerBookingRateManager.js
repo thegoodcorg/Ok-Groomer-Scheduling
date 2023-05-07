@@ -42,7 +42,26 @@ export const getServiceBookingRate = (serviceId, groomerId) => {
     });
 };
 
-
+export const getBookingRatesByGroomerId = (groomerId) => {
+    return getToken().then((token) => {
+        return fetch(`${apiUrl}/GroomerBookingRates/${groomerId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.statusText == "No Content") {
+                console.log("this groomer has not setup any rates for this job")
+                return true
+            } else {
+                return res.json()
+                // throw new Error(
+                //     "this rate does not exist"
+                // );
+            }
+        });
+    });
+};
 
 export const setOrUpdateRate = (serviceId, groomerId, bookingRate) => {
     return getToken().then((token) => {

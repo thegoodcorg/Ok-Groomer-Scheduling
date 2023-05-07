@@ -3,12 +3,22 @@ import { getAllServices } from "../Modules/servicesManager";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { me } from "../Modules/authManager";
+import { getBookingRatesByGroomerId } from "../Modules/GroomerBookingRateManager";
 
 export const RateSettings = () => {
     const [services, setServices] = useState(null);
     const [currentUser, setCurrentUser] = useState({});
+    const [bookingRates, setBookingRates] = useState({})
+
 
     const { id } = useParams();
+
+    useEffect(() => {
+      getBookingRatesByGroomerId(currentUser.id)
+      .then((res) => {
+          setBookingRates(res)
+      })
+  },[currentUser])
 
     useEffect(() => {
         getAllServices()
@@ -23,6 +33,6 @@ export const RateSettings = () => {
         });
       }, []);
 
-    return <><div>this is where you will set your rates</div>
+    return <>
         {services?.map(service => <Link to={`/service/${service.id}`}><div key={service.id}><h3>{service.name}</h3></div></Link>)}</>
 }

@@ -36,6 +36,11 @@ namespace OkGroomer.Controllers
         {
             return Ok(_ratesRepo.GetGroomerBookingRateById(id));
         }
+        [HttpGet("GroomerId/{id}")]
+        public IActionResult GetRatesByGroomerId(int id) 
+        {
+            return Ok(_ratesRepo.GetRatesByGroomerId(id));
+        }
 
         //GET api/GroomerBookingRates/GetByGroomerId
         [HttpGet("myrate")]

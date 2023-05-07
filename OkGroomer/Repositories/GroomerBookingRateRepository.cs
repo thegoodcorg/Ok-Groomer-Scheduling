@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient.Server;
+using Microsoft.Extensions.Configuration;
 using OkGroomer.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,6 +49,61 @@ namespace OkGroomer.Repositories
                             LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
                             TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
                             ServiceId = DbUtils.GetInt(reader,"serviceId"),
+                            DoesGroomerOffer = reader.GetBoolean(reader.GetOrdinal("DoesGroomerOffer")),
+                            Service = new Service()
+                            {
+                                Id = DbUtils.GetInt(reader, "ServiceId"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Description = DbUtils.GetString(reader, "Description")
+                            }
+                        };
+                        GroomerBookingRatess.Add(bookingRate);
+                    }
+                    reader.Close();
+
+                    return GroomerBookingRatess;
+                }
+            }
+        }
+
+        public List<GroomerBookingRates> GetRatesByGroomerId(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT 
+                                        gbr.Id, 
+                                        gbr.GroomerId, 
+                                        gbr.SmallDogPrice, 
+                                        gbr.MediumDogPrice, 
+                                        gbr.LargeDogPrice, 
+                                        gbr.TimeToComplete,
+                                        gbr.serviceId,
+                                        gbr.DoesGroomerOffer,
+                                        srv.Id as ServiceId,
+                                        srv.Name,
+                                        srv.Description
+                                    FROM GroomerBookingRates gbr
+                                    LEFT JOIN Service srv on gbr.serviceId = srv.Id 
+                                    WHERE gbr.GroomerId = @GroomerId";
+                    DbUtils.AddParameter(cmd, "@GroomerId", id);
+
+                    var GroomerBookingRatess = new List<GroomerBookingRates>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var bookingRate = new GroomerBookingRates()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                            SmallDogPrice = DbUtils.GetDecimal(reader, "SmallDogPrice"),
+                            MediumDogPrice = DbUtils.GetDecimal(reader, "MediumDogPrice"),
+                            LargeDogPrice = DbUtils.GetDecimal(reader, "LargedogPrice"),
+                            TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete"),
+                            ServiceId = DbUtils.GetInt(reader, "serviceId"),
                             DoesGroomerOffer = reader.GetBoolean(reader.GetOrdinal("DoesGroomerOffer")),
                             Service = new Service()
                             {

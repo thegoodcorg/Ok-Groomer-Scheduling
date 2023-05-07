@@ -43,7 +43,7 @@ export const GroomerHomepage = () => {
             return <div key={app.id} className="card">
                 <div className="card-body">
                     <h5 className="card-title">{app.dog.name}</h5>
-                    <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(app.dateStart)}</h6>
+                    <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
                     <Link to={`appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
                     <Link className="card-link">Another link</Link>
@@ -53,7 +53,7 @@ export const GroomerHomepage = () => {
     }
 
     return <>
-        <Link to="calendar">Calendar view</Link>
+        <Link to="/calendar">Calendar view</Link>
         <div>{appointmentCards()}</div>
     </>
 }
