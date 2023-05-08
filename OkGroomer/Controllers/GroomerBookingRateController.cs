@@ -57,6 +57,13 @@ namespace OkGroomer.Controllers
             return CreatedAtAction("Get", new { id = groomerRate.Id }, groomerRate);
         }
 
+        [HttpPut("updateDoesGroomerOffer/{bookingRateId}")]
+        public IActionResult updateDoesGroomerOffer(int bookingRateId, GroomerBookingRates bookingRate)
+        {
+            _ratesRepo.EditDoesGroomerOffer(bookingRateId, bookingRate);
+            return Ok(bookingRate);
+        }
+
         // PUT api/<GroomerBookingRatesBookingRates>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, GroomerBookingRates groomerRate)

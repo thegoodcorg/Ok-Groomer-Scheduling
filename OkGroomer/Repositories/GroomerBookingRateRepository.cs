@@ -293,6 +293,24 @@ namespace OkGroomer.Repositories
                 }
             }
         }
+        public void EditDoesGroomerOffer(int id, GroomerBookingRates bookingRate)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE GroomerBookingRates
+                                        SET 
+                                            DoesGroomerOffer = @DoesGroomerOffer
+                                        WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                    DbUtils.AddParameter(cmd, "@DoesGroomerOffer", bookingRate.DoesGroomerOffer);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         public void Delete(int id)
         {
             using (var conn = Connection)
