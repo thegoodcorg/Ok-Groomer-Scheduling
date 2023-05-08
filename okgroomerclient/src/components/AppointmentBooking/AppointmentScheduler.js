@@ -120,6 +120,7 @@ const handleSubmit = (e) => {
   };
 
   return (<>
+  <p>Select a date and time</p>
     <div className='calendar'>
       <DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" class="special-input" onChange={(e) => {
        handleDateChange(e)

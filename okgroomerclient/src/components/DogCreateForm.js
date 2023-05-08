@@ -27,7 +27,7 @@ export const DogCreateForm = () => {
     registerDog(dogObj).then(() => navigate("/"));
   };
 
-  return <><div>This is where you will create a new dog</div>
+  return <>
     <Form onSubmit={registerClick}>
       <fieldset>
         <FormGroup>

@@ -32,7 +32,7 @@ export const AppointmentBookingForm = () => {
   useEffect(() => {
     detailsView(formData)
 
-  }, [ formData ])
+  }, [formData])
 
   useEffect(() => {
     let copy = {...formData}
@@ -70,7 +70,7 @@ export const AppointmentBookingForm = () => {
       listItems.push(
         <li>
           {detail.objName}: ${detail.objPrice}<br/>
-          {detail.objTimeToComplete == 1 ?  `Time: ${detail.objTimeToComplete} hour` : `Time: ${detail.objTimeToComplete} hours`}
+          {detail.objTimeToComplete === 1 ?  `Time: ${detail.objTimeToComplete} hour` : `Time: ${detail.objTimeToComplete} hours`}
         </li>
       );
     }
@@ -96,8 +96,8 @@ export const AppointmentBookingForm = () => {
             return <div key={serviceId}>{service.name}</div>;
           })}
         </div>
-        <div><br />
-          <u>Details</u><br />
+        <div>
+          <u>Details</u>
           <ul>
             {detailsBuilder()}
           </ul>
@@ -141,12 +141,12 @@ export const AppointmentBookingForm = () => {
 
   return (
     <div className="App">
+      <div className="progress-bar">
+        <div style={{ width: page === 0 ? "25%" : page === 1 ? "50%" : page === 2 ? "75%" : "100%" }}></div>
+      </div>
       <div className='bookingSelections'>
         <u>Booking info</u>
         {detailsView(formData)}
-      </div>
-      <div className="progress-bar">
-        <div style={{ width: page === 0 ? "33%" : page === 1 ? "66%" : page === 2 ? "100%" : "100%" }}></div>
       </div>
       <div>{componentList[page]}
       </div>

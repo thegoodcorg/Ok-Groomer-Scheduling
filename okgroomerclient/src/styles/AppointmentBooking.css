@@ -1,14 +1,13 @@
 
   .progress-bar {
-    width: 400px;
+    width: 100%;
     height: 15px;
     background-color: white;
-    margin-bottom: 50px;
   }
   .progress-bar div {
     width: 25%;
     height: 100%;
-    background-color: rgb(98, 0, 255);
+    background-color: rgba(25, 0, 255, 0.753);
   }
   .card {
     width: 400px;
@@ -43,7 +42,6 @@
   }
   .step-title {
     margin: 0;
-    margin-bottom: 1rem;
     font-size: 2rem;
     text-align: center;
   }
@@ -73,18 +71,18 @@
   }
 
   .bookingSelections {
+    display:flex;
+    flex-direction: row;
+    padding-left: 15%;
+    padding-right: 15%;
+    margin-top: 0;
+    justify-content: space-between;
     background-color: rgb(207, 205, 205);
-    position: absolute;
-    top: 10%;
-    right: 0;
-    bottom: 10%;
-    width: 18%;
   }
 
   .calendar {
     display: flex;
     justify-content: center;
-    max-width: 60%;
   }
   
 
