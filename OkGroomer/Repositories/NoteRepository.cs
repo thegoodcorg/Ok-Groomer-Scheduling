@@ -76,6 +76,42 @@ namespace OkGroomer.Repositories
             }
         }
 
+        public List<Note> GetNotesByDogId(int dogId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    Select
+                                        Id, 
+                                        DogId,
+                                        GroomerId,
+                                        Content
+                                    From Note
+                                    WHERE DogId = @DogId";
+                    DbUtils.AddParameter(cmd, "@DogId", dogId);
+
+                    var reader = cmd.ExecuteReader();
+                    var notes = new List<Note>();
+                    while (reader.Read())
+                    {
+                        Note note = new Note()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            DogId = DbUtils.GetInt(reader, "DogId"),
+                            GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                            Content = DbUtils.GetString(reader, "Content")
+                        };
+                        notes.Add(note);
+                    }
+                    reader.Close();
+                    return notes;
+                }
+            }
+        }
+
         public void Add(Note note)
         {
             using (var conn = Connection)

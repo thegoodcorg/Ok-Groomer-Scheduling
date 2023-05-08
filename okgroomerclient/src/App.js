@@ -36,8 +36,8 @@ function App() {
 
   useEffect(() => {
     if (userProfile) {
-      if (userProfile.activeStatus === "Deactivated") {
-        setIsLoggedIn(false);
+      if (userProfile.groomer === false) {
+        setIsGroomer(false);
       }
     }
   }, [userProfile]);

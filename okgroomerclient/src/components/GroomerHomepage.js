@@ -45,7 +45,7 @@ export const GroomerHomepage = () => {
                     <h5 className="card-title">{app.dog.name}</h5>
                     <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
-                    <Link to={`appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
+                    <Link to={`/appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
                     <Link className="card-link">Another link</Link>
                 </div>
             </div>

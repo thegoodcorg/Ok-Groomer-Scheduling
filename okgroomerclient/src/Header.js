@@ -10,6 +10,7 @@ import {
   NavLink,
 } from "reactstrap";
 import { logout } from "./Modules/authManager";
+import OkGroomerImage from './images/Ok_Groomer.png';
 
 export default function Header({ isLoggedIn, userProfile, isGroomer }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +20,13 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
+      <Navbar fixed="top" light expand="md">
         <NavbarBrand tag={RRNavLink} to="/home">
-          Ok, Groomer!
+          <h5>OK, Groomer</h5>
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-        <Nav className="mr-auto" navbar>
+          <Nav className="mr-auto" navbar>
             {isLoggedIn && !isGroomer ? (
               <>
                 <NavItem>
@@ -54,13 +55,13 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
                     My Services
                   </NavLink>
                 </NavItem>
+                <Nav className="mr-auto" navbar>
+                  <NavLink tag={RRNavLink} to="/services">
+                    Services
+                  </NavLink>
+                </Nav>
               </>
             ) : ""}
-          </Nav>
-          <Nav className="mr-auto" navbar>
-            <NavLink tag={RRNavLink} to="/services">
-              Services
-            </NavLink>
           </Nav>
           <Nav navbar>
             {isLoggedIn && (
@@ -73,7 +74,7 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
                     onClick={() => {
                       logout()
                       navigate("/login")
-                    }} 
+                    }}
                   >
                     Logout
                   </a>

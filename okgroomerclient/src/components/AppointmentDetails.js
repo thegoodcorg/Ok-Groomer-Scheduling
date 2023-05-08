@@ -6,6 +6,9 @@ import { Popover, OverlayTrigger, Button, Modal } from 'react-bootstrap';
 import { AppointmentScheduler } from './AppointmentBooking/AppointmentScheduler';
 import DatePicker from 'react-date-picker';
 import { updateBooking } from '../Modules/BookingManager';
+import { DogNotes } from './DogNotes';
+import { NoteForm } from './NoteForm';
+import { getNotesByDogId } from '../Modules/NotesManager';
 
 export const AppointmentDetails = () => {
   const [appointment, setAppointment] = useState({});
@@ -13,35 +16,50 @@ export const AppointmentDetails = () => {
   const [showModal, setShowModal] = useState(false)
   const [selectedTime, setSelectedTime] = useState(null);
   const [formData, setFormData] = useState({})
+  const [notesOnDog, setNotesOnDog] = useState([])
 
   useEffect(() => {
-      let totalTime = 0
-      appointment.services?.map((service) => {
-        totalTime += service.timeToComplete
-      })
-      const copy = { ...appointment }
-      copy.totalTime = totalTime
-      setFormData(copy)
-  }, [appointment])
+    if(appointment.dogId) {
+      getNotes()
+    }
+  },[appointment])
 
+  useEffect(() => {
+    let totalTime = 0
+    appointment.services?.map((service) => {
+      totalTime += service.timeToComplete
+    })
+    const copy = { ...appointment }
+    copy.totalTime = totalTime
+    setFormData(copy)
+  }, [appointment])
+  
   useEffect(() => {
     getBookingById(id).then((res) => {
       setAppointment(res);
     });
   }, []);
-
+  
   useEffect(() => {
     if (selectedTime !== null) {
       setTimeOnDate()
     }
   }, [selectedTime])
-
+  
   const availableTimes = [
     '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
     '11:00AM', '11:30AM', '12:00PM', '12:30PM', '01:00PM', '01:30PM',
     '02:00PM', '02:30PM', '03:00PM', '03:30PM', '04:00PM', '04:30PM',
     '05:00PM'
   ];
+  
+  const getNotes = () => {
+    getNotesByDogId(appointment.dogId)
+    .then((res) => {
+      setNotesOnDog(res)
+    })
+  }
+
 
   const timeSlotBuilder = () => {
     return (
@@ -236,6 +254,8 @@ export const AppointmentDetails = () => {
           Total Due: ${appointment.price}
         </div>
       </div>
+      <NoteForm appointment={appointment} getNotes={getNotes} />
+      <DogNotes notesOnDog={notesOnDog} />
     </>
   );
 };

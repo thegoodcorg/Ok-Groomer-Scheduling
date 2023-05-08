@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+main {
+  margin: 0;
+  padding : 0;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -37,4 +41,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header_logo{
+  width: 75px
+}
+
+
+.owner-landing-photo {
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  filter: grayscale(50%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.photo {
+  max-width: 100%;
+}
+body {
+  padding-top: 100px;
+}
+.about-section {
+  padding-top: 200px;;
 }
