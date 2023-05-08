@@ -38,44 +38,59 @@ export const RateSettings = () => {
     });
   }, []);
 
-  const findMatchingBookingRate = () => {
-    return services?.map((service) => {
-
-    })
-  }
-
   const cardBuilder = () => {
-    return services?.map(service =>
-      <div key={service.id} className="card">
+    return bookingRates?.map(singleRate =>
+      <div key={singleRate.id} className="card">
         <Link
-          to={`/service/${service.id}`
+          to={`/service/${singleRate.serviceId}`
           }>
-          <h5 className="card-header">{service.name}</h5>
+          <h5 className="card-header">{singleRate.service.name}</h5>
         </Link>
         <div className="card-body">
-          <h5 className="card-title"></h5>
-          <p className="card-text">{service.description}</p>
-          {
-            bookingRates?.map(singleRate => {
-              if (singleRate.serviceId === service.id && singleRate.doesGroomerOffer) {
-                return <div className="card-body"
+          <span className="card-title">
+            {
+              (singleRate.doesGroomerOffer ? (
+                <div className="card-body"
                   key={singleRate.id}
                 >
-                <div className="card-title">
-                small: ${singleRate.smallDogPrice} / med: ${singleRate.mediumDogPrice} / large: ${singleRate.largeDogPrice}
+                  <div className="card-title">
+                    small: ${singleRate.smallDogPrice} / med: ${singleRate.mediumDogPrice} / large: ${singleRate.largeDogPrice}
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faSquareCheck} size="xl" style={{ color: "#24943a" }} />
+                    You are Offering this service.
+                  </div>
                 </div>
-                <FontAwesomeIcon icon={faSquareCheck} size="xl" style={{color: "#24943a"}} />               
-                   You are Offering this service.
-                </div>
-              }
-            })
-          }
+              ) : null)
+            }
+          </span>
+          <p className="card-text">{singleRate.service.description}</p>
         </div>
       </div>
     )
   }
 
+
+  const servicesNotOffered = () => {
+    return services?.map(service => {
+      if (bookingRates?.find(singleRate => singleRate.serviceId === service.id) === undefined) {
+       return <div key={service.id} className="card">
+          <Link
+            to={`/service/${service.id}`
+            }>
+            <h5 className="card-header">{service.name}</h5>
+          </Link>
+          <div className="card-body">
+            <p className="card-text">{service.description}</p>
+          </div>
+        </div>
+      }
+    }
+    )
+  }
+
   return <>
-    {cardBuilder(services)}
+    {cardBuilder()}
+    {servicesNotOffered()}
   </>
 }
