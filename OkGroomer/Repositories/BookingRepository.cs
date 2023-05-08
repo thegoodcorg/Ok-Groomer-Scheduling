@@ -273,6 +273,111 @@ namespace OkGroomer.Repositories
                 }
             }
         }
+
+        public List<Booking> GetBookingByOwnerId(int ownerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT 
+                                            bk.Id, 
+                                            bk.DogId, 
+                                            bk.GroomerId, 
+                                            bk.DateStart,
+                                            bk.DateEnd,
+                                            bk.Price,
+                                            dog.Name, 
+                                            dog.Weight, 
+                                            dog.OwnerId,
+                                            up.FirstName,
+                                            up.LastName,
+                                            up.Email,
+                                            bsl.GroomerBookingRatesId,
+                                            gbr.ServiceId,
+                                            gbr.TimeToComplete,
+                                            srv.Name as ServiceName,
+                                            srv.Description
+                                        FROM Booking bk
+                                        LEFT JOIN Dog dog on bk.DogId = dog.Id
+                                        LEFT JOIN UserProfile up on up.Id = dog.OwnerId
+                                        LEFT JOIN BookingSelections bsl on bsl.bookingId = bk.id
+                                        LEFT JOIN GroomerBookingRates gbr on gbr.id = bsl.GroomerBookingRatesId
+                                        LEFT JOIN Service srv on srv.id = gbr.serviceid
+                                        WHERE OwnerId = @OwnerId
+                                        ORDER BY bk.DateStart asc";
+                    DbUtils.AddParameter(cmd, "@OwnerId", ownerId);
+
+                    var bookings = new List<Booking>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var bookingId = DbUtils.GetInt(reader, "Id");
+                        var existingBooking = bookings.FirstOrDefault(b => b.Id == bookingId);
+                        if (existingBooking == null)
+                        {
+                            var booking = new Booking()
+                            {
+                                Id = bookingId,
+                                DogId = DbUtils.GetInt(reader, "DogId"),
+                                GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                                DateStart = DbUtils.GetDateTime(reader, "DateStart"),
+                                DateEnd = DbUtils.GetDateTime(reader, "DateEnd"),
+                                Price = DbUtils.GetDecimal(reader, "Price"),
+                                Dog = new Dog()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Weight = DbUtils.GetInt(reader, "Weight"),
+                                    OwnerId = DbUtils.GetInt(reader, "OwnerId")
+                                },
+                                Profile = new UserProfile()
+                                {
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    Email = DbUtils.GetString(reader, "Email")
+                                },
+                                Services = new List<Service>()
+                            };
+
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
+                            {
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader, "Description"),
+                                    TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
+                                };
+                                booking.Services.Add(service);
+                            }
+
+                            bookings.Add(booking);
+                        }
+                        else
+                        {
+                            var serviceId = DbUtils.GetInt(reader, "ServiceId");
+                            if (serviceId != 0)
+                            {
+                                var service = new Service()
+                                {
+                                    Id = serviceId,
+                                    Name = DbUtils.GetString(reader, "ServiceName"),
+                                    Description = DbUtils.GetString(reader, "Description"),
+                                    TimeToComplete = DbUtils.GetDecimal(reader, "TimeToComplete")
+                                };
+                                existingBooking.Services.Add(service);
+                            }
+                        }
+                    }
+                    reader.Close();
+
+                    return bookings;
+                }
+            }
+        }
         public int Add(Booking booking)
         {
             using (var conn = Connection)

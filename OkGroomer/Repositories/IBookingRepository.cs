@@ -12,6 +12,7 @@ namespace OkGroomer.Repositories
         Booking GetBookingById(int id);
         List<Booking> GetBookingByDogId(int dogId);
         List<Booking> GetBookingByGroomerId(int groomerId);
+        List<Booking> GetBookingByOwnerId(int ownerId);
         void AddBookingSelections(int bookingId, int groomerBookingRateId);
     }
 }

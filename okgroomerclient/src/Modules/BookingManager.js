@@ -112,6 +112,27 @@ export const postBooking = (bookingObj) => {
         }).then(resp => resp.json()));
 };
 
+export const deleteBooking = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp;
+            } else if (resp.status === 401) {
+                throw new Error("Unauthorized");
+            } else {
+                throw new Error(
+                    "An unknown error occurred while trying to save a new post.",
+                );
+            }
+        });
+    });
+};
+
 export const getToken = () => {
     const currentUser = firebase.auth().currentUser;
     // if (!currentUser) {

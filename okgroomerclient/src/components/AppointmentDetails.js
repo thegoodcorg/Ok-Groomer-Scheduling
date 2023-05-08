@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getBookingById } from '../Modules/BookingManager';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deleteBooking, getBookingById } from '../Modules/BookingManager';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Popover, OverlayTrigger, Button, Modal } from 'react-bootstrap';
-import { AppointmentScheduler } from './AppointmentBooking/AppointmentScheduler';
+import { me } from '../Modules/authManager';
 import DatePicker from 'react-date-picker';
 import { updateBooking } from '../Modules/BookingManager';
 import { DogNotes } from './DogNotes';
@@ -14,15 +14,23 @@ export const AppointmentDetails = () => {
   const [appointment, setAppointment] = useState({});
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false)
+  const [showModalDelete, setShowModalDelete] = useState(false)
   const [selectedTime, setSelectedTime] = useState(null);
   const [formData, setFormData] = useState({})
   const [notesOnDog, setNotesOnDog] = useState([])
+  const [userProfile, setUserProfile] = useState()
 
   useEffect(() => {
-    if(appointment.dogId) {
+    me()
+      .then((res) => setUserProfile(res))
+  }, [])
+
+
+  useEffect(() => {
+    if (appointment.dogId) {
       getNotes()
     }
-  },[appointment])
+  }, [appointment])
 
   useEffect(() => {
     let totalTime = 0
@@ -33,31 +41,33 @@ export const AppointmentDetails = () => {
     copy.totalTime = totalTime
     setFormData(copy)
   }, [appointment])
-  
+
   useEffect(() => {
     getBookingById(id).then((res) => {
       setAppointment(res);
     });
   }, []);
-  
+
   useEffect(() => {
     if (selectedTime !== null) {
       setTimeOnDate()
     }
   }, [selectedTime])
-  
+
+  const navigate = useNavigate()
+
   const availableTimes = [
     '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
     '11:00AM', '11:30AM', '12:00PM', '12:30PM', '01:00PM', '01:30PM',
     '02:00PM', '02:30PM', '03:00PM', '03:30PM', '04:00PM', '04:30PM',
     '05:00PM'
   ];
-  
+
   const getNotes = () => {
     getNotesByDogId(appointment.dogId)
-    .then((res) => {
-      setNotesOnDog(res)
-    })
+      .then((res) => {
+        setNotesOnDog(res)
+      })
   }
 
 
@@ -80,11 +90,11 @@ export const AppointmentDetails = () => {
       dateEnd: formData.dateEnd
     }
     updateBooking(objToSend)
-    .then(() => {
-      getBookingById(id)
-      .then(res => setAppointment(res))
-      .then(handleCloseModal)
-    })
+      .then(() => {
+        getBookingById(id)
+          .then(res => setAppointment(res))
+          .then(handleCloseModal)
+      })
   }
 
   const handleDateChange = (e) => {
@@ -152,6 +162,30 @@ export const AppointmentDetails = () => {
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
     return formattedDate;
   };
+
+  const handleDeleteClick = () => {
+    setShowModalDelete(true)
+  }
+
+  const handleOpenModalDelete = () => {
+    setShowModalDelete(true);
+  };
+
+  const handleCloseModalDelete = () => {
+    setShowModalDelete(false);
+  };
+
+  const handleDeleteConfirm = () => {
+      deleteBooking(id)
+      .then(() => {
+        if(userProfile.groomer) {
+        navigate("/home")
+      } else {
+        navigate("/appointments")
+        
+      }
+      })
+  }
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -254,8 +288,25 @@ export const AppointmentDetails = () => {
           Total Due: ${appointment.price}
         </div>
       </div>
-      <NoteForm appointment={appointment} getNotes={getNotes} />
-      <DogNotes notesOnDog={notesOnDog} />
+      {userProfile.groomer ? <><NoteForm appointment={appointment} getNotes={getNotes} />
+        <DogNotes notesOnDog={notesOnDog} /></> : " "}
+      <Button onClick={handleOpenModalDelete}>Cancel this appointment</Button>
+      <Modal show={showModalDelete} onHide={handleCloseModalDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this? It cannot be undone.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModalDelete}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleDeleteConfirm}>
+            Delete this booking
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
