@@ -4,6 +4,7 @@ import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { postBooking } from '../../Modules/BookingManager';
+import { useNavigate } from 'react-router-dom';
 
 
 export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, setX, services, selectedServices, setSelectedServices }) => {
@@ -11,6 +12,7 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
  
   const [selectedTime, setSelectedTime] = useState(null);
 
+  const navigate = useNavigate()
 
   const availableTimes = [
     '08:00AM', '08:30AM', '09:00AM', '09:30AM', '10:00AM', '10:30AM',
@@ -77,6 +79,7 @@ const handleSubmit = (e) => {
         groomerBookingRatesId: arrofSelectedBookings
       }
       postBooking(objToSend)
+      .then(navigate('/'))
     }
 }
   const setTimeOnDate = () => {

@@ -71,7 +71,6 @@ export const GroomerCalendar = () => {
             navLinks={true}
             expandRows={true}
             eventClick={handleEventClick}
-            editable={true}
         />
     );
 };

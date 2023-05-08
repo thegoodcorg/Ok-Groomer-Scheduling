@@ -29,7 +29,6 @@ export const OwnerHomePage = () => {
 
    return <>
    <div className="owner-landing-photo">
-   <img className="photo" src={corgibath} alt="corgi in a bathub with soap on his head and a rubber duck" />
    </div>
     <div className="about-section">About us</div>
    </>

@@ -86,7 +86,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
 
 const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => {handleGroomerSelection(e) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
+      return <li><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => {handleGroomerSelection(e) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></li>
     })
   }
 
@@ -97,7 +97,7 @@ const getSpecificPricing = () => {
       transition={{ duration: 0.5 }}
       animate={{ x: 0 }}
     >
-      {getSpecificPricing()}
+      <ul>{getSpecificPricing()}</ul>
 
 
       <button
