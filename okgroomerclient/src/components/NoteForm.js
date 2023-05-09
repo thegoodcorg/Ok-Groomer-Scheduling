@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "reactstrap";
-import { useNavigate, useParams } from "react-router-dom";
 import { getNotesByDogId, postNote } from "../Modules/NotesManager";
 
 

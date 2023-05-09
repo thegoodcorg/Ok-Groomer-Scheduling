@@ -26,13 +26,13 @@ export const AppointmentHomePage = () => {
     }, [user])
 
     useEffect(() => {
-        if(myDogs.length > 0) {
+        if (myDogs.length > 0) {
             getMyBookings(user.id)
-            .then((res) => {
-                setMyDogsBookings(res)
-            })
+                .then((res) => {
+                    setMyDogsBookings(res)
+                })
         }
-    },[myDogs])
+    }, [myDogs])
 
     const ReturnTime = (datetoBeConverted) => {
         const date = new Date(datetoBeConverted);
@@ -49,7 +49,7 @@ export const AppointmentHomePage = () => {
 
     const serviceDetails = (app) => {
         return `${app.services.length} services`
-    } 
+    }
 
     const appointmentCards = () => {
         return myDogsBookings.map((app) => {
@@ -59,15 +59,16 @@ export const AppointmentHomePage = () => {
                     <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
                     <Link to={`/appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
-                    <Link className="card-link">Another link</Link>
                 </div>
             </div>
         })
     }
     return (
         <>
-        {appointmentCards()}
-            <Link to="/bookNow">Book now!</Link>
+            <div className="appointment-bar">
+                <Link to="/bookNow">Book now!</Link>
+            </div>
+            {appointmentCards()}
         </>
     )
 }

@@ -1,9 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getServiceBookingRate, setOrUpdateRate } from "../Modules/GroomerBookingRateManager";
 import { me } from "../Modules/authManager";
 import { addService } from "../Modules/servicesManager";
 
@@ -13,7 +11,6 @@ import { addService } from "../Modules/servicesManager";
 export const ServiceForm = () => {
 
     const [service, setService] = useState({});
-    const { id } = useParams()
     const [currentUser, setCurrentUser] = useState({})
 
     const navigate = useNavigate();

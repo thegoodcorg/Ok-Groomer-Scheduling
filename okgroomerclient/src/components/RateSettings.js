@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getAllServices } from "../Modules/servicesManager";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { me } from "../Modules/authManager";
-import { getBookingRatesByGroomerId, updateDoesOffer } from "../Modules/GroomerBookingRateManager";
-import { setOrUpdateRate } from "../Modules/GroomerBookingRateManager";
+import { getBookingRatesByGroomerId } from "../Modules/GroomerBookingRateManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 
@@ -12,9 +10,6 @@ export const RateSettings = () => {
   const [services, setServices] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [bookingRates, setBookingRates] = useState(null)
-
-
-  const { id } = useParams();
 
   useEffect(() => {
     if (currentUser.id > 0) {
