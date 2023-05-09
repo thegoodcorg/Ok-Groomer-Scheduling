@@ -5,12 +5,9 @@ import { registerDog } from "../Modules/DogManager";
 import { me } from "../Modules/authManager";
 
 
-
-
 export const DogCreateForm = () => {
 
   const [dogObj, setDogObj] = useState({ name: "", weight: null, ownerId: null })
-  const [currentUser, setCurrentUser] = useState({})
 
   const navigate = useNavigate();
 
