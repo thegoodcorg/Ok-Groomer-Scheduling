@@ -92,6 +92,8 @@ body {
 
 .site-content {
   margin-top: 5%;
+  display: flex;
+  flex: 1 0 auto;
 }
 
 li {
@@ -99,8 +101,7 @@ li {
 }
 
 footer {
-  position: fixed;
-  bottom: 0;
+  flex-shrink: 0;
   background-color: #f5f5f5;
   text-align: center;
   height: 32px;
@@ -108,27 +109,74 @@ footer {
   bottom: 0;
 }
 
+.owner-homepage {
+  display: flex;
+  flex-direction: row;
+}
+
+.groomers-about {
+padding-left: 15%;
+}
+
 .about-section {
   display: flex;
   flex-direction: column;
+  padding-bottom: 10%;
 }
 
 .about-us-section {
-padding-top: 5%;
- margin-left: 15%;
+padding-top: 10%;
+ padding-left: 15%;
  margin-right: 15%;
+ margin-top: 15px;
 }
 
 .about-us-p {
   margin-left: 5%;
+  margin-right: 5%;
 }
 
 .about-us-title {
 font-size: 32px;
+background-color: #f5f5f5;
+border-radius: 5px;
+}
+
+.about-us-title-text {
+padding: 2%;
 }
 
 .appointment-bar {
   display: flex;
   justify-content: center;
   background-color:#f5f5f5;
+}
+
+.card-img-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card-img {
+  filter:grayscale(100%);
+}
+
+.groomer-text {
+  padding: 0%;
+  display: flex;
+  color: black;
+  background-color: #f5f5f566;
+}
+
+.card {
+  border: none !important;
+}
+
+.card-body {
+  padding: 0% !important;
+}
+
+.groomer-card {
+  margin-top: 25px;
 }
