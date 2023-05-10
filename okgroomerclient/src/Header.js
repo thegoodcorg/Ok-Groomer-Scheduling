@@ -80,7 +80,7 @@ export default function Header({ isLoggedIn, userProfile, isGroomer }) {
                   </NavItem>
                   <NavItem>
                     <NavLink tag={RRNavLink} to="/settings">
-                      My Services
+                      My Settings
                     </NavLink>
                   </NavItem>
                   <Nav className="mr-auto" navbar>

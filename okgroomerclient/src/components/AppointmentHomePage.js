@@ -53,22 +53,30 @@ export const AppointmentHomePage = () => {
 
     const appointmentCards = () => {
         return myDogsBookings.map((app) => {
-            return <div key={app.id} className="card">
+            return <div key={app.id} className="card appointment-card">
                 <div className="card-body">
                     <h5 className="card-title">{app.dog.name}</h5>
                     <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
-                    <Link to={`/appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
+                    <Link
+                    to={`/appointmentdetails/${app.id}`} 
+                    className="link-button details-button">More Details</Link>
                 </div>
             </div>
         })
     }
-    return (
-        <>
-            <div className="appointment-bar">
-                <Link to="/bookNow">Book now!</Link>
+    return (<>
+        <div className="appointment-bar">
+            <Link to="/bookNow" className='link-button'>Book now!</Link>
+        </div>
+        <div className="appointments-container">
+            <div className="appointment-header">
+                Upcoming appointments
             </div>
-            {appointmentCards()}
-        </>
+            <div className='appointment-cards'>
+                {appointmentCards()}
+            </div>
+        </div>
+    </>
     )
 }

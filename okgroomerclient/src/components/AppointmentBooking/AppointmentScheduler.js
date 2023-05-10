@@ -79,7 +79,7 @@ const handleSubmit = (e) => {
         groomerBookingRatesId: arrofSelectedBookings
       }
       postBooking(objToSend)
-      .then(navigate('/'))
+      .then(navigate('/appointments'))
     }
 }
   const setTimeOnDate = () => {

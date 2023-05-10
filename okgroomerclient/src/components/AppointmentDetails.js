@@ -176,14 +176,14 @@ export const AppointmentDetails = () => {
   };
 
   const handleDeleteConfirm = () => {
-      deleteBooking(id)
+    deleteBooking(id)
       .then(() => {
-        if(userProfile.groomer) {
-        navigate("/home")
-      } else {
-        navigate("/appointments")
-        
-      }
+        if (userProfile.groomer) {
+          navigate("/home")
+        } else {
+          navigate("/appointments")
+
+        }
       })
   }
 
@@ -244,69 +244,74 @@ export const AppointmentDetails = () => {
   }
 
   return (
-    <>
-      <div className="dog-info">
-        <h4>
-          {appointment.dog.name}
-        </h4>
-        <div>
-          weight: {appointment.dog.weight} lbs.
+    <div className='details-page'>
+      <div className='details-card'>
+        <div className="dog-info">
+          <h4>
+            {appointment.dog.name}
+          </h4>
+          <div>
+            weight: {appointment.dog.weight} lbs.
+          </div>
+          <div>
+            Owner: {appointment.profile.firstName} {appointment.profile?.lastName}
+          </div>
         </div>
-        <div>
-          Owner: {appointment.profile.firstName} {appointment.profile?.lastName}
+        <div
+          className="appointment-details">
+          <div className='appointment-details-date'>
+            <div>
+              Date: {getDateFromDateTime(appointment.dateStart)} from {getTimeFromDateTime(`${appointment.dateStart}+00:00`)}-{getTimeFromDateTime(`${appointment.dateEnd}+00:00`)}
+            </div><Button variant="primary" onClick={handleOpenModal}>
+              Edit Time
+            </Button>
+          </div>
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Reschedule?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {<DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" class="special-input" onChange={(e) => {
+                handleDateChange(e)
+              }} />}
+              {timeSlotBuilder()}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleSaveClick}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          <div>
+            Services: {servicesBreakdown(appointment.services)}
+          </div>
+          <div>
+            Total Due: ${appointment.price}
+          </div>
         </div>
-      </div>
-      <div
-        className="appointment-details">
-        Date: {getDateFromDateTime(appointment.dateStart)} from {getTimeFromDateTime(`${appointment.dateStart}+00:00`)}-{getTimeFromDateTime(`${appointment.dateEnd}+00:00`)}
-        <Button variant="primary" onClick={handleOpenModal}>
-          Edit Time
-        </Button>
-        <Modal show={showModal} onHide={handleCloseModal}>
+        {userProfile.groomer ? <><NoteForm appointment={appointment} getNotes={getNotes} />
+          <DogNotes notesOnDog={notesOnDog} /></> : " "}
+        <Button onClick={handleOpenModalDelete}>Cancel this appointment</Button>
+        <Modal show={showModalDelete} onHide={handleCloseModalDelete}>
           <Modal.Header closeButton>
-            <Modal.Title>Reschedule?</Modal.Title>
+            <Modal.Title>Delete?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {<DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" class="special-input" onChange={(e) => {
-              handleDateChange(e)
-            }} />}
-            {timeSlotBuilder()}
+            Are you sure you want to delete this? It cannot be undone.
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
+            <Button variant="secondary" onClick={handleCloseModalDelete}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleSaveClick}>
-              Save Changes
+            <Button variant="primary" onClick={handleDeleteConfirm}>
+              Delete this booking
             </Button>
           </Modal.Footer>
         </Modal>
-        <div>
-          Services: {servicesBreakdown(appointment.services)}
-        </div>
-        <div>
-          Total Due: ${appointment.price}
-        </div>
       </div>
-      {userProfile.groomer ? <><NoteForm appointment={appointment} getNotes={getNotes} />
-        <DogNotes notesOnDog={notesOnDog} /></> : " "}
-      <Button onClick={handleOpenModalDelete}>Cancel this appointment</Button>
-      <Modal show={showModalDelete} onHide={handleCloseModalDelete}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this? It cannot be undone.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModalDelete}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleDeleteConfirm}>
-            Delete this booking
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    </div>
   );
 };

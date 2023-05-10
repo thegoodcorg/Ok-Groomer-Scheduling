@@ -11,7 +11,7 @@ export const OwnerHomePage = () => {
     <div className="owner-homepage">
       <div className="groomers-about">
         <div className="groomer-card">
-          <Card>
+        <Card className="remove-border">
             <CardBody>
               <CardTitle tag="h5">
                 Kate
@@ -33,7 +33,7 @@ export const OwnerHomePage = () => {
           </Card>
         </div>
         <div className="groomer-card">
-          <Card>
+        <Card className="remove-border">
             <CardBody>
               <CardTitle tag="h5">
                 Stephen
@@ -55,7 +55,7 @@ export const OwnerHomePage = () => {
           </Card>
         </div>
         <div className="groomer-card">
-          <Card>
+          <Card className="remove-border">
             <CardBody>
               <CardTitle tag="h5">
                 Jessica
@@ -77,7 +77,7 @@ export const OwnerHomePage = () => {
           </Card>
         </div>
         <div className="groomer-card">
-          <Card>
+        <Card className="remove-border">
             <CardBody>
               <CardTitle tag="h5">
                 Michael
