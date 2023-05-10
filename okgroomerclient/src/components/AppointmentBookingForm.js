@@ -35,11 +35,11 @@ export const AppointmentBookingForm = () => {
   }, [formData])
 
   useEffect(() => {
-    let copy = {...formData}
+    let copy = { ...formData }
     copy.ownerId = user.id
     setFormData(copy)
-  },[user])
-  
+  }, [user])
+
   useEffect(() => {
     me()
       .then((res) => {
@@ -64,13 +64,18 @@ export const AppointmentBookingForm = () => {
   }, [])
 
   const detailsBuilder = () => {
-    const listItems = [];
+    const listItems = [<li className="list-items">
+      <div className="service-div"><u>Service</u></div>
+      <div className="service-price-div"><u>Price</u></div>
+      <div className="price-div"><u>Time</u></div>
+    </li>];
 
     for (const detail of formData.serviceDetails) {
       listItems.push(
-        <li>
-          {detail.objName}: ${detail.objPrice}<br/>
-          {detail.objTimeToComplete === 1 ?  `Time: ${detail.objTimeToComplete} hour` : `Time: ${detail.objTimeToComplete} hours`}
+        <li className="list-items">
+          <div className="service-div">{detail.objName}</div>
+          <div className="service-price-div">${detail.objPrice}</div>
+          <div className="price-div">{detail.objTimeToComplete === 1 ? `${detail.objTimeToComplete} hour` : `${detail.objTimeToComplete} hours`}</div>
         </li>
       );
     }
@@ -86,17 +91,10 @@ export const AppointmentBookingForm = () => {
   const detailsView = (formData) => {
     return (
       <>
-        <p>
-          <u>Dog:</u> {formData.dogName}
-        </p>
         <div>
-          <u>Grooming needs:</u>
-          {formData.selectedServices.map((serviceId) => {
-            const service = services.find((service) => service.id === serviceId);
-            return <div key={serviceId}>{service.name}</div>;
-          })}
+          <u>Dog</u><br /> {formData.dogName}
         </div>
-        <div>
+        <div className='appointment-details'>
           <u>Details</u>
           <ul>
             {detailsBuilder()}
@@ -131,11 +129,11 @@ export const AppointmentBookingForm = () => {
       setX={setX}
     />,
     <AppointmentScheduler formData={formData}
-    setFormData={setFormData}
-    page={page}
-    setPage={setPage}
-    x={x}
-    setX={setX}
+      setFormData={setFormData}
+      page={page}
+      setPage={setPage}
+      x={x}
+      setX={setX}
     />
   ];
 
@@ -145,7 +143,6 @@ export const AppointmentBookingForm = () => {
         <div style={{ width: page === 0 ? "25%" : page === 1 ? "50%" : page === 2 ? "75%" : "100%" }}></div>
       </div>
       <div className='bookingSelections'>
-        <u>Booking info</u>
         {detailsView(formData)}
       </div>
       <div>{componentList[page]}

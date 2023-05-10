@@ -15,7 +15,7 @@ import { GroomerCalendar } from "./GroomerCalendar";
 
 export default function ApplicationViews({ isLoggedIn, isGroomer }) {
   return (
-    <main>
+    <main className="main-container">
       <Routes>
         <Route path="/">
           <Route

@@ -58,7 +58,7 @@ export const GroomerCalendar = () => {
     return (
         <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
+            initialView="timeGridWeek"
             nowIndicator={true}
             headerToolbar={{
                 left: "prev,next",

@@ -10,6 +10,12 @@ main {
   padding : 0;
 }
 
+.main-container {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: calc(60vh - 32px);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -106,7 +112,6 @@ footer {
   text-align: center;
   height: 32px;
   width: 100%;
-  bottom: 0;
 }
 
 .owner-homepage {
@@ -179,4 +184,41 @@ padding: 2%;
 
 .groomer-card {
   margin-top: 25px;
+}
+
+.appointment-creation {
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.appointment-details {
+  display:flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+.list-items {
+  display: flex;
+  justify-content: space-between;
+}
+
+.service-div{
+  width: 40%
+}
+.price-div{
+  width: 30%;
+}
+.time-div {
+  width:  30%;
+}
+
+.my-dog-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dog-selection-li {
+  height: 50px
 }
