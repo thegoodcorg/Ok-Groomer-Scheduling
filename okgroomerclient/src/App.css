@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  min-width: 100%;
 }
 
 main {
@@ -190,29 +191,19 @@ padding: 2%;
   border: none !important;
 }
 
-
-.list-items {
-  display: flex;
-  justify-content: space-between;
-}
-
-.service-div{
-  width: 40%
-}
-.price-div{
-  width: 30%;
-}
-.time-div {
-  width:  30%;
-}
-
 .my-dog-list {
   display: flex;
   flex-direction: column;
 }
 
 .dog-selection-li {
-  height: 50px
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.radio-margin {
+  margin-right: 0.5em !important;
 }
 
 .login-container {
@@ -268,7 +259,7 @@ padding: 2%;
   justify-items: center;
 }
 
-.appointment-header {
+.custom-header {
   display: flex;
   justify-content: center;
   padding: 1em;
@@ -314,8 +305,9 @@ align-items: center;
 .appointment-details {
   display:flex;
   flex-direction: column;
+  align-items: center;
   min-width: 100%;
-  justify-content: center;
+  padding-bottom: 2em;
 }
 
 .appointment-details-date {
@@ -368,4 +360,81 @@ display: flex;
 .display-services {
   display: flex;
   align-items: center;
+}
+
+.service-selection {
+  display: flex;
+
+}
+
+.groomer-select {
+  display: flex;
+  justify-content: center;
+  padding: 1em 0;
+
+}
+
+.previous-next-button-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+
+.service-selections-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1em 0;
+  background-color: #f5f5f5;
+  padding: 1em 0;
+}
+
+.service-selections {
+  display: flex;
+  margin: 0 0.5em;
+  cursor: pointer;
+}
+
+.delete-appointment-button {
+  padding-top: 0.5em;
+}
+
+.modal-buttons {
+  margin: 0 0.5em !important;
+}
+
+.special-input {
+  margin: 0 0.5em;
+}
+
+.dog-details {
+display: flex;
+align-items: center;
+justify-content: center;
+max-width: 25%;
+min-width: 25%;
+
+}
+
+.header-padding-top {
+  padding-top: 1em;
+}
+
+.calendar {
+  margin: 2em 0;
+}
+
+.list-items-container {
+  min-width: 50%;
+  max-width: 50%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 2em;
+}
+
+.list-items {
+  display: flex;
+  min-width: 25%;
+  
 }

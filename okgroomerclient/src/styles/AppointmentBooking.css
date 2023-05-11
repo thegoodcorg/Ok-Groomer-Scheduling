@@ -73,8 +73,8 @@
   .bookingSelections {
     display:flex;
     flex-direction: row;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 2em;
+    padding-right: 2em;
     margin-top: 0;
     justify-content: space-between;
     background-color: rgb(207, 205, 205);

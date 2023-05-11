@@ -16,9 +16,9 @@ export const AppointmentBooking = ({ page, setPage, formData, setFormData, x, se
   const getDog = () => {
     return myDogs.map(dog => {
       return <li
-      className="dog-selection-li">
+        className="dog-selection-li">
         <input
-          className="dog-selection"
+          className="radio-margin"
           required="true"
           key={dog.id}
           type="radio"
@@ -28,10 +28,10 @@ export const AppointmentBooking = ({ page, setPage, formData, setFormData, x, se
             handleDogChange(e)
           }}>
         </input>
-        <span
+        <h5
           key={dog.id}>
           {dog.name}
-        </span>
+        </h5>
       </li>
     })
   }
@@ -41,17 +41,20 @@ export const AppointmentBooking = ({ page, setPage, formData, setFormData, x, se
     initial={{ x: x }}
     transition={{ duration: 0.5 }}
     animate={{ x: 0 }}
-  ><h3>Who are we working with?</h3>
-  <div className="my-dog-list">
-    {getDog()}
-  </div>
-    <button
-      onClick={() => {
-        setPage(page + 1);
-        setX(1000);
-      }}>
-      Next
-    </button>
+  ><h3 className="header-padding-top">Who are we working with?</h3>
+    <div className="my-dog-list">
+      {getDog()}
+    </div>
+    <div className="previous-next-button-container">
+      <button
+      className="details-button"
+        onClick={() => {
+          setPage(page + 1);
+          setX(1000);
+        }}>
+        Next
+      </button>
+    </div>
   </motion.div>
   );
 };

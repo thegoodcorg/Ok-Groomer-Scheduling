@@ -22,40 +22,47 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
   };
 
   return (
-    <motion.div
-      initial={{ x: x }}
-      transition={{ duration: 0.5 }}
-      animate={{ x: 0 }}
-    >
-      <h3>What are we doing for {formData.dogName}?</h3>
-      <span>
-        {services.map((service) =>
-          <>
-            <Input
-              key={service.id}
-              checked={formData.selectedServices.includes(service.id)}
-              type="checkbox"
-              value={service.id}
-              onChange={(e) => { handleCheckboxChange(e) }}>
-            </Input>
-            <h5>{service.name}</h5></>)}
-      </span>
-      <button
-        onClick={() => {
-          setPage(page + 1);
-          setX(1000);
-        }}>
-        Next
-      </button>
-      <br />
-      <button
-        onClick={() => {
-          setPage(page - 1);
-          setX(-1000);
-        }}>
-        Previous
-      </button>
-    </motion.div>
-  );
+    <>
+      <motion.div
+        initial={{ x: x }}
+        transition={{ duration: 0.5 }}
+        animate={{ x: 0 }}
+      >
+        <h3 className="header-padding-top">What are we doing for {formData.dogName}?</h3>
+        <span className="service-selections-container">
+          {services.map((service) =>
+            <>
+              <div className="service-selections">
+                <Input
+                  key={service.id}
+                  checked={formData.selectedServices.includes(service.id)}
+                  type="checkbox"
+                  value={service.id}
+                  onChange={(e) => { handleCheckboxChange(e) }}>
+                </Input>
+              </div>
+              <h5>{service.name}</h5>
+            </>)}
+        </span>
+        <div className="previous-next-button-container">
+          <button
+            className="details-button"
+            onClick={() => {
+              setPage(page + 1);
+              setX(1000);
+            }}>
+            Next
+          </button>
+          <button
+            className="details-button"
+            onClick={() => {
+              setPage(page - 1);
+              setX(-1000);
+            }}>
+            Previous
+          </button>
+        </div>
+      </motion.div>
+    </>);
 };
 

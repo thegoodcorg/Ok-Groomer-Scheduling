@@ -95,7 +95,8 @@ export const EditBookingService = () => {
                     setGroomerBookingRate(copy);
                 }} />
             <input type="checkbox" name="doesGroomerOffer" checked={groomerBookingRate.doesGroomerOffer} onChange={(e) => { handleCheckbox(e) }}/><span>Do you offer this service?</span>
-        </FormGroup><Button className="btn btn-primary" onClick={() => {
+        </FormGroup>
+        <Button className="btn btn-primary" onClick={() => {
             navigate(`/settings`);
         }}>Cancel</Button>
         <Button className="btn btn-primary" onClick={() => {

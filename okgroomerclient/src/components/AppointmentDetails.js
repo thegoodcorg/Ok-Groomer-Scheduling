@@ -256,13 +256,13 @@ export const AppointmentDetails = () => {
               <Modal.Title>Reschedule?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {<DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" class="special-input" onChange={(e) => {
+              {<DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" className="special-input" onChange={(e) => {
                 handleDateChange(e)
               }} />}
               {timeSlotBuilder()}
             </Modal.Body>
             <Modal.Footer>
-              <Button className='details-button' onClick={handleCloseModal}>
+              <Button className='details-button modal-buttons' onClick={handleCloseModal}>
                 Close
               </Button>
               <Button className='details-button' onClick={handleSaveClick}>
@@ -290,7 +290,7 @@ export const AppointmentDetails = () => {
             Are you sure you want to delete this? It cannot be undone.
           </Modal.Body>
           <Modal.Footer>
-            <Button className='details-button' variant="secondary" onClick={handleCloseModalDelete}>
+            <Button className='details-button modal-buttons' variant="secondary" onClick={handleCloseModalDelete}>
               Close
             </Button>
             <Button variant="danger" onClick={handleDeleteConfirm}>

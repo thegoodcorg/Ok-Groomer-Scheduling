@@ -282,7 +282,7 @@ namespace OkGroomer.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT 
+                                       SELECT 
                                             bk.Id, 
                                             bk.DogId, 
                                             bk.GroomerId, 
@@ -307,6 +307,7 @@ namespace OkGroomer.Repositories
                                         LEFT JOIN GroomerBookingRates gbr on gbr.id = bsl.GroomerBookingRatesId
                                         LEFT JOIN Service srv on srv.id = gbr.serviceid
                                         WHERE OwnerId = @OwnerId
+                                            AND bk.DateStart > GETDATE() -- Retrieve dates after the current datetime
                                         ORDER BY bk.DateStart asc";
                     DbUtils.AddParameter(cmd, "@OwnerId", ownerId);
 

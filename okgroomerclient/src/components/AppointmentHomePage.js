@@ -55,8 +55,8 @@ export const AppointmentHomePage = () => {
         return myDogsBookings.map((app) => {
             return <div key={app.id} className="card appointment-card">
                 <div className="card-body">
-                    <h5 className="card-title">{app.dog.name}</h5>
-                    <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h6>
+                    <h5 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h5>
+                    <h6 className="card-title">{app.dog.name}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
                     <Link
                     to={`/appointmentdetails/${app.id}`} 
@@ -70,7 +70,7 @@ export const AppointmentHomePage = () => {
             <Link to="/bookNow" className='link-button'>Book now!</Link>
         </div>
         <div className="appointments-container">
-            <div className="appointment-header">
+            <div className="custom-header">
                 Upcoming appointments
             </div>
             <div className='appointment-cards'>
