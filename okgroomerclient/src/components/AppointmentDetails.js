@@ -238,6 +238,11 @@ export const AppointmentDetails = () => {
           <div>
             Owner: {appointment.profile.firstName} {appointment.profile?.lastName}
           </div>
+          <div className='hr-div'>
+            <div className='hr-rule'>
+
+            </div>
+          </div>
         </div>
         <div
           className="appointment-details">
@@ -262,10 +267,10 @@ export const AppointmentDetails = () => {
               {timeSlotBuilder()}
             </Modal.Body>
             <Modal.Footer>
-              <Button className='details-button modal-buttons' onClick={handleCloseModal}>
+              <Button className='btn btn-secondary' onClick={handleCloseModal}>
                 Close
               </Button>
-              <Button className='details-button' onClick={handleSaveClick}>
+              <Button className='btn btn-success' onClick={handleSaveClick}>
                 Save Changes
               </Button>
             </Modal.Footer>
@@ -290,7 +295,7 @@ export const AppointmentDetails = () => {
             Are you sure you want to delete this? It cannot be undone.
           </Modal.Body>
           <Modal.Footer>
-            <Button className='details-button modal-buttons' variant="secondary" onClick={handleCloseModalDelete}>
+            <Button className='btn btn-secondary' variant="secondary" onClick={handleCloseModalDelete}>
               Close
             </Button>
             <Button variant="danger" onClick={handleDeleteConfirm}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 import { me } from "../Modules/authManager";
 import { useParams } from "react-router-dom"
 
@@ -28,18 +28,19 @@ export const DogNotes = ({ notesOnDog }) => {
 
     return <>
         <h5>
-            Notes
+            Notes:
         </h5>
-        <br />
         {notesOnDog?.map(comment => {
-            return <React.Fragment key={comment.id}>
+            return <div className="dog-notes" key={comment.id}>
                 <div>
-                <u>On {returnTime(`${comment.date}+00:00`)}, {comment.groomer.firstName} said</u>
-                <div>
-                {comment.content}
+                    <Card>
+                        <CardHeader>On {returnTime(`${comment.date}+00:00`)}, {comment.groomer.firstName} said</CardHeader>
+                        <CardBody>
+                            <CardText className="ms-3">{comment.content}</CardText>
+                        </CardBody>
+                    </Card>
                 </div>
-                </div>
-            </React.Fragment>
+            </div>
         })}
     </>
 }
