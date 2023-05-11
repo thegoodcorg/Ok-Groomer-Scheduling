@@ -256,7 +256,6 @@ padding: 2%;
 .link-button:hover {
   color:rgba(0, 0, 0, 0.548);
   background-color: #a9927e79;
-  
 }
 
 .details-button {
@@ -322,4 +321,51 @@ align-items: center;
 .appointment-details-date {
   display: flex;
   flex-direction: row;
+}
+
+.details-button {
+  display: inline;
+  padding: .5em;
+  background-color: #a9927eb5 !important;
+  border-radius: 5px;
+  border: solid #a9927e 1px !important;
+  color: black !important;
+  text-decoration: none;
+  font-weight: bold;
+  min-width: 10em;
+  text-align: center;
+  margin: 0% !important;
+}
+
+.details-button:hover {
+  color:rgba(0, 0, 0, 0.548) !important;
+  background-color: #a9927e79 !important;
+}
+
+.details-date-container {
+display: flex;
+}
+
+.details-date {
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.details-service-link {
+  display: inline;
+  padding: 0em !important;
+  border: none !important;
+  color: black !important;
+  text-decoration: underline !important;
+  background-color: transparent !important;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0.2em !important;
+  cursor: pointer;
+}
+
+.display-services {
+  display: flex;
+  align-items: center;
 }
