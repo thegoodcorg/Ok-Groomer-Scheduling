@@ -23,6 +23,7 @@ export const NoteForm = ({ appointment, getNotes}) => {
                 const copy = { ...noteContent }
                 copy.dogId = appointment.dogId
                 copy.groomerId = appointment.groomerId
+                copy.date = new Date(Date.now())
                 postNote(copy)
                     .then((res) => {
                         getNotes()

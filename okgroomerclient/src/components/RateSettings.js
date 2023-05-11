@@ -53,8 +53,8 @@ export const RateSettings = () => {
                     small: ${singleRate.smallDogPrice} / med: ${singleRate.mediumDogPrice} / large: ${singleRate.largeDogPrice}
                   </div>
                   <div>
-                    <FontAwesomeIcon icon={faSquareCheck} size="xl" style={{ color: "#24943a" }} />
-                    You are Offering this service.
+                    <FontAwesomeIcon className="font-awesome-icon" icon={faSquareCheck} size="xl" style={{ color: "#24943a" }} />
+                    You are offering this service.
                   </div>
                 </div>
               ) : null)

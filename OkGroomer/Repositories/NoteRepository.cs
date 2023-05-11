@@ -19,7 +19,7 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, Content FROM Note";
+                    cmd.CommandText = @"SELECT Id, DogId, GroomerId, Content, Date FROM Note";
 
                     var notes = new List<Note>();
                     var reader = cmd.ExecuteReader();
@@ -30,6 +30,7 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "id"),
                             DogId = DbUtils.GetInt(reader, "DogId"),
                             GroomerId = DbUtils.GetInt(reader, "GroomerId"),
+                            Date = DbUtils.GetDateTime(reader,"Date"),
                             Content = DbUtils.GetString(reader, "Content")
                         };
                         notes.Add(note);
@@ -85,11 +86,14 @@ namespace OkGroomer.Repositories
                 {
                     cmd.CommandText = @"
                                     Select
-                                        Id, 
-                                        DogId,
-                                        GroomerId,
-                                        Content
-                                    From Note
+                                        n.Id, 
+                                        n.DogId,
+                                        n.GroomerId,
+                                        n.Content,
+                                        n.Date,
+                                        up.FirstName
+                                    From Note n
+                                    LEFT JOIN UserProfile up on up.id = n.GroomerId
                                     WHERE DogId = @DogId";
                     DbUtils.AddParameter(cmd, "@DogId", dogId);
 
@@ -102,7 +106,12 @@ namespace OkGroomer.Repositories
                             Id = DbUtils.GetInt(reader, "id"),
                             DogId = DbUtils.GetInt(reader, "DogId"),
                             GroomerId = DbUtils.GetInt(reader, "GroomerId"),
-                            Content = DbUtils.GetString(reader, "Content")
+                            Content = DbUtils.GetString(reader, "Content"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            Groomer = new UserProfile()
+                            {
+                                FirstName = DbUtils.GetString(reader, "FirstName")
+                            }
                         };
                         notes.Add(note);
                     }
@@ -119,12 +128,13 @@ namespace OkGroomer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Note (DogId, GroomerId, Content)
+                    cmd.CommandText = @"INSERT INTO Note (DogId, GroomerId, Content, Date)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@DogId, @GroomerId, @Content)";
+                                        VALUES (@DogId, @GroomerId, @Content, @Date)";
                     DbUtils.AddParameter(cmd, "@DogId", note.DogId);
                     DbUtils.AddParameter(cmd, "@GroomerId", note.GroomerId);
                     DbUtils.AddParameter(cmd, "@Content", note.Content);
+                    DbUtils.AddParameter(cmd, "@Date", note.Date);
 
                     note.Id = (int)cmd.ExecuteScalar();
                 }

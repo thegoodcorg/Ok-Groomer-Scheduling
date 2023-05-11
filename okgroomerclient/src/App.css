@@ -438,3 +438,11 @@ min-width: 25%;
   min-width: 25%;
   
 }
+
+.fc-toolbar-chunk {
+  padding:0 2em;
+}
+
+.font-awesome-icon {
+  margin-right: 1em;
+}

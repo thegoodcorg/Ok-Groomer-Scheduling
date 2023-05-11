@@ -14,6 +14,18 @@ export const DogNotes = ({ notesOnDog }) => {
         });
     }, []);
 
+    const returnTime = (datetoBeConverted) => {
+        const date = new Date(datetoBeConverted);
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+        return formattedDate
+    }
+
+
     return <>
         <h5>
             Notes
@@ -21,9 +33,12 @@ export const DogNotes = ({ notesOnDog }) => {
         <br />
         {notesOnDog?.map(comment => {
             return <React.Fragment key={comment.id}>
-                <li>
-                    {comment.content}
-                </li>
+                <div>
+                <u>On {returnTime(`${comment.date}+00:00`)}, {comment.groomer.firstName} said</u>
+                <div>
+                {comment.content}
+                </div>
+                </div>
             </React.Fragment>
         })}
     </>

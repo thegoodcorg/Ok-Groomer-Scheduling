@@ -48,7 +48,7 @@ function App() {
   return (
     <Router>
       <Header isLoggedIn={isLoggedIn} userProfile={userProfile} isGroomer={isGroomer} />
-      <div className="main-container">
+      <div className="main">
         <ApplicationViews className="site-content" isLoggedIn={isLoggedIn} isGroomer={isGroomer} />
       </div>
       <footer>

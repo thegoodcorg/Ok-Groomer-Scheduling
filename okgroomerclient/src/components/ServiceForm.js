@@ -29,6 +29,7 @@ export const ServiceForm = () => {
 
     return <Form>
         <h3>Create a new service</h3>
+        <div>This will add a new service that every employee can set their rates for.</div>
         <FormGroup>
             <strong>Service Name</strong>
             <Input type="text" name="serviceName" id="serviceName" onChange={(evt) => {
