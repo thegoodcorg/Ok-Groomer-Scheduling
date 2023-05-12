@@ -36,12 +36,8 @@ export const RateSettings = () => {
 
   const cardBuilder = () => {
     return bookingRates?.map(singleRate =>
-      <div key={singleRate.id} className="card">
-        <Link
-          to={`/service/${singleRate.serviceId}`
-          }>
+      <div key={singleRate.id} className="card appointment-card">
           <h5 className="card-header">{singleRate.service.name}</h5>
-        </Link>
         <div className="card-body">
           <span className="card-title">
             {
@@ -62,6 +58,12 @@ export const RateSettings = () => {
           </span>
           <p className="card-text">{singleRate.service.description}</p>
         </div>
+        <Link
+          className="link-button"
+          to={`/service/${singleRate.serviceId}`
+          }>
+          Edit rate
+        </Link>
       </div>
     )
   }
@@ -70,15 +72,17 @@ export const RateSettings = () => {
   const servicesNotOffered = () => {
     return services?.map(service => {
       if (bookingRates?.find(singleRate => singleRate.serviceId === service.id) === undefined) {
-       return <div key={service.id} className="card">
-          <Link
-            to={`/service/${service.id}`
-            }>
+        return <div key={service.id} className="card">
             <h5 className="card-header">{service.name}</h5>
-          </Link>
           <div className="card-body">
             <p className="card-text">{service.description}</p>
           </div>
+          <Link
+          className="link-button-grey"
+            to={`/service/${service.id}`
+            }>
+            Set rate
+          </Link>
         </div>
       }
     }
@@ -86,7 +90,14 @@ export const RateSettings = () => {
   }
 
   return <>
-    {cardBuilder()}
-    {servicesNotOffered()}
+    <div className="appointment-bar"> 
+      <h3>
+        Set or create your individual job rates
+      </h3>
+    </div>
+    <div className="appointment-cards">
+      {cardBuilder()}
+      {servicesNotOffered()}
+    </div>
   </>
 }

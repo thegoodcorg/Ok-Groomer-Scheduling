@@ -233,7 +233,6 @@ padding: 2%;
 }
 
 .link-button {
-  /* margin: 2em 0; */
   padding: .5em;
   background-color: #a9927eb5;
   border-radius: 5px;
@@ -246,9 +245,27 @@ padding: 2%;
 }
 
 .link-button:hover {
-  color:rgba(0, 0, 0, 0.548);
-  background-color: #a9927e79;
+  color:rgba(0, 0, 0, 0.548) !important;
+  background-color: #a9927e79 !important;
 }
+
+.link-button-grey {
+  padding: .5em;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  border: solid #a9927e 1px;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  min-width: 10em;
+  text-align: center; 
+}
+
+.link-button-grey:hover {
+  color:rgba(0, 0, 0, 0.548) !important;
+  background-color: #c7c7c7 !important;
+}
+
 
 .appoinment-container {
   display:flex;
