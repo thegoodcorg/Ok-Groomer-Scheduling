@@ -32,6 +32,11 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
     const copy = { ...formData }
     copy.dateAndTime = e
     setFormData(copy)
+    handleInitialTimeSet("08:00AM")
+  }
+
+  const handleInitialTimeSet = (defaultTime) => {
+    setSelectedTime(defaultTime)
   }
 
   const handleTimeChange = (e) => {
@@ -122,7 +127,12 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   return (<>
     <h3 className='header-padding-top'>Select a date and time</h3>
     <div className='calendar'>
-      <DatePicker value={formData.dateAndTime} closeWidgets="false" isCalendarOpen="true" className="special-input" onChange={(e) => {
+      <DatePicker 
+      value={formData.dateAndTime} 
+      closeWidgets="false" 
+      isCalendarOpen="true" 
+      className="special-input" 
+      onChange={(e) => {
         handleDateChange(e)
       }} />
       {timeSlotBuilder()}
