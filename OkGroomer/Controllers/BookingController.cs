@@ -49,6 +49,12 @@ namespace OkGroomer.Controllers
             return Ok(_BookingRepo.GetBookingByGroomerId(groomerId));
         }
 
+        [HttpGet("ownerId/{ownerId}")]
+        public IActionResult GetByOwnerId(int ownerId)
+        {
+            return Ok(_BookingRepo.GetBookingByOwnerId(ownerId));   
+        }
+
         // POST api/<BookingController>
         [HttpPost]
         public IActionResult Post(Booking booking)

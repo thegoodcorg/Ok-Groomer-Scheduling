@@ -5,7 +5,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { me } from "../Modules/authManager";
 import { bookingsByGroomer } from "../Modules/BookingManager";
-import "../styles/AppointmentBooking.css";
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
+/>
 
 export const GroomerCalendar = () => {
     const [appointments, setAppointments] = useState([]);
@@ -34,7 +38,7 @@ export const GroomerCalendar = () => {
         const newEvents = [];
         for (const appointment of appointments) {
             const calendarEvent = {
-                id: appointment.id, // Assign a unique ID to each event
+                id: appointment.id,
                 start: `${appointment.dateStart}+00:00`,
                 end: `${appointment.dateEnd}+00:00`,
                 title: `${appointment.dog.name} - ${appointment.services.length} services.`,
@@ -44,30 +48,18 @@ export const GroomerCalendar = () => {
         setEvents(newEvents);
     };
 
-    const handleEventDrop = (info) => {
-        const { event } = info;
-
-        // Find the event with the matching ID in the state
-        const updatedEvents = events.map((evt) => {
-            if (evt.id === event.id) {
-                // Update the start and end times of the matched event
-                return {
-                    ...evt,
-                    start: event.start,
-                    end: event.end,
-                };
-            }
-            return evt;
-        });
-
-        setEvents(updatedEvents);
-    };
+    const handleEventClick = (info) => {
+        const eventId = info.event.id;
+        // Create the URL with the event ID and navigate to it
+        const url = `/appointmentdetails/${eventId}`;
+        window.location.href = url;
+      };
 
     return (
         <FullCalendar
+            height="auto"
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            editable={true}
-            initialView="dayGridMonth"
+            initialView="timeGridWeek"
             nowIndicator={true}
             headerToolbar={{
                 left: "prev,next",
@@ -79,7 +71,7 @@ export const GroomerCalendar = () => {
             events={events}
             navLinks={true}
             expandRows={true}
-            eventDrop={handleEventDrop} // Add the eventDrop callback
+            eventClick={handleEventClick}
         />
     );
 };

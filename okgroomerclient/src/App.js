@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router } from "react-router-dom";
 import Header from './Header';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ApplicationViews from './components/ApplicationViews';
-import { onLoginStatusChange,me,logout } from './Modules/authManager';
+import { onLoginStatusChange, me, logout } from './Modules/authManager';
 import { Spinner } from "reactstrap";
 
 
@@ -23,7 +23,7 @@ function App() {
       me().then((userPro) => {
         if (userPro.activeStatus === "Disabled") {
           logout();
-        } if(userPro.groomer){
+        } if (userPro.groomer) {
           setIsGroomer(true)
         } else {
           setUserProfile(userPro);
@@ -36,8 +36,8 @@ function App() {
 
   useEffect(() => {
     if (userProfile) {
-      if (userProfile.activeStatus === "Deactivated") {
-        setIsLoggedIn(false);
+      if (userProfile.groomer === false) {
+        setIsGroomer(false);
       }
     }
   }, [userProfile]);
@@ -48,7 +48,13 @@ function App() {
   return (
     <Router>
       <Header isLoggedIn={isLoggedIn} userProfile={userProfile} isGroomer={isGroomer} />
-      <ApplicationViews isLoggedIn={isLoggedIn} isGroomer={isGroomer} />
+      <div className="main">
+        <ApplicationViews className="site-content" isLoggedIn={isLoggedIn} isGroomer={isGroomer} />
+      </div>
+      <footer>
+        <p>&copy; 2023 OK, Groomer. All rights reserved.</p>
+      </footer>
+
     </Router>
   );
 }

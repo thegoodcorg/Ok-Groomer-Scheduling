@@ -49,7 +49,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     return jobPrice
   }
 
-  
+
   const jobPricingDetails = (stateObj) => {
     let arrToSend = []
     let totalPrice = 0
@@ -69,8 +69,6 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
         }
       }
     }
-
-    // htmlString += `Total: $${totalPrice}`
     stateObj.serviceDetails = arrToSend
     stateObj.totalPrice = totalPrice
     stateObj.totalTime = totalTime
@@ -79,43 +77,64 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
   }
 
   const handleGroomerSelection = (e) => {
-    const copy = {...formData}
+    const copy = { ...formData }
     copy.groomerId = parseInt(e.target.value)
     jobPricingDetails(copy)
   }
 
-const getSpecificPricing = () => {
+  const getSpecificPricing = () => {
     return groomers.map(groomer => {
-      return <><input type="radio" name="groomerSelection" value={groomer.id} onChange={(e) => {handleGroomerSelection(e) }}></input><span key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}</span></>
+      return <li className="groomer-select">
+        <input
+        className="radio-margin"
+          type="radio"
+          name="groomerSelection"
+          value={groomer.id}
+          onChange={(e) => {
+            handleGroomerSelection(e)
+          }}>
+        </input>
+        <h5
+          key={groomer.id}>{groomer.firstName} can do this for ${jobPricing(groomer.id)}
+        </h5>
+      </li>
     })
   }
 
 
   return (
-    <motion.div
-      initial={{ x: x }}
-      transition={{ duration: 0.5 }}
-      animate={{ x: 0 }}
-    >
-      {getSpecificPricing()}
-
-
-      <button
-        onClick={() => {
-          setPage(page + 1);
-          setX(1000);
-        }}>
-        Next
-      </button>
-      <br />
-      <button
-        onClick={() => {
-          setPage(page - 1);
-          setX(-1000);
-        }}>
-        Previous
-      </button>
-    </motion.div>
+    <div>
+      <motion.div
+        initial={{ x: x }}
+        transition={{ duration: 0.5 }}
+        animate={{ x: 0 }}
+      >
+      <h3 className="header-padding-top">
+        Select your groomer
+      </h3>
+        <ul>
+          {getSpecificPricing()}
+        </ul>
+        <div className="previous-next-button-container">
+          <button
+            className="details-button"
+            onClick={() => {
+              setPage(page + 1);
+              setX(1000);
+            }}>
+            Next
+          </button>
+          <button
+            className="details-button"
+            onClick={() => {
+              setPage(page - 1);
+              setX(-1000);
+            }}>
+            Previous
+          </button>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 

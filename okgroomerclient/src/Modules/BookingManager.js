@@ -79,22 +79,64 @@ export const bookingsByDog = (dogId) => {
     });
 }
 
+export const updateBooking = (booking) => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/${booking.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(booking),
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp;
+            } else {
+                throw new Error(
+                    "An unknown error occurred while trying to update a post.",
+                );
+            }
+        });
+    });
+}
+
 export const postBooking = (bookingObj) => {
     return getToken().then((token) =>
-    fetch(_apiUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(bookingObj)
-    }).then(resp => resp.json()));
-  };
+        fetch(_apiUrl, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bookingObj)
+        }).then(resp => resp.json()));
+};
 
-  export const getToken = () => {
+export const deleteBooking = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((resp) => {
+            if (resp.ok) {
+                return resp;
+            } else if (resp.status === 401) {
+                throw new Error("Unauthorized");
+            } else {
+                throw new Error(
+                    "An unknown error occurred while trying to save a new post.",
+                );
+            }
+        });
+    });
+};
+
+export const getToken = () => {
     const currentUser = firebase.auth().currentUser;
     // if (!currentUser) {
     //   throw new Error("Cannot get current user. Did you forget to login?");
     // }
     return currentUser.getIdToken();
-  };
+};

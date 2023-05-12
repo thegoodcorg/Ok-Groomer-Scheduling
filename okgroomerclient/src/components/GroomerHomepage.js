@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { me } from "../Modules/authManager";
 import { bookingsByGroomer } from "../Modules/BookingManager";
 import { Link } from "react-router-dom";
+import { ImageUpload } from "../ImageUpload";
 
 export const GroomerHomepage = () => {
     const [appointments, setAppointments] = useState([])
@@ -40,20 +41,22 @@ export const GroomerHomepage = () => {
 
     const appointmentCards = () => {
         return appointments.map((app) => {
-            return <div key={app.id} className="card">
+            return <div key={app.id} className="card appoiontment-card">
                 <div className="card-body">
-                    <h5 className="card-title">{app.dog.name}</h5>
-                    <h6 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(app.dateStart)}</h6>
+                    <h5 className="card-subtitle mb-2 text-body-secondary">{ReturnTime(`${app.dateStart}+00:00`)}</h5>
+                    <h6 className="card-title">{app.dog.name}</h6>
                     <p className="card-text">{serviceDetails(app)}</p>
-                    <Link to={`appointmentdetails/${app.id}`} className="card-link">MoreDetails</Link>
-                    <Link className="card-link">Another link</Link>
+                    <Link to={`/appointmentdetails/${app.id}`} className="link-button details-button">More Details</Link>
                 </div>
             </div>
         })
     }
 
+
     return <>
-        <Link to="calendar">Calendar view</Link>
-        <div>{appointmentCards()}</div>
+        <div className="appointment-bar">
+            <Link to="/calendar" className="link-button">Calendar view</Link>
+        </div>
+        <div className="appointment-cards">{appointmentCards()}</div>
     </>
 }

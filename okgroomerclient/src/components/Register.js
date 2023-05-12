@@ -30,7 +30,7 @@ export default function Register() {
   };
 
   return (
-    <Form onSubmit={registerClick}>
+    <Form className="login-box mt-5" onSubmit={registerClick}>
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>
@@ -79,18 +79,23 @@ export default function Register() {
         <FormGroup>
           <Label for="confirmPassword">Confirm Password</Label>
           <Input
+            className="mb-4"
             id="confirmPassword"
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Input type="checkbox" onChange={(e) => {
+          <Input
+           type="checkbox" onChange={(e) => {
             const copy = { ...userProfile }
             copy.groomer = e.target.checked
             setUserProfile(copy)
-          }}></Input><span>are you registering as a groomer?</span>
+          }}></Input>
+          <span className="ms-2 mt-2">Are you registering as a groomer?</span>
         </FormGroup>
         <FormGroup>
-          <Button>Register</Button>
+        <div className="delete-appointment-button">
+          <Button className="btn-success">Register</Button>
+        </div>
         </FormGroup>
       </fieldset>
     </Form>
