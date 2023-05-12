@@ -69,7 +69,8 @@ export const AppointmentBookingForm = () => {
                 <div className='dog-details custom-header'>
                     {formData.dogName}
                 </div>
-                <div className='appointment-details'>
+                <div className="v-rule"></div>
+                <div className='appointment-building-details'>
                     <div className="custom-header">
                         Details
                     </div>
@@ -79,7 +80,7 @@ export const AppointmentBookingForm = () => {
                                 <u>Service</u>
                                 {formData.selectedServices.map((serviceId) => {
                                     const service = services.find((service) => service.id === serviceId);
-                                    return <div key={serviceId}>{service.name}</div>;
+                                    return <div className="details-item" key={serviceId}>{service.name}</div>;
                                 })}
                             </div>
                         </div>
@@ -87,7 +88,7 @@ export const AppointmentBookingForm = () => {
                             <div className="service-div">
                                 <u>Price</u>
                                 {formData.serviceDetails.map((serviceDetail) => {
-                                    return <div key={serviceDetail}>${serviceDetail.objPrice}</div>;
+                                    return <div className="details-item" key={serviceDetail}>${serviceDetail.objPrice}</div>;
                                 })}
                             </div>
                         </div>
@@ -95,7 +96,7 @@ export const AppointmentBookingForm = () => {
                             <div className="service-div">
                                 <u>Time</u>
                                 {formData.serviceDetails.map((serviceDetail) => {
-                                    return <div key={serviceDetail}>{serviceDetail.objTimeToComplete === 1 ? `${serviceDetail.objTimeToComplete} hour` : `${serviceDetail.objTimeToComplete} hours`}</div>;
+                                    return <div className="details-item" key={serviceDetail}>{serviceDetail.objTimeToComplete === 1 ? `${serviceDetail.objTimeToComplete} hour` : `${serviceDetail.objTimeToComplete} hours`}</div>;
                                 })}
                             </div>
                         </div>

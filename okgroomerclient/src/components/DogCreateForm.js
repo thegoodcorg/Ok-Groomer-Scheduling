@@ -13,7 +13,7 @@ export const DogCreateForm = () => {
 
   useEffect(() => {
     me().then((res) => {
-      const copy = {...dogObj}
+      const copy = { ...dogObj }
       copy.ownerId = res.id
       setDogObj(copy)
     });
@@ -25,7 +25,14 @@ export const DogCreateForm = () => {
   };
 
   return <>
-    <Form onSubmit={registerClick}>
+    <div className="appointment-bar">
+      <h3>
+        Add a new dog
+      </h3>
+    </div>
+    <Form
+      className="login-box mt-4"
+      onSubmit={registerClick}>
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">Name</Label>
@@ -52,7 +59,9 @@ export const DogCreateForm = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Button>Save</Button>
+          <div className="delete-appointment-button">
+            <Button className="btn-success">Save</Button>
+          </div>
         </FormGroup>
       </fieldset>
     </Form>

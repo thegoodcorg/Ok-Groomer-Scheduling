@@ -46,12 +46,12 @@ export default function Login() {
             />
           </FormGroup>
           <div className="login-buttons">
-          <Button>Login</Button><br />
-          <div className="register-button">
-          <em>
-            Not registered? <Link to="/register">Register</Link>
-          </em>
-          </div>
+            <Button>Login</Button><br />
+            <div className="register-button">
+              <em>
+                Not registered? <Link to="/register">Register</Link>
+              </em>
+            </div>
           </div>
         </fieldset>
       </Form>

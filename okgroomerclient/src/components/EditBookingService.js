@@ -59,7 +59,7 @@ export const EditBookingService = () => {
         <div className="appointment-bar">
             <h3>Edit Rates</h3>
         </div>
-        <div>
+        <div className="edit-subtext">
             <h4 className="mt-2">{currentService.name}</h4>
             <h5>{currentService.description}</h5>
         </div>
@@ -96,7 +96,7 @@ export const EditBookingService = () => {
                         setGroomerBookingRate(copy);
                     }} /><br />
                 <strong>Estimated Time(in 1/10 of an hour)</strong>
-                <Input type="number" name="timeToComplete" id="timeToComplete" placeholder={groomerBookingRate.timeToComplete?.toFixed(1)}
+                <Input className="mb-4" type="number" name="timeToComplete" id="timeToComplete" placeholder={groomerBookingRate.timeToComplete?.toFixed(1)}
 
                     onChange={(evt) => {
                         let copy = { ...groomerBookingRate };
