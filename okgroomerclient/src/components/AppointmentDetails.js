@@ -183,7 +183,7 @@ export const AppointmentDetails = () => {
     const options = {
       hour: 'numeric',
       minute: 'numeric',
-    };
+    }; 
 
     return new Intl.DateTimeFormat('en-US', options).format(date);
   };
@@ -238,6 +238,7 @@ export const AppointmentDetails = () => {
           <div>
             Owner: {appointment.profile.firstName} {appointment.profile?.lastName}
           </div>
+          <div>Phone: 555-555-5555</div>
           <div className='hr-div'>
             <div className='hr-rule'>
 

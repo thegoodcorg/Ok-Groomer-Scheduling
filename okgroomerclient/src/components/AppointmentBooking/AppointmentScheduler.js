@@ -127,15 +127,18 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   return (<>
     <h3 className='header-padding-top'>Select a date and time</h3>
     <div className='calendar'>
-      <DatePicker 
-      value={formData.dateAndTime} 
-      closeWidgets="false" 
-      isCalendarOpen="true" 
-      className="special-input" 
-      onChange={(e) => {
-        handleDateChange(e)
-      }} />
+      <DatePicker
+        value={formData.dateAndTime}
+        closeWidgets="false"
+        isCalendarOpen="true"
+        className="special-input"
+        onChange={(e) => {
+          handleDateChange(e)
+        }} />
       {timeSlotBuilder()}
+    </div>
+    <div className='mb-4'>
+      <i>*Subject to groomer scheduling. If this time does not work, your groomer will contact you to reschedule</i>
     </div>
     <motion.div
       initial={{ x: x }}
@@ -143,20 +146,20 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
       animate={{ x: 0 }}
     >
       <div className="previous-next-button-container">
-      <button
-        className="details-button"
-        onClick={(e) => handleSubmit(e)}>
-        Submit
-      </button>
-      <br />
-      <button
-        className="details-button"
-        onClick={() => {
-          setPage(page - 1);
-          setX(-1000);
-        }}>
-        Previous
-      </button>
+        <button
+          className="details-button"
+          onClick={(e) => handleSubmit(e)}>
+          Submit
+        </button>
+        <br />
+        <button
+          className="details-button"
+          onClick={() => {
+            setPage(page - 1);
+            setX(-1000);
+          }}>
+          Previous
+        </button>
       </div>
     </motion.div>
   </>
