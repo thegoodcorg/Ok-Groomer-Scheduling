@@ -21,7 +21,7 @@ export const DogCreateForm = () => {
 
   const registerClick = (e) => {
     e.preventDefault();
-    registerDog(dogObj).then(() => navigate("/"));
+    registerDog(dogObj).then(() => navigate("/appointments"));
   };
 
   return <>
