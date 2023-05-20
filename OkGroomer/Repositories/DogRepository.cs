@@ -76,6 +76,42 @@ namespace OkGroomer.Repositories
             }
         }
 
+        public List<Dog> GetDogsByUserId(int ownerId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT
+                                            Id,
+                                            Name,
+                                            Weight,
+                                            OwnerId
+                                       FROM Dog
+                                       WHERE ownerId = @ownerId";
+                    DbUtils.AddParameter(cmd, "@ownerId", ownerId);
+
+                    var Dogs = new List<Dog>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dog = new Dog()
+                        {
+                            Id = DbUtils.GetInt(reader, "id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Weight = DbUtils.GetInt(reader, "Weight"),
+                            OwnerId = DbUtils.GetInt(reader, "OwnerId")
+                        };
+                        Dogs.Add(dog);
+                    }
+                    reader.Close();
+
+                    return Dogs;
+                }
+            }
+        }
+
         public void Add(Dog dog)
         {
             using (var conn = Connection)

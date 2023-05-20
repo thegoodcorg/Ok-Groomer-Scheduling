@@ -42,9 +42,47 @@ export const getServiceBookingRate = (serviceId, groomerId) => {
     });
 };
 
+export const getBookingRatesByGroomerId = (groomerId) => {
+    return getToken().then((token) => {
+        return fetch(`${apiUrl}/GroomerId/${groomerId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.statusText == "No Content") {
+                console.log("this groomer has not setup any rates for this job")
+                return true
+            } else {
+                return res.json()
+                // throw new Error(
+                //     "this rate does not exist"
+                // );
+            }
+        });
+    });
+};
 
+export const updateDoesOffer = (bookingRate) => {
+    return getToken().then((token) => {
+      return fetch(`${apiUrl}/updateDoesGroomerOffer/${bookingRate.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bookingRate)
+      }).then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Failed to set or update rate");
+        }
+      });
+    });
+  };
 
-export const setOrUpdateRate = (serviceId, groomerId, bookingRate) => {
+  export const setOrUpdateRate = (serviceId, groomerId, bookingRate) => {
     return getToken().then((token) => {
         return fetch(`${apiUrl}/myrate?serviceId=${serviceId}&groomerId=${groomerId}`, {
             method: "GET",
@@ -64,6 +102,7 @@ export const setOrUpdateRate = (serviceId, groomerId, bookingRate) => {
         });
     });
 };
+  
 export const GetCommentById = (id) => {
     return getToken().then((token) => {
         return fetch(`${apiUrl}/${id}`, {

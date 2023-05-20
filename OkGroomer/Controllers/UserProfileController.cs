@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace OkGroomer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -55,6 +55,13 @@ namespace OkGroomer.Controllers
                 return NotFound();
             }
             return Ok();
+        }
+
+        [HttpGet("GetGroomerBySelectedServices/{serviceIds}")]
+        public IActionResult GetGroomerBySelectedServices([FromRoute] string serviceIds)
+        {
+            return Ok(_UserRepo.GetGroomersByServices(serviceIds));
+            //return Ok();
         }
 
         // POST api/<GroomerController>

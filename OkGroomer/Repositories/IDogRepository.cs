@@ -10,5 +10,6 @@ namespace OkGroomer.Repositories
         void Edit(int id, Dog dog);
         List<Dog> GetAll();
         Dog GetDogById(int id);
+        List<Dog> GetDogsByUserId(int userId);
     }
 }

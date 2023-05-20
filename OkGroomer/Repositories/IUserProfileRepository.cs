@@ -11,6 +11,7 @@ namespace OkGroomer.Repositories
         List<UserProfile> GetAll();
         UserProfile GetUserById(int id);
         UserProfile GetByFirebaseId(string firebaseId);
+        List<UserProfile> GetGroomersByServices(string serviceIds);
 
     }
 }

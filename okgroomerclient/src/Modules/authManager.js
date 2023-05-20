@@ -14,6 +14,16 @@ const _doesUserExist = (firebaseUserId) => {
     }).then(resp => resp.ok));
 };
 
+export const getAllGroomers = () => {
+  return getToken().then((token) =>
+  fetch(_apiUrl, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(resp => resp.json()));
+}
+
 const _saveUser = (userProfile) => {
   return getToken().then((token) =>
     fetch(_apiUrl, {
@@ -25,6 +35,25 @@ const _saveUser = (userProfile) => {
       body: JSON.stringify(userProfile)
     }).then(resp => resp.json()));
 };
+
+export const GetGroomersBySelectedServices = (serviceIds) => {
+  return getToken().then((token) => {
+      return fetch(`${_apiUrl}/GetGroomerBySelectedServices/${serviceIds}`, {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      }).then((res) => {
+          if (res.ok) {
+              return res.json();
+          } else {
+              throw new Error(
+                  "An unknown error occured while trying to get the groomers"
+              );
+          }
+      });
+  });
+}
 
 
 export const getToken = () => {

@@ -36,6 +36,11 @@ namespace OkGroomer.Controllers
         {
             return Ok(_ratesRepo.GetGroomerBookingRateById(id));
         }
+        [HttpGet("GroomerId/{id}")]
+        public IActionResult GetRatesByGroomerId(int id) 
+        {
+            return Ok(_ratesRepo.GetRatesByGroomerId(id));
+        }
 
         //GET api/GroomerBookingRates/GetByGroomerId
         [HttpGet("myrate")]
@@ -50,6 +55,13 @@ namespace OkGroomer.Controllers
         {
             _ratesRepo.Add(groomerRate);
             return CreatedAtAction("Get", new { id = groomerRate.Id }, groomerRate);
+        }
+
+        [HttpPut("updateDoesGroomerOffer/{bookingRateId}")]
+        public IActionResult updateDoesGroomerOffer(int bookingRateId, GroomerBookingRates bookingRate)
+        {
+            _ratesRepo.EditDoesGroomerOffer(bookingRateId, bookingRate);
+            return Ok(bookingRate);
         }
 
         // PUT api/<GroomerBookingRatesBookingRates>/5

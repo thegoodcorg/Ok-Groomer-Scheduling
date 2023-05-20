@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebase from 'firebase/app';
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@mantine/core"
 
 
 const firebaseConfig = {

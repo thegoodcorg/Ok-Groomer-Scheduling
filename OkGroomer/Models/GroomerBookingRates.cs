@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public int GroomerId { get; set; }
+        public UserProfile Groomer { get; set; }
         public decimal SmallDogPrice { get; set; }
         public decimal MediumDogPrice { get; set; }
         public decimal LargeDogPrice { get; set; }

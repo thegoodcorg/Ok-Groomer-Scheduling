@@ -37,11 +37,35 @@ namespace OkGroomer.Controllers
             return Ok(_BookingRepo.GetBookingById(id));
         }
 
+        [HttpGet("dogId/{dogId}")]
+        public IActionResult GetByDogId(int dogId) 
+        {
+            return Ok(_BookingRepo.GetBookingByDogId(dogId));
+        }
+
+        [HttpGet("groomerId/{groomerId}")]
+        public IActionResult GetByGroomerId(int groomerId) 
+        {
+            return Ok(_BookingRepo.GetBookingByGroomerId(groomerId));
+        }
+
+        [HttpGet("ownerId/{ownerId}")]
+        public IActionResult GetByOwnerId(int ownerId)
+        {
+            return Ok(_BookingRepo.GetBookingByOwnerId(ownerId));   
+        }
+
         // POST api/<BookingController>
         [HttpPost]
         public IActionResult Post(Booking booking)
         {
-            _BookingRepo.Add(booking);
+            int bookingId = _BookingRepo.Add(booking);
+
+            foreach (var service in booking.GroomerBookingRatesId) 
+            {
+                _BookingRepo.AddBookingSelections(bookingId, service);
+            }
+
             return CreatedAtAction("Get", new { id = booking.Id }, booking);
         }
 

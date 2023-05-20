@@ -36,6 +36,11 @@ namespace OkGroomer.Controllers
         {
             return Ok(_noteRepo.GetNoteById(id));
         }
+        [HttpGet("dogId/{dogId}")]
+        public IActionResult GetByDogId(int dogId)
+        {
+            return Ok(_noteRepo.GetNotesByDogId(dogId));
+        }
 
         // POST api/<OwnerController>
         [HttpPost]
