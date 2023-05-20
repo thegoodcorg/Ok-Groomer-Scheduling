@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'OkGroomer'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F86EE18BB4BE4FC29E3F5F27EA9075BB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E1769262585B43F89B515BF85EE98BED }}
           package: .
