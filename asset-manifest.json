@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/Ok-Groomer-Scheduling/static/css/main.af9d55fc.css",
-    "main.js": "/Ok-Groomer-Scheduling/static/js/main.34913c33.js",
-    "static/js/27.3edaa7f7.chunk.js": "/Ok-Groomer-Scheduling/static/js/27.3edaa7f7.chunk.js",
-    "static/media/groomer-female-2.jpg": "/Ok-Groomer-Scheduling/static/media/groomer-female-2.44b92c59d567d6690761.jpg",
-    "static/media/groomer-male-1.jpg": "/Ok-Groomer-Scheduling/static/media/groomer-male-1.f31dacf65d968ed5e332.jpg",
-    "static/media/groomer-male-2.jpg": "/Ok-Groomer-Scheduling/static/media/groomer-male-2.ba2009ddbddf0327d564.jpg",
-    "static/media/groomer-female-1.jpg": "/Ok-Groomer-Scheduling/static/media/groomer-female-1.c2d6da794b86803a8b21.jpg",
-    "static/media/corgibath.jpg": "/Ok-Groomer-Scheduling/static/media/corgibath.ffd109deb078def2c0f6.jpg",
-    "static/media/Ok_Groomer.png": "/Ok-Groomer-Scheduling/static/media/Ok_Groomer.36be9d4a24d8e21e5a11.png",
-    "index.html": "/Ok-Groomer-Scheduling/index.html"
+    "main.css": "/static/css/main.af9d55fc.css",
+    "main.js": "/static/js/main.6170c404.js",
+    "static/js/27.3edaa7f7.chunk.js": "/static/js/27.3edaa7f7.chunk.js",
+    "static/media/groomer-female-2.jpg": "/static/media/groomer-female-2.44b92c59d567d6690761.jpg",
+    "static/media/groomer-male-1.jpg": "/static/media/groomer-male-1.f31dacf65d968ed5e332.jpg",
+    "static/media/groomer-male-2.jpg": "/static/media/groomer-male-2.ba2009ddbddf0327d564.jpg",
+    "static/media/groomer-female-1.jpg": "/static/media/groomer-female-1.c2d6da794b86803a8b21.jpg",
+    "static/media/corgibath.jpg": "/static/media/corgibath.ffd109deb078def2c0f6.jpg",
+    "static/media/Ok_Groomer.png": "/static/media/Ok_Groomer.36be9d4a24d8e21e5a11.png",
+    "index.html": "/index.html"
   },
   "entrypoints": [
     "static/css/main.af9d55fc.css",
-    "static/js/main.34913c33.js"
+    "static/js/main.6170c404.js"
   ]
 }
