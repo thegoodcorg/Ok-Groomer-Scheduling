@@ -9,7 +9,6 @@ export default function Login() {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [loginAsGroomer, setLoginAsGroomer] = useState(false)
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -18,9 +17,6 @@ export default function Login() {
       .catch(() => alert("Invalid email or password"));
   };
 
-  const handleCheckbox = (e) => {
-    setLoginAsGroomer(e.target.checked)
-  }
 
   return (
     <div className="login-container">

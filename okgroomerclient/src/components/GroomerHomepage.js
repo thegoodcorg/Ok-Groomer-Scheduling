@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { me } from "../Modules/authManager";
 import { bookingsByGroomer } from "../Modules/BookingManager";
 import { Link } from "react-router-dom";
-import { ImageUpload } from "../ImageUpload";
 
 export const GroomerHomepage = () => {
     const [appointments, setAppointments] = useState([])

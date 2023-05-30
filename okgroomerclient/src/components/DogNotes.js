@@ -1,18 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
-import { me } from "../Modules/authManager";
-import { useParams } from "react-router-dom"
 
 export const DogNotes = ({ notesOnDog }) => {
-    const [currentUser, setCurrentUser] = useState({});
-
-    const { id } = useParams();
-
-    useEffect(() => {
-        me().then((res) => {
-            setCurrentUser(res);
-        });
-    }, []);
 
     const returnTime = (datetoBeConverted) => {
         const date = new Date(datetoBeConverted);

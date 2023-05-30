@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "reactstrap";
-import { getNotesByDogId, postNote } from "../Modules/NotesManager";
+import { postNote } from "../Modules/NotesManager";
 
 
 export const NoteForm = ({ appointment, getNotes}) => {

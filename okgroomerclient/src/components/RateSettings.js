@@ -5,7 +5,6 @@ import { me } from "../Modules/authManager";
 import { getBookingRatesByGroomerId } from "../Modules/GroomerBookingRateManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
-import { ImageUpload } from "../ImageUpload";
 
 export const RateSettings = () => {
   const [services, setServices] = useState(null);
