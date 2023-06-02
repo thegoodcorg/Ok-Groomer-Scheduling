@@ -5,9 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { me } from "../Modules/authManager";
 import { addService } from "../Modules/servicesManager";
 
-
-
-
 export const ServiceForm = () => {
 
     const [service, setService] = useState({});

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getAllBookingRates } from "../../Modules/GroomerBookingRateManager";
-import { GetGroomersBySelectedServices, getAllGroomers } from "../../Modules/authManager";
+import { GetGroomersBySelectedServices } from "../../Modules/authManager";
 
 export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x, setX, selectedServices }) => {
 
@@ -29,7 +29,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     let totalPrice = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
-        if (id == singleBooking.serviceId && singleBooking.groomerId == groomerId) {
+        if (id === singleBooking.serviceId && singleBooking.groomerId === groomerId) {
           totalPrice += priceByWeight(singleBooking)
         }
       }
@@ -56,7 +56,7 @@ export const AppointmentGroomerInfo = ({ page, setPage, formData, setFormData, x
     let totalTime = 0
     for (const id of formData.selectedServices) {
       for (const singleBooking of groomerBookingRates) {
-        if (id == singleBooking.serviceId && singleBooking.groomerId == stateObj.groomerId) {
+        if (id === singleBooking.serviceId && singleBooking.groomerId === stateObj.groomerId) {
           let objToArray = {
             "objTimeToComplete": singleBooking.timeToComplete,
             "objId": singleBooking.id,

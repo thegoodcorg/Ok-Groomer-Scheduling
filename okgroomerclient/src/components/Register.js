@@ -11,20 +11,11 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState();
   const [userProfile, setUserProfile] = useState({ firstName: "", lastName: "", email: "", groomer: false })
 
-  // const handleCheckbox = (e) => {
-  //   setUserProfile({ groomer: e.target.checked })
-  // }
-
   const registerClick = (e) => {
     e.preventDefault();
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
     } else {
-      // const userProfile = {
-      //   firstName,
-      //   lastName,
-      //   email
-      // };
       register(userProfile, password).then(() => navigate("/"));
     }
   };

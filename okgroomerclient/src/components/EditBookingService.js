@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getBookingRatesByGroomerId, getServiceBookingRate, setOrUpdateRate } from "../Modules/GroomerBookingRateManager";
+import { getServiceBookingRate, setOrUpdateRate } from "../Modules/GroomerBookingRateManager";
 import { me } from "../Modules/authManager";
 import { getService } from "../Modules/servicesManager";
 
