@@ -39,12 +39,12 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   }
 
   const convertHoursToTimeFormat = (hours, dateAndTime) => {
-    const decimalHours = hours % 1; // Extract the decimal part of the hours
-    const minutes = Math.round(decimalHours * 60); // Convert decimal part to minutes
-    const formattedHours = Math.floor(hours); // Get the whole number part of the hours
+    const decimalHours = hours % 1;
+    const minutes = Math.round(decimalHours * 60);
+    const formattedHours = Math.floor(hours);
 
     const formattedTime = new Date();
-    formattedTime.setHours(formattedHours, minutes, 0); // Set hours and minutes to the Date object
+    formattedTime.setHours(formattedHours, minutes, 0);
 
     const updatedDateAndTime = new Date(dateAndTime);
     updatedDateAndTime.setHours(
@@ -84,22 +84,20 @@ export const AppointmentScheduler = ({ page, setPage, formData, setFormData, x, 
   }
   const setTimeOnDate = () => {
 
-    const timeParts = selectedTime.match(/(\d+):(\d+)(\w+)/); // match the time string using a regular expression
-    let hours = parseInt(timeParts[1]); // get the hours as an integer
-    let minutes = parseInt(timeParts[2]); // get the minutes as an integer
-    let isPM = /pm/i.test(timeParts[3]); // check if the time is PM or AM
-    let newDate = new Date(formData.dateAndTime); // create a new Date object with the value from selectedDate
+    const timeParts = selectedTime.match(/(\d+):(\d+)(\w+)/);
+    let hours = parseInt(timeParts[1]);
+    let minutes = parseInt(timeParts[2]);
+    let isPM = /pm/i.test(timeParts[3]);
+    let newDate = new Date(formData.dateAndTime);
 
     if (isPM && hours !== 12) {
-      hours += 12; // add 12 hours to the hours if it's a PM time and not already 12
+      hours += 12;
     } else if (!isPM && hours === 12) {
-      hours = 0; // set the hours to 0 if it's a 12AM time
+      hours = 0;
     }
 
-    newDate.setHours(hours); // set the hours on the new Date object
-    newDate.setMinutes(minutes); // set the minutes on the new Date object
-
-    // update the state with the new Date object
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
 
     const copy = { ...formData }
     copy.dateAndTime = newDate

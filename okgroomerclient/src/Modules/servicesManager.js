@@ -33,7 +33,7 @@ export const getService = (serviceId) => {
                 return res.json();
             } else {
                 throw new Error(
-                    "An unknown error occured while trying to get this posts comments."
+                    "An unknown error occured while trying to get this service."
                 );
             }
         });

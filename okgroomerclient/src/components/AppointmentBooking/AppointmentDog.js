@@ -7,13 +7,11 @@ export const AppointmentDogInfo = ({ page, setPage, formData, setFormData, x, se
   const handleCheckboxChange = (event) => {
     const value = parseInt(event.target.value);
     if (event.target.checked) {
-      // Add the value to the array if the checkbox is checked
       setFormData({
         ...formData,
         selectedServices: [...formData.selectedServices, value],
       });
     } else {
-      // Remove the value from the array if the checkbox is unchecked
       setFormData({
         ...formData,
         selectedServices: formData.selectedServices.filter((item) => item !== value),

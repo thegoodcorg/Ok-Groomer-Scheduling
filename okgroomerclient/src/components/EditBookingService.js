@@ -7,9 +7,6 @@ import { getServiceBookingRate, setOrUpdateRate } from "../Modules/GroomerBookin
 import { me } from "../Modules/authManager";
 import { getService } from "../Modules/servicesManager";
 
-
-
-
 export const EditBookingService = () => {
 
     const [groomerBookingRate, setGroomerBookingRate] = useState({});

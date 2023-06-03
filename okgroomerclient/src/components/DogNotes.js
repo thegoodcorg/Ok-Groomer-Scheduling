@@ -13,7 +13,6 @@ export const DogNotes = ({ notesOnDog }) => {
         return formattedDate
     }
 
-
     return <>
         <h5>
             Notes:
