@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "/api/UserProfile";
+const _apiUrl = "http://localhost:5001";
 
 
 const _doesUserExist = (firebaseUserId) => {
