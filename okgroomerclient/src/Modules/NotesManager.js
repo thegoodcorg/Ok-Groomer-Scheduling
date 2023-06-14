@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/Note";
+const _apiUrl = "https://localhost:5001/Note";
 
 
 export const getNotesByDogId = (dogId) => {

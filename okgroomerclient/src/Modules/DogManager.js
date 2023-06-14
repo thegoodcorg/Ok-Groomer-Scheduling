@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "api/Dog"
+const _apiUrl = "https://localhost:5001/Dog"
 
 export const getMyDogs = (userId) => {
     return getToken().then((token) => {

@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = "/api/GroomerBookingRates";
+const apiUrl = "https://localhost:5001/GroomerBookingRates";
 
 export const getAllBookingRates = () => {
     return getToken().then((token) => {
